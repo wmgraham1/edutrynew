@@ -1,0 +1,37 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Comments</h2>
+<p><a href="/comments/create">Add New Comment</a> </p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>RefObj Type</th>
+      <th>RefObj ID</th>
+      <th>Status</th>
+      <th>Status Date</th>
+      <th>Created Date</th>
+      <th>CreatedBy</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for Comment in Comments %}
+	<tr>
+	  <td> {{ Comment.Title }} </td>
+	  <td> {{ Comment.RefObjType }} </td>
+	  <td> {{ Comment.RefObjID }} </td>
+	  <td> {{ Comment.Status }} </td>
+	  <td> {{ Comment.StatusDate }} </td>
+	  <td> {{ Comment.CreatedDate }} </td>
+	  <td> {{ Comment.CreatedBy }} </td>
+	  <td><a href ="/comments/edit/{{ Comment.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+</table>
+
+<p><a href="/comments/create">Add New Comment</a> </p>
+{% endblock content %}

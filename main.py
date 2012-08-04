@@ -26,7 +26,8 @@ import contactpage
 #import views
 from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
-from Paper import PaperList, PaperCreate, PaperEdit, PaperDelete
+from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
+from Comment import CommentList, CommentDisplay, CommentCreate, CommentEdit, CommentDelete
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
@@ -52,9 +53,14 @@ app = webapp2.WSGIApplication([
     ('/pagecontents/edit/([\d]+)', PageContentEdit), 
     ('/pagecontents/delete/([\d]+)', PageContentDelete), 
     ('/papers', PaperList),
+    ('/papers/display/([\d]+)', PaperDisplay), 
     ('/papers/create', PaperCreate), 
     ('/papers/edit/([\d]+)', PaperEdit),
     ('/papers/delete/([\d]+)', PaperDelete),
+    ('/comments', CommentList),
+    ('/comments/create/([\d]+)', CommentCreate), 
+    ('/comments/edit/([\d]+)', CommentEdit), 
+    ('/comments/delete/([\d]+)', CommentDelete), 
     ('/notes', MainPage),
     ('/notes/create', CreateNote), 
     ('/notes/edit/([\d]+)', EditNote),

@@ -10,6 +10,7 @@ from webapp2_extras import sessions
 from google.appengine.api import memcache
 
 from models import Papers
+from models import Comments
 from models import Languages
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -49,7 +50,7 @@ class BaseHandler(webapp2.RequestHandler):
         return self.session_store.get_session()
 
 
-class PaperList(BaseHandler):
+class CommentList(BaseHandler):
 
     def get(self):
         languages = memcache.get("languages")
@@ -79,42 +80,45 @@ class PaperList(BaseHandler):
 #                "ORDER BY TemplateName ASC",
 #                "en")
 #        pagecontents = q.fetch(999)
-		papers = Papers.all()
+		comments = Comments.all()
 		#pagecontents = 'xxx'
  
         logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/pagecontents' )
+              logout = users.create_logout_url('/comments' )
         else:
-              login = users.create_login_url('/pagecontents/create')
+              login = users.create_login_url('/comments')
 #        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'LangName':LangName, 'currentuser':currentuser, 'login':login, 'logout': logout})
-        self.render_template('PaperList.html', {'papers': papers, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('CommentList.html', {'Comments': comments, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class PaperCreate(BaseHandler):
+class CommentCreate(BaseHandler):
 
-    def post(self):
+    def post(self, paper_id):
         logging.info('QQQ: PaperCreate POST')
+
         #return webapp2.redirect('/papers')
         CreatedBy = users.get_current_user()
 	
-        n = Papers(Title=self.request.get('Title'),
-                Category=self.request.get('Category'),
+        n = Comments(Title=self.request.get('Title'),
+                RefObjType=self.request.get('RefObjType'),
+                RefObjID=self.request.get('RefObjID'),
                 Text=self.request.get('Text'),
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
                 StatusBy=CreatedBy
                 )
 
-        logging.info('QQQ: PaperCreate before put')
+        logging.info('QQQ: Comment Create before put')
         n.put()
-        logging.info('QQQ: PaperCreate after put')
+        logging.info('QQQ: Comment Create after put')
 
 #<<<<<<< HEAD
         # x = webapp2.redirect('/pagecontents/')
         x = self.redirect('/papers')
+        logging.info('QQQ: Comment Create calc x')
         logging.info('QQQ: x: %s' % x)
         return x
 #=======
@@ -123,12 +127,14 @@ class PaperCreate(BaseHandler):
 
 #>>>>>>> 0a84a8345dcf5aeb86cca24885ee2d44be5ffce1
 
-    def get(self):
+    def get(self, paper_id):
+        RefObjType = 'paper'
+        RefObjID = paper_id
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'CategoryList': CategoryList})
+        self.render_template('CommentCreate.html', {'RefObjType': RefObjType, 'RefObjID': RefObjID, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
-class PaperDisplay(BaseHandler):
+class CommentDisplay(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
@@ -152,36 +158,37 @@ class PaperDisplay(BaseHandler):
         #self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
         #self.render_template('PaperDisplay.html', {'Paper': Paper})
 
-class PaperEdit(BaseHandler):
+class CommentEdit(BaseHandler):
 
-    def post(self, paper_id):
-        iden = int(paper_id)
-        paper = db.get(db.Key.from_path('Papers', iden))
+    def post(self, comment_id):
+        iden = int(comment_id)
+        Comment = db.get(db.Key.from_path('Comments', iden))
         currentuser = users.get_current_user()
-        paper.Title = self.request.get('Title')
-        paper.Category = self.request.get('Category')
-        paper.Text = self.request.get('Text')
-        paper.UpdatedBy = currentuser
-        paper.UpdatedDate = datetime.now()
-        StatusPrev = paper.Status
-        paper.Status = self.request.get('Status')
-        if not paper.Status == StatusPrev:
-            paper.StatusBy = currentuser
-            paper.StatusDate = datetime.now()            
-        paper.put()
-        return self.redirect('/papers')
+        Comment.Title = self.request.get('Title')
+        Comment.RefObjType = self.request.get('RefObjType')
+        Comment.RefObjID = self.request.get('RefObjID')
+        Comment.Text = self.request.get('Text')
+        Comment.UpdatedBy = currentuser
+        Comment.UpdatedDate = datetime.now()
+        StatusPrev = Comment.Status
+        Comment.Status = self.request.get('Status')
+        if not Comment.Status == StatusPrev:
+            Comment.StatusBy = currentuser
+            Comment.StatusDate = datetime.now()            
+        Comment.put()
+        return self.redirect('/comments')
 
-    def get(self, paper_id):
-        iden = int(paper_id)
-        Paper = db.get(db.Key.from_path('Papers', iden))
+    def get(self, comment_id):
+        iden = int(comment_id)
+        Comment = db.get(db.Key.from_path('Comments', iden))
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-        self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
+        self.render_template('CommentEdit.html', {'Comment': Comment, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
-class PaperDelete(BaseHandler):
+class CommentDelete(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
-        paper = db.get(db.Key.from_path('Papers', iden))
-        db.delete(paper)
-        return self.redirect('/papers')
+        comment = db.get(db.Key.from_path('Comments', iden))
+        db.delete(comment)
+        return self.redirect('/comments')

@@ -1,0 +1,79 @@
+{% extends "page_template.html" %}
+{% block content %}
+<script type="text/javascript" src="js/ckeditor/ckeditor.js"></script> 
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Title">Title</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Title" value="{{ Comment.Title }}" id="Title" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_RefObjType">RefObjType</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="RefObjType" value="{{ Comment.RefObjType }}" id="RefObjType" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_RefObjID">RefObjID</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="RefObjID" value="{{ Comment.RefObjID }}" id="RefObjID" />
+    </div>
+  </div>
+
+
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Text">Text</label>:
+    </div>
+    <div class="field-field">
+      <textarea class="field-field" rows="10" cols="50" id="editor2" name="Text" >{{ Comment.Text }}</textarea>
+	  <script type="text/javascript">
+		//<![CDATA[
+
+			CKEDITOR.replace( 'editor2',
+			{
+				fullPage : false
+				
+			});
+				
+		//]]>
+		</script>
+	</div>
+    <div style="clear: both;"></div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == Comment.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+
+
+   <br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/comments/delete/{{ Comment.key().id() }}";'>
+  <a href ="/comments/delete/{{ Comment.key().id() }}">Delete Comment</a>
+</form>
+{% endblock content %}

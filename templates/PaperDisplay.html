@@ -1,0 +1,14 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+
+<p><a href="/comments/create/{{Paper.key().id()}}">Add New Comment</a> </p>
+<div class="PaperTitle">
+<h1>{{Paper.Title}}</h1>
+</div>
+<div class="PageContentBlock">
+{{Paper.Text}} 
+</div>
+
+<br/><br/>
+{% endblock content %}

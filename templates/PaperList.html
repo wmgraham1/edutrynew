@@ -19,7 +19,7 @@
   <tbody>
     {% for paper in papers %}
 	<tr>
-	  <td><big> {{ paper.Title }} </big></td>
+	  <td><a href ="/papers/display/{{ paper.key().id() }}"> {{ paper.Title }} </a></td>
 	  <td> {{ paper.Category }} </td>
 	  <td> {{ paper.Status }} </td>
 	  <td> {{ paper.StatusDate }} </td>

@@ -55,6 +55,21 @@ class Papers(db.Model):
   StatusBy = db.UserProperty(auto_current_user=True)
   StatusDate = db.DateTimeProperty(auto_now_add=True)
 
+class Comments(db.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  Title = db.StringProperty()
+  RefObjType = db.StringProperty()
+  RefObjID = db.StringProperty()
+  Text = db.TextProperty()
+  CreatedBy = db.UserProperty(auto_current_user=True)
+  CreatedDate = db.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = db.UserProperty()
+  UpdatedDate = db.DateTimeProperty()
+  Status = db.StringProperty()
+  StatusBy = db.UserProperty(auto_current_user=True)
+  StatusDate = db.DateTimeProperty(auto_now_add=True)
+
+
 class Notes(db.Model):
   author = db.StringProperty()
   text = db.TextProperty()
@@ -62,7 +77,7 @@ class Notes(db.Model):
   status = db.StringProperty()
   date = db.DateTimeProperty(auto_now_add=True)
   whichuser = db.UserProperty()
-  
+
 class Obj(db.Model):
   OID = db.IntegerProperty(long)
   ClassName = db.StringProperty()
