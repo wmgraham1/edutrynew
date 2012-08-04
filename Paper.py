@@ -9,7 +9,7 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 
-from models import PageContents
+from models import Papers
 from models import Languages
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -49,7 +49,7 @@ class BaseHandler(webapp2.RequestHandler):
         return self.session_store.get_session()
 
 
-class PageContentList(BaseHandler):
+class PaperList(BaseHandler):
 
     def get(self):
         languages = memcache.get("languages")
@@ -79,7 +79,7 @@ class PageContentList(BaseHandler):
 #                "ORDER BY TemplateName ASC",
 #                "en")
 #        pagecontents = q.fetch(999)
-		pagecontents = PageContents.all()
+		papers = Papers.all()
 		#pagecontents = 'xxx'
  
         logout = None
@@ -90,32 +90,31 @@ class PageContentList(BaseHandler):
         else:
               login = users.create_login_url('/pagecontents/create')
 #        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'LangName':LangName, 'currentuser':currentuser, 'login':login, 'logout': logout})
-        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('PaperList.html', {'papers': papers, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class PageContentCreate(BaseHandler):
+class PaperCreate(BaseHandler):
 
     def post(self):
-        logging.info('QQQ: PageContentCreate POST')
-        #return webapp2.redirect('/pagecontents')
+        logging.info('QQQ: PaperCreate POST')
+        #return webapp2.redirect('/papers')
         CreatedBy = users.get_current_user()
 	
-        n = PageContents(TemplateName=self.request.get('TemplateName'),
-                LangCode=self.request.get('LangCode'),
-                TokenTag=self.request.get('TokenTag'),
-                ContentText=self.request.get('ContentText'),
+        n = Papers(Title=self.request.get('Title'),
+                Category=self.request.get('Category'),
+                Text=self.request.get('Text'),
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
                 StatusBy=CreatedBy
                 )
 
-        logging.info('QQQ: PageContentCreate before put')
+        logging.info('QQQ: PaperCreate before put')
         n.put()
-        logging.info('QQQ: PageContentCreate after put')
+        logging.info('QQQ: PaperCreate after put')
 
 #<<<<<<< HEAD
         # x = webapp2.redirect('/pagecontents/')
-        x = self.redirect('/pagecontents')
+        x = self.redirect('/papers')
         logging.info('QQQ: x: %s' % x)
         return x
 #=======
@@ -126,40 +125,41 @@ class PageContentCreate(BaseHandler):
 
     def get(self):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        self.render_template('PageContentCreate.html', {'StatusList': StatusList})
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
+        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'CategoryList': CategoryList})
 
 
-class PageContentEdit(BaseHandler):
+class PaperEdit(BaseHandler):
 
-    def post(self, pagecontent_id):
-        iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
+    def post(self, paper_id):
+        iden = int(paper_id)
+        paper = db.get(db.Key.from_path('Papers', iden))
         currentuser = users.get_current_user()
-        PageContent.TemplateName = self.request.get('TemplateName')
-        PageContent.LangCode = self.request.get('LangCode')
-        PageContent.TokenTag = self.request.get('TokenTag')
-        PageContent.ContentText = self.request.get('ContentText')
-        PageContent.UpdatedBy = currentuser
-        PageContent.UpdatedDate = datetime.now()
-        StatusPrev = PageContent.Status
-        PageContent.Status = self.request.get('Status')
-        if not PageContent.Status == StatusPrev:
-            PageContent.StatusBy = currentuser
-            PageContent.StatusDate = datetime.now()            
-        PageContent.put()
-        return self.redirect('/pagecontents')
+        paper.Title = self.request.get('Title')
+        paper.Category = self.request.get('Category')
+        paper.Text = self.request.get('Text')
+        paper.UpdatedBy = currentuser
+        paper.UpdatedDate = datetime.now()
+        StatusPrev = paper.Status
+        paper.Status = self.request.get('Status')
+        if not paper.Status == StatusPrev:
+            paper.StatusBy = currentuser
+            paper.StatusDate = datetime.now()            
+        paper.put()
+        return self.redirect('/papers')
 
-    def get(self, pagecontent_id):
-        iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
+    def get(self, paper_id):
+        iden = int(paper_id)
+        Paper = db.get(db.Key.from_path('Papers', iden))
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        self.render_template('PageContentEdit.html', {'PageContent': PageContent, 'StatusList': StatusList})
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
+        self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
 
-class PageContentDelete(BaseHandler):
+class PaperDelete(BaseHandler):
 
-    def get(self, pagecontent_id):
-        iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
-        db.delete(PageContent)
-        return self.redirect('/pagecontents')
+    def get(self, paper_id):
+        iden = int(paper_id)
+        paper = db.get(db.Key.from_path('Papers', iden))
+        db.delete(paper)
+        return self.redirect('/papers')

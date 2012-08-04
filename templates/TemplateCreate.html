@@ -4,13 +4,27 @@
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_template">Name</label>:
+      <label for="id_template">Template Name</label>:
     </div>
     <div class="field-field">
       <input type="text" name="Name" id="id_Name" />
     </div>
   </div>
-  
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_TemplateType">Template Type</label>:
+    </div>
+    <div class="field-field">
+        <select name="TemplateType">
+        {% for TemplateType in TemplateTypeList %}
+            <option value="{{TemplateType}}" 
+            >{{TemplateType}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_language">Description</label>:
@@ -28,7 +42,20 @@
       <input type="text" name="FileName" id="id_FileName" />
     </div>
   </div>
-  
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
 
   <br>
   <input type="submit" value=submit />

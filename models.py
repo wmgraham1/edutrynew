@@ -86,7 +86,7 @@ class TemplateTypes(db.Model):
   
 class Templates(db.Model):
   Name = db.StringProperty(required=True)
-  TypeCode = db.StringProperty(required=True, choices=set(["template", "pagecontent", "function", "exercise"]), default="template")
+  TemplateType = db.StringProperty()
   Description = db.StringProperty()
   FileName = db.StringProperty()
   CreatedBy = db.UserProperty(auto_current_user=True)

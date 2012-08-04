@@ -4,37 +4,36 @@
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_TemplateName">TemplateName</label>:
+      <label for="id_Title">Title</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="TemplateName" value="{{ PageContent.TemplateName }}" id="TemplateName" />
+      <input type="text" name="Title" value="{{ Paper.Title }}" id="Title" />
     </div>
   </div>
 
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_LangCode">Language</label>:
+      <label for="id_Category">Category</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="LangCode" value="{{ PageContent.LangCode }}" id="LangCode" />
-    </div>
-  </div>
-
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_TokenTag">TokenTag</label>:
-    </div>
-    <div class="field-field">
-      <input type="text" name="TokenTag" value="{{ PageContent.TokenTag }}" id="TokenTag" />
+        <select name="Category">
+        {% for Category in CategoryList %}
+            <option value="{{Category}}" 
+            {% if Category == Paper.Category %}
+                selected="selected"
+            {% endif %}
+            >{{Category}}</option>
+        {% endfor %}
+        </select>
     </div>
   </div>
   
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_ContentText">Text</label>:
+      <label for="id_Text">Text</label>:
     </div>
     <div class="field-field">
-      <textarea class="field-field" rows="10" cols="50" id="editor2" name="ContentText" >{{ PageContent.ContentText }}</textarea>
+      <textarea class="field-field" rows="10" cols="50" id="editor2" name="Text" >{{ Paper.Text }}</textarea>
 	  <script type="text/javascript">
 		//<![CDATA[
 
@@ -58,7 +57,7 @@
         <select name="Status">
         {% for Status in StatusList %}
             <option value="{{Status}}" 
-            {% if Status == PageContent.Status %}
+            {% if Status == Paper.Status %}
                 selected="selected"
             {% endif %}
             >{{Status}}</option>
@@ -71,7 +70,7 @@
    <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/pagecontents/delete/{{ PageContent.key().id() }}";'>
-  <a href ="/pagecontents/delete/{{ PageContent.key().id() }}">Delete Page Content</a>
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/papers/delete/{{ Paper.key().id() }}";'>
+  <a href ="/papers/delete/{{ Paper.key().id() }}">Delete Paper</a>
 </form>
 {% endblock content %}

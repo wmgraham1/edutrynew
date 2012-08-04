@@ -17,7 +17,7 @@ jinja_environment = \
     jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
 
-class TokenBaseHandler(webapp2.RequestHandler):
+class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
     def jinja2(self):
@@ -49,7 +49,7 @@ class TokenBaseHandler(webapp2.RequestHandler):
         return self.session_store.get_session()
 
 
-class TokenStep1Page(TokenBaseHandler):
+class TokenStep1Page(BaseHandler):
 
     def get(self):
         #languages = Languages.all()
@@ -79,7 +79,8 @@ class TokenStep1Page(TokenBaseHandler):
         self.session['PageCnt'] = PageCnt + 1
 
         countmap_en={}
-        tokens = TokenValues.all().filter('langCode =', langCode)
+        langCode_en = 'en'
+        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
             logging.info('QQQ: token: %s' % token.langCode)
             if token.templateName in countmap_en:
@@ -107,7 +108,7 @@ class TokenStep1Page(TokenBaseHandler):
 
         self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 
-class TokenList(TokenBaseHandler):
+class TokenList(BaseHandler):
 
     def get(self):
         #langCode='en'
@@ -137,7 +138,7 @@ class TokenList(TokenBaseHandler):
         self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TokenCreate(TokenBaseHandler):
+class TokenCreate(BaseHandler):
 
     def post(self):
         templateName = self.request.get('templateName')
@@ -152,7 +153,8 @@ class TokenCreate(TokenBaseHandler):
         n.put()
         xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
 		#logging.info(xyz)
-        return webapp2.redirect('/tokens')
+        #return webapp2.redirect('/tokens')
+        return self.redirect('/tokens')
 
     def get(self):
         logout = None
@@ -162,10 +164,12 @@ class TokenCreate(TokenBaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens/create')
-        self.render_template('TokenCreate.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
+			  
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        self.render_template('TokenCreate.html', {'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TokenClone(TokenBaseHandler):
+class TokenClone(BaseHandler):
 
     def get(self):
         languages = Languages.all()
@@ -224,7 +228,7 @@ class TokenClone(TokenBaseHandler):
 #        self.render_template('TokenList.html', {'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 		
 		
-class TokenEdit(TokenBaseHandler):
+class TokenEdit(BaseHandler):
 
     def post(self, token_id):
         iden = int(token_id)
@@ -239,7 +243,7 @@ class TokenEdit(TokenBaseHandler):
         token.tknValue = self.request.get('tknValue')
         token.date = datetime.now()
         token.put()
-        return webapp2.redirect('/tokens')
+        return self.redirect('/tokens')
 
     def get(self, token_id):
         iden = int(token_id)
@@ -258,7 +262,7 @@ class TokenEdit(TokenBaseHandler):
         self.render_template('TokenEdit.html', {'token': token,'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TokenDelete(TokenBaseHandler):
+class TokenDelete(BaseHandler):
 
     def get(self, token_id):
         iden = int(token_id)
@@ -268,4 +272,4 @@ class TokenDelete(TokenBaseHandler):
             self.abort(403)
             return
         db.delete(token)
-        return webapp2.redirect('/tokens')
+        return self.redirect('/tokens')

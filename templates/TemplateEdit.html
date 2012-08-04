@@ -13,6 +13,23 @@
 
   <div class="field-wrapper">
     <div class="field-label">
+      <label for="id_TemplateType">TemplateType</label>:
+    </div>
+    <div class="field-field">
+        <select name="TemplateType">
+        {% for TemplateType in TemplateTypeList %}
+            <option value="{{TemplateType}}" 
+            {% if TemplateType == template.TemplateType %}
+                selected="selected"
+            {% endif %}
+            >{{TemplateType}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
       <label for="id_FileName">File Name</label>:
     </div>
     <div class="field-field">
@@ -29,6 +46,23 @@
     </div>
   </div>
 
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == template.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+  
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;

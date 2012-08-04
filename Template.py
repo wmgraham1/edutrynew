@@ -67,7 +67,10 @@ class TemplateCreate(TemplateBaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates/create')
-        self.render_template('TemplateCreate.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
+
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
+        self.render_template('TemplateCreate.html', {'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TemplateEdit(TemplateBaseHandler):
@@ -80,8 +83,10 @@ class TemplateEdit(TemplateBaseHandler):
             self.abort(403)
             return
         template.Name = self.request.get('Name')
+        template.TemplateType = self.request.get('TemplateType')
         template.FileName = self.request.get('FileName')
         template.Description = self.request.get('Description')
+        template.Status = self.request.get('Status')
         template.put()
         return webapp2.redirect('/templates')
 
@@ -99,7 +104,9 @@ class TemplateEdit(TemplateBaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates')
-        self.render_template('TemplateEdit.html', {'template': template,'currentuser':currentuser, 'login':login, 'logout': logout})
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
+        self.render_template('TemplateEdit.html', {'template': template, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TemplateDelete(TemplateBaseHandler):
