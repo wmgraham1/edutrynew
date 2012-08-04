@@ -1,0 +1,42 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_template">Language</label>:
+    </div>
+    <div class="field-field">
+        <input type="hidden" name="langName" id="id_langName" value="{{ lang.templateName }}" />
+	    {{ lang.langName }}
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_language">Language Code</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="langCode" id="id_langCode" value="{{ lang.langCode }}" />
+	  {{ lang.langCode }}
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_language">Language Code 3</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="langCode3" id="id_langCode3" value="{{ lang.langCode3 }}" />
+	  {{ lang.langCode3 }}
+    </div>
+  </div>
+
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/langs/langDelete/{{ lang.key().id() }}";'>
+  <a href ="/langs/delete/{{ lang.key().id() }}">Delete Language</a>
+</form>
+
+{% endblock content %}

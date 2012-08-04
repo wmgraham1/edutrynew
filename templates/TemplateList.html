@@ -1,0 +1,42 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Templates</h2>
+<p><a href="/templates/create">Add New Template</a></p> 
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Template Type</th>
+      <th>FileName</th>
+      <th>Description</th>
+	  <th>Created Date</th>
+      <th>Created By</th>
+      <th>Status</th>
+      <th>Status Date</th>
+      <th>Status By</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for templates in templates %}
+	<tr>
+	  <td> {{ templates.Name }} </td>
+	  <td> {{ templates.TemplateType }} </td>
+	  <td> {{ templates.FileName }} </td>
+	  <td> {{ templates.Description }} </td>
+	  <td> {{ templates.CreatedDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ templates.CreatedBy }} </td>
+	  <td> {{ templates.Status }} </td>
+	  <td> {{ templates.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ templates.StatusBy }} </td>
+	  <td><a href ="/templates/edit/{{ templates.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/templates/create">Add New Template</a></p> 
+
+{% endblock content %}

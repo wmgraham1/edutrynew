@@ -1,0 +1,37 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_ListTypeName">Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="ListTypeName" id="id_ListTypeName" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_ListTypeCode">List Type Code</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="ListTypeCode" id="id_ListTypeCode" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Description" id="id_Description" />
+    </div>
+  </div>
+
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

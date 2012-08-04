@@ -1,0 +1,50 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_template">Template</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="templateName" id="id_template" value="khan_exercise" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_language">Language Code</label>:
+    </div>
+    <div class="field-field">
+      <select name="langCode" id="id_language">
+        <option value="en" selected="selected">English</option>
+        <option value="de">German</option>
+        <option value="el">Greek</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_token">Token Nbr</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="tknID" id="id_token" />
+    </div>
+  </div>
+  
+<div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_tknval">Token Value</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="tknValue" id="id_tknvalue" />
+    </div>   
+  </div>
+
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

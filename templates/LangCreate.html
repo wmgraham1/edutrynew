@@ -1,0 +1,37 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_template">Language Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="langName" id="id_langName" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_language">Language Code 2</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="langCode" id="id_langCode" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_token">Language Code 3</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="langCode3" id="id_langCode3" />
+    </div>
+  </div>
+
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

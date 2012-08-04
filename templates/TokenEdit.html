@@ -1,0 +1,58 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_template">Template</label>:
+    </div>
+    <div class="field-field">
+	  {% if token.langCode == 'en' %} 
+        <input type="text" name="templateName" id="id_template" value="{{ token.templateName }}" />
+      {% else %}
+        <input type="hidden" name="templateName" id="id_template" value="{{ token.templateName }}" />
+	    {{ token.templateName }}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_language">Language Code</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="langCode" id="id_language" value="{{ token.langCode }}" />
+	  {{ token.langCode }}
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_token">Token Nbr</label>:
+    </div>
+    <div class="field-field">
+	  {% if token.langCode == 'en' %} 
+        <input type="text" name="tknID" id="id_token" value="{{ token.tknID }}" />
+      {% else %}
+        <input type="hidden" name="tknID" id="id_token" value="{{ token.tknID }}" />
+	    {{ token.tknID }}
+      {% endif %}
+    </div>
+  </div>
+  
+<div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_tknval">Token Value</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="tknValue" id="id_tknvalue" size="120" value="{{ token.tknValue }}" />
+    </div>   
+  </div>
+
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/tokens/tknDelete/{{ token.key().id() }}";'>
+  <a href ="/tokens/delete/{{ token.key().id() }}">Delete Token</a>
+</form>
+{% endblock content %}

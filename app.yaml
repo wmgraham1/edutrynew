@@ -1,0 +1,63 @@
+application: edutry1
+version: 1
+# version: 3-ralph-with-languagecount-support
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+# css files
+- url: /static
+  static_dir: static
+- url: /css
+  static_dir: css
+- url: /js
+  static_dir: js
+  
+- url: /notes/create
+  script: main.app
+#  login: admin
+  login: required
+
+- url: /notes/edit/.*
+  script: main.app
+  login: required
+
+- url: /notes/delete/.*
+  script: main.app
+  login: required
+  
+- url: /tokens/create
+  script: main.app
+  login: required
+
+- url: /tokens/edit/.*
+  script: main.app
+  login: required
+
+- url: /tokens/delete/.*
+  script: main.app
+  login: required
+
+- url: /tokens/clone/.*
+  script: main.app
+  login: required
+
+- url: .*
+  script: main.app
+#  login: required
+
+libraries:
+- name: webapp2
+  version: "2.5.1"
+- name: jinja2
+  version: latest
+- name: markupsafe                                                              
+  version: latest 
+
+builtins:
+- remote_api: on

@@ -1,0 +1,39 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Name">Name</label>:
+    </div>
+    <div class="field-field">
+        <input type="text" name="Name" id="id_Name" value="{{ template.Name }}" /
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_FileName">File Name</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="FileName" id="id_FileName" value="{{ template.FileName }}" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Description" id="id_Description" value="{{ template.Description }}" />
+    </div>
+  </div>
+
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/templates/Delete/{{ template.key().id() }}";'>
+  <a href ="/templates/delete/{{ template.key().id() }}">Delete Template</a>
+</form>
+
+{% endblock content %}

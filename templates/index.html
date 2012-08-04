@@ -1,0 +1,35 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Notes</h2>
+<p><a href="/notes/create">Add New Note</a> </p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Note</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Created</th>
+      <th>CreatedBy (user)</th>
+      <th>CreatedBy (system)</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for note in notes %}
+	<tr>
+	  <td><big> {{ note.text }} </big></td>
+	  <td> {{ note.priority }} </td>
+	  <td> {{ note.status }} </td>
+	  <td> {{ note.date.strftime('%Y-%m-%d')  }} </td>
+	  <td> {{ note.author }} </td>
+	  <td> {{ note.whichuser }} </td>
+	  <td><a href ="/notes/edit/{{ note.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/notes/create">Add New Note</a> </p>
+{% endblock content %}

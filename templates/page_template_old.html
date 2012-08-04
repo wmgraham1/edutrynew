@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<title>Simple Test of inserting content in a template</title>
+</head>
+
+<body>
+  <div id="main">
+  	<h1>Sample Application Framework</h1>
+  	<div id="header">
+    	<a href="/">Home</a>
+        <a href="/content">Page Content Admin</a>
+        <a href="/about">About us</a>
+        <a href="/contact">Contact Us</a>
+    </div>
+    <div id="contentColumn">
+		
+  <!-- This is an entry, copy and paste it to create a new one -->      
+		<div class="divider"></div>
+        <p>This is just before the variable content.</p>
+		<h2> {{ content1  }} </h2>
+        <p>This is just after the variable content.</p>
+        
+    </div>
+ 
+  
+  </div>
+<!-- Please leave the link(s) in the footer, but please do modify it in any other way you please -->
+  <div id="footer"><a href="http://www.free-templates.me">free templates</a></div>
+</body>
+</html>

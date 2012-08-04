@@ -1,0 +1,40 @@
+{% extends "page_template.html" %}
+{% block content %}
+<form method="GET">
+<select name="langCode">
+    {% for language in languages %}
+		    <option value="{{language.langCode}}" 
+            {% if language.langCode == langCode %}
+            selected="selected"
+            {% endif %}
+            >{{language.langName}}</option>
+    {% endfor %}
+</select>
+<br/><input type="submit">
+</form>
+<h2 style="text-align: center;">Template Token Count for Language: {{langName}}</h2>
+<p>Number of PageLoads: {{PageCnt}}.</p>
+<table width = 80% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <!-- <th>Template/Language</th> -->
+      <th style="text-align: center;">Template</th>
+      <th style="text-align: center;"># Tokens English</th>
+      <th style="text-align: center;"># Tokens {{langName}}</th>
+      <th style="text-align: center;">Clone</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for key in countmap_en %}
+	<tr>
+	  <td><big> <a href="/tokens?templateName={{key}}&langCode={{langCode}}">{{key}}</a> </big></td>
+	  <td style="text-align: center;"> {{countmap_en[key]}} </td>
+	  <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
+  	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
+    </tr>
+    {% endfor %}	
+
+  </tbody>
+ </table>
+<br/>
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_ListTypeName">Name</label>:
+    </div>
+    <div class="field-field">
+        <input type="hidden" name="ListTypeName" id="id_ListTypeName" value="{{ listtype.ListTypeName }}" />
+	    {{ listtype.ListTypeName }}
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_ListTypeCode">List Type Code</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="ListTypeCode" id="id_ListTypeCode" value="{{ listtype.ListTypeCode }}" />
+	  {{ listtype.ListTypeCode }}
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="Description" id="id_Description" value="{{ listtype.Description }}" />
+	  {{ listtype.Description }}
+    </div>
+  </div>
+
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/listtypes/listtypesDelete/{{ listtypes.key().id() }}";'>
+  <a href ="/listtypes/delete/{{ listtypes.key().id() }}">Delete ListType</a>
+</form>
+
+{% endblock content %}

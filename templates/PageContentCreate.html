@@ -1,0 +1,75 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_TemplateName">TemplateName</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="TemplateName" id="TemplateName" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LangCode">Language</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="LangCode" id="LangCode" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_TokenTag">TokenTag</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="TokenTag" id="TokenTag" />
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    
+    <div class="field-label">
+      <label for="id_ContentText">Text</label>:
+    </div>
+    
+    <div class="field-field">
+      <!-- <input type="text" name="text" id="id_text" /> -->
+      <textarea class="field-field" rows="10" cols="50" id="editor1" name="ContentText" ></textarea>
+      <script type="text/javascript">
+			//<![CDATA[
+
+				CKEDITOR.replace( 'editor1',
+				{
+					fullPage : false
+					
+				});
+					
+				
+			//]]>
+			</script>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+  
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

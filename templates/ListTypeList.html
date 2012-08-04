@@ -1,0 +1,32 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of List Types</h2>
+<p>Lists in this context refers to lists that consist only of a name.  The main reason for such lists is to ensure the user cannot select values for those fields that are not valid.  We add a code so that the references in the program can use the code for performance reasons, while the user can pertain to the names for ease of use.</p>
+<br/>
+<p><a href="/listtypes/create">Add New List Type</a></p> 
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Description</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for listtype in listtypes %}
+	<tr>
+	  <td> {{ listtype.ListTypeName }} </td>
+	  <td> {{ listtype.ListTypeCode }} </td>
+	  <td> {{ listtype.Description }} </td>
+	  <td><a href ="/listtypes/edit/{{ listtype.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/listtypes/create">Add New List Type</a></p> 
+
+{% endblock content %}

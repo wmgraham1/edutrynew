@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Simple Test of inserting content in a template</title>
+<link rel="stylesheet" href="/static/css/reset.css">
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" media="screen" href="/css/superfish.css" />
+<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script> 
+<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="/js/hoverIntent.js"></script>
+<script type="text/javascript" src="/js/superfish.js"></script>
+<script type="text/javascript">
+
+// initialise plugins
+jQuery(function(){
+	jQuery('ul.sf-menu').superfish();
+});
+
+</script>
+
+<body>
+  <div id="main">
+  	<h1>Sample Application Framework</h1>
+	<div id="header_side">
+	<ul>
+	{% if currentuser %} 
+			<li><a href='#'>{{currentuser}}</a></li>
+			    {% if logout %} 
+				<li><a href="{{logout}}">Logout</a></li>
+			    {% endif %} 
+		  {% else %} 
+					  {% if login %} 
+				<li><a href="{{login}}">Login</a></li>
+					  {% endif %} 
+			      {% endif %} 
+	</ul>
+	</div>
+  	<div id="header">
+
+        <!--  {% if currentuser %} 
+          {{currentuser}}
+          {% if logout %} 
+    <a href="{{logout}}">Logout</a>
+          {% endif %} 
+          {% else %} 
+          {% if login %} 
+    <a href="{{login}}">Login</a>
+          {% endif %} 
+          {% endif %} 
+
+    	<a href="/">Home</a>
+        <a href="/notes">Pages</a>
+        <a href="/langs">Languages</a>
+        <a href="/tokens-step1">Tokens</a>
+        <a href="/listtypes">ListTypes</a>
+        <a href="/contact">Contact Us</a>
+        <a href="/templates">Templates</a>
+        <a href="/about">About us</a>-->
+    	<ul class="sf-menu">
+		   
+			<li>
+				<a href="/">Home</a>
+			</li>
+			<li>
+				<a href="/content">Content Admin</a>
+				<ul>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">short</a></li>
+							<li><a href="#">short</a></li>
+							<li><a href="#">short</a></li>
+							<li><a href="#">short</a></li>
+							<li><a href="#">short</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+					
+					
+					
+				</ul>
+			</li>
+			<li>
+				<a href="/pagecontents">Page Content</a>
+			</li>
+			<li>
+				<a href="/tokens-step1">Tokens</a>
+			</li>
+			<li>
+				<a href="/langs">Languages</a>
+			</li>	
+			<li>
+				<a href="/templates">Templates</a>
+			</li>			
+			<li>
+				<a href="/about">About us</a>
+			</li>
+			<li>
+				<a href="/notes">Notes</a>
+			</li>	
+			<li>
+				<a href="/contact">Contact Us</a>
+			</li>			
+		</ul>
+	
+	</div>
+    <div id="contentColumn">
+
+    <div class="wrapper">
+    {% block content %}
+    {% endblock content %}
+    </div>	
+
+  </div>
+<!-- Please leave the link(s) in the footer, but please do modify it in any other way you please -->
+  <div id="footer"><a href="http://www.free-templates.me">free templates</a></div>
+</body>
+</html>

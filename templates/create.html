@@ -1,0 +1,82 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    
+    <div class="field-label">
+      <label for="id_author">Author</label>:
+    </div>
+    
+    <div class="field-field">
+      <input type="text" name="author" id="id_author" />
+      
+    </div>
+    
+  </div>
+  
+  <div class="field-wrapper">
+    
+    <div class="field-label">
+      <label for="id_text">Text</label>:
+    </div>
+    
+    <div class="field-field">
+      <!-- <input type="text" name="text" id="id_text" /> -->
+      <textarea class="field-field" rows="10" cols="50" id="editor1" name="text" ></textarea>
+      <script type="text/javascript">
+			//<![CDATA[
+
+				CKEDITOR.replace( 'editor1',
+				{
+					fullPage : false
+					
+				});
+					
+				
+			//]]>
+			</script>
+    </div>
+    
+  </div>
+  
+  <div class="field-wrapper">
+    
+    <div class="field-label">
+      <label for="id_priority">Priority</label>:
+    </div>
+    
+    <div class="field-field">
+      <select name="priority" id="id_priority">
+        <option value="High">High</option>
+        <option value="Medium" selected="selected">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      
+    </div>
+    
+  </div>
+  
+  <div class="field-wrapper">
+    
+    <div class="field-label">
+      <label for="id_status">Status</label>:
+    </div>
+    
+    <div class="field-field">
+      <select name="status" id="id_status">
+        <option value="On Going">On Going</option>
+        <option value="Completed">Completed</option>
+      </select>
+      
+    </div>
+    
+  </div>
+  
+  
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

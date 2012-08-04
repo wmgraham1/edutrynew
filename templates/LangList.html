@@ -1,0 +1,30 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Languages</h2>
+<p><a href="/langs/create">Add New Language</a></p> 
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Lang Name</th>
+      <th>Lang Code 2</th>
+      <th>Lang Code 3</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for langs in languages %}
+	<tr>
+	  <td> {{ langs.langName }} </td>
+	  <td> {{ langs.langCode }} </td>
+	  <td> {{ langs.langCode3 }} </td>
+	  <td><a href ="/langs/edit/{{ langs.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/langs/create">Add New Language</a></p> 
+
+{% endblock content %}

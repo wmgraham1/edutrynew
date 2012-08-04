@@ -1,0 +1,31 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
+<p><a href="/tokens/create">Add New Template Token</a> </p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Value</th>
+	  <th>Created</th>
+      <th>CreatedBy</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for token in tokens %}
+	<tr>
+	  <td> {{ token.tknID }} </td>
+	  <td> {{ token.tknValue }} </td>
+	  <td> {{ token.date.strftime('%Y-%m-%d')  }} </td>
+	  <td> {{ token.whichuser }} </td>
+	  <td><a href ="/tokens/edit/{{ token.key().id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/tokens/create">Add New Template Token</a> </p>
+{% endblock content %}
