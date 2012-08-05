@@ -180,7 +180,9 @@ border-bottom:dashed 1px #DD6A6A;
 
 
 #header_side{
-	float:			right;
+	position: relative;
+	top: -30px;
+	float:	right;
 
 
 }
