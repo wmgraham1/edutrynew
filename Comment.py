@@ -75,11 +75,6 @@ class CommentList(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
-#        q = db.GqlQuery("SELECT * FROM PageContents " + 
-#                "WHERE langCode = :1 " +
-#                "ORDER BY TemplateName ASC",
-#                "en")
-#        pagecontents = q.fetch(999)
 		comments = Comments.all()
 		#pagecontents = 'xxx'
  
@@ -99,12 +94,28 @@ class CommentCreate(BaseHandler):
     def post(self, paper_id):
         logging.info('QQQ: PaperCreate POST')
 
-        #return webapp2.redirect('/papers')
+        RefObjID=self.request.get('RefObjID')
+
         CreatedBy = users.get_current_user()
-	
+
+        q = db.GqlQuery("SELECT CommentCode FROM Comments " + 
+                "WHERE RefObjType = 'paper' AND RefObjID = :1", RefObjID)
+                #"ORDER BY CommentCode DESC ", RefObjID)
+        comments = q.fetch(999)
+
+        CommentMax = chr(ord('A') - 1)
+
+        for comment in comments:
+            if len(comment.CommentCode) == 1:
+                if comment.CommentCode > CommentMax:
+                    CommentMax = comment.CommentCode
+
+        CommentCodeX = chr(ord(CommentMax) + 1)
+
         n = Comments(Title=self.request.get('Title'),
                 RefObjType=self.request.get('RefObjType'),
-                RefObjID=self.request.get('RefObjID'),
+                RefObjID=RefObjID,
+                CommentCode=CommentCodeX,
                 Text=self.request.get('Text'),
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
@@ -115,17 +126,10 @@ class CommentCreate(BaseHandler):
         n.put()
         logging.info('QQQ: Comment Create after put')
 
-#<<<<<<< HEAD
-        # x = webapp2.redirect('/pagecontents/')
         x = self.redirect('/papers')
         logging.info('QQQ: Comment Create calc x')
         logging.info('QQQ: x: %s' % x)
         return x
-#=======
-#       return webapp2.redirect('/pagecontents')
-#       #return webapp2.redirect('/templates')
-
-#>>>>>>> 0a84a8345dcf5aeb86cca24885ee2d44be5ffce1
 
     def get(self, paper_id):
         RefObjType = 'paper'
@@ -167,6 +171,7 @@ class CommentEdit(BaseHandler):
         Comment.Title = self.request.get('Title')
         Comment.RefObjType = self.request.get('RefObjType')
         Comment.RefObjID = self.request.get('RefObjID')
+        Comment.CommentCode = self.request.get('CommentCode')
         Comment.Text = self.request.get('Text')
         Comment.UpdatedBy = currentuser
         Comment.UpdatedDate = datetime.now()

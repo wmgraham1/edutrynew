@@ -7,9 +7,10 @@
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th>Title</th>
       <th>RefObj Type</th>
       <th>RefObj ID</th>
+      <th>CommentCode</th>
+      <th>Title</th>
       <th>Status</th>
       <th>Status Date</th>
       <th>Created Date</th>
@@ -20,9 +21,10 @@
   <tbody>
     {% for Comment in Comments %}
 	<tr>
-	  <td> {{ Comment.Title }} </td>
 	  <td> {{ Comment.RefObjType }} </td>
 	  <td> {{ Comment.RefObjID }} </td>
+	  <td> {{ Comment.CommentCode }} </td>
+	  <td> {{ Comment.Title }} </td>
 	  <td> {{ Comment.Status }} </td>
 	  <td> {{ Comment.StatusDate }} </td>
 	  <td> {{ Comment.CreatedDate }} </td>

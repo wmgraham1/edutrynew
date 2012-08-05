@@ -60,6 +60,7 @@ class Comments(db.Model):
   Title = db.StringProperty()
   RefObjType = db.StringProperty()
   RefObjID = db.StringProperty()
+  CommentCode = db.StringProperty()
   Text = db.TextProperty()
   CreatedBy = db.UserProperty(auto_current_user=True)
   CreatedDate = db.DateTimeProperty(auto_now_add=True)
