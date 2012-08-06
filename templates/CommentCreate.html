@@ -1,10 +1,15 @@
 {% extends "page_template.html" %}
 {% block content %}
-
+<div class="PaperCommentTitle">
+<h1>{{Comment.Title}}</h1>
+</div>
+<div class="PageContentBlock">
+{{Comment.Text}} 
+</div>
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Title">Title</label>:
+      <label for="id_Title">Subject</label>:
     </div>
     <div class="field-field">
       <input type="text" name="Title" id="Title" />
@@ -12,20 +17,14 @@
   </div>
 
   <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_RefObjType">RefObjType</label>:
-    </div>
     <div class="field-field">
-      <input type="text" name="RefObjType" value="{{ RefObjType }}" id="RefObjType" />
+      <input type="hidden" name="RefObjType" value="{{ RefObjType }}" id="RefObjType" />
     </div>
   </div>
 
   <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_RefObjID">RefObjID</label>:
-    </div>
     <div class="field-field">
-      <input type="text" name="RefObjID" value="{{ RefObjID }}" id="RefObjID" />
+      <input type="hidden" name="RefObjID" value="{{ RefObjID }}" id="RefObjID" />
     </div>
   </div>
 
@@ -53,20 +52,6 @@
     </div>
   </div>
 
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_Status">Status</label>:
-    </div>
-    <div class="field-field">
-        <select name="Status">
-        {% for Status in StatusList %}
-            <option value="{{Status}}" 
-            >{{Status}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </div>
-  
   <br>
   <input type="submit" value=submit />
 </form>

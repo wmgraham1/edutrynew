@@ -1,14 +1,50 @@
 {% extends "page_template.html" %}
 {% block content %}
 <br/>
-
-<p><a href="/comments/create/{{Paper.key().id()}}">Add New Comment</a> </p>
 <div class="PaperTitle">
 <h1>{{Paper.Title}}</h1>
 </div>
 <div class="PageContentBlock">
 {{Paper.Text}} 
 </div>
-
+<div class="Comments">
+<h2>Comments</h2>
+<p><a href="/comments/create/{{Paper.key().id()}}">Add New Comment</a> </p>
+<div class="PageContentBlock">
+{% for Comment in Comments %}
+<table width = 100% border=1 cellspacing=0 cellpadding=0>
+<tr>
+<td>
+  <table width = 100% border=1 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th width=40%>Title</th>
+      <th>Created Date</th>
+      <th>CreatedBy</th>
+      <th>RefObj</th>
+      <th>Add Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr>
+	  <td> {{ Comment.Title }} </td>
+	  <td> {{ Comment.CreatedDate }} </td>
+	  <td> {{ Comment.CreatedBy }} </td>
+	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
+	  <td><a href ="/comments/addcomment/{{ Comment.key().id() }}">Add Comment </a></td>
+    </tr>
+	<tr>
+	</tr>
+  </tbody>
+  </table>
+</td>
+</tr>
+<tr>
+<td> {{ Comment.Text }} </td>
+</tr>
+</table>
+{% endfor %}	
+</div>
+</div>
 <br/><br/>
 {% endblock content %}

@@ -10,6 +10,7 @@ from webapp2_extras import sessions
 from google.appengine.api import memcache
 
 from models import Papers
+from models import Comments
 from models import Languages
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -133,10 +134,21 @@ class PaperDisplay(BaseHandler):
     def get(self, paper_id):
         iden = int(paper_id)
         Paper = db.get(db.Key.from_path('Papers', iden))
+
+        q = Comments.all()
+        q.filter("RefObjType =", "paper")
+        q.filter("RefObjID =", paper_id)
+        q.order("CommentCode")
+
+        logging.info('QQQ: Comment Paper Display before fetch')
+
+        comments = q.fetch(99)
+
         template_values = {
-            'Paper': Paper,
-            'Title': Paper.Title,
-            'content1': Paper.Text}
+            'Paper': Paper, 
+            'Comments': comments,
+			'iden': iden
+            }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
         jinja_environment = \
@@ -144,9 +156,7 @@ class PaperDisplay(BaseHandler):
 
         template = jinja_environment.get_template('PaperDisplay.html')
         self.response.out.write(template.render(template_values))
-		
-		
-		
+
         #StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         #CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
         #self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})

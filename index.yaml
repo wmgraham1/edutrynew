@@ -23,6 +23,11 @@ indexes:
   - name: CommentCode
     direction: desc
 
+- kind: Comments
+  properties:
+  - name: RefObjType
+  - name: CommentCode
+
 - kind: PageContents
   properties:
   - name: LangCode

@@ -4,6 +4,7 @@ import webapp2
 import logging
 from datetime import datetime
 from google.appengine.ext import db
+from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 
@@ -63,14 +64,22 @@ class ViewHomePage(BaseHandler):
             else:
                 logging.info("Memcache set succeeded.")
 
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/langs' )
+        else:
+              login = users.create_login_url('/langs')
+
         if PageContentList.has_key('homepage'):
             template_id = (PageContentList['homepage'])
             iden = int(template_id)
             PageContent = db.get(db.Key.from_path('PageContents', iden))
             template_values = {
-                'content1': PageContent.ContentText}
+                'content1': PageContent.ContentText, 'currentuser':currentuser, 'login':login, 'logout': logout}
         else:
             template_values = {
-                'content1': 'No home page content yet.'}
+                'content1': 'No home page content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
         template = jinja_environment.get_template('stdpage_block.html')
         self.response.out.write(template.render(template_values))
