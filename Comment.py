@@ -164,7 +164,7 @@ class CommentCreate(BaseHandler):
             'RefObjID': RefObjID,
             'StatusList': StatusList,
             'CategoryList': CategoryList,
-			'mgnwidth': mgnwidth
+            'mgnwidth': mgnwidth
             }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
