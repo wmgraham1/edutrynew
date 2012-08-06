@@ -11,8 +11,12 @@
 <h2>Comments</h2>
 <p><a href="/comments/create/{{Paper.key().id()}}">Add New Comment</a> </p>
 <div class="PageContentBlock">
+{% set i = -1 %}
 {% for Comment in Comments %}
-<table width = 100% border=1 cellspacing=0 cellpadding=0>
+    {% set i = i + 1 %}
+    {% set mgnwidth = CommentList[Comment.CommentCode]  * 8 %}
+<div style="margin: {{ mgnwidth }};">
+<table id="tbl1" width = 100% border=1 cellspacing=0 cellpadding=0">
 <tr>
 <td>
   <table width = 100% border=1 cellspacing=0 cellpadding=2>
@@ -22,6 +26,7 @@
       <th>Created Date</th>
       <th>CreatedBy</th>
       <th>RefObj</th>
+      <th>mgnwidth</th>
       <th>Add Comment</th>
     </tr>
   </thead>
@@ -31,6 +36,7 @@
 	  <td> {{ Comment.CreatedDate }} </td>
 	  <td> {{ Comment.CreatedBy }} </td>
 	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
+	  <td> {{ Comment.mgnwidth }} </td>
 	  <td><a href ="/comments/addcomment/{{ Comment.key().id() }}">Add Comment </a></td>
     </tr>
 	<tr>
@@ -43,6 +49,7 @@
 <td> {{ Comment.Text }} </td>
 </tr>
 </table>
+</div>
 {% endfor %}	
 </div>
 </div>

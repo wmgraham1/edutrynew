@@ -150,6 +150,7 @@ class CommentCreate(BaseHandler):
         Paper = db.get(db.Key.from_path('Papers', iden))
         RefObjType = 'paper'
         RefObjID = paper_id
+        mgnwidth = 0
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
@@ -162,7 +163,8 @@ class CommentCreate(BaseHandler):
             'RefObjType': RefObjType,
             'RefObjID': RefObjID,
             'StatusList': StatusList,
-            'CategoryList': CategoryList
+            'CategoryList': CategoryList,
+			'mgnwidth': mgnwidth
             }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -268,6 +270,7 @@ class CommentSubCreate(BaseHandler):
         Comment = db.get(db.Key.from_path('Comments', iden))
         RefObjType = Comment.RefObjType
         RefObjID = Comment.RefObjID
+        mgnwidth = 0
         #template_values = {
         #    'Comment': Comment,
         #    }
@@ -282,7 +285,8 @@ class CommentSubCreate(BaseHandler):
             'RefObjType': RefObjType,
             'RefObjID': RefObjID,
             'StatusList': StatusList,
-            'CategoryList': CategoryList
+            'CategoryList': CategoryList,
+            'mgnwidth': mgnwidth
             }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
