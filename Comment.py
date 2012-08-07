@@ -121,10 +121,13 @@ class CommentCreate(BaseHandler):
 #                if comment.CommentCode > CommentMax:
 #                    CommentMax = comment.CommentCode
 
-        if comments.CommentCode:
-            CommentCodeX = chr(ord(comments.CommentCode[0]) + 1)
-        else:
-            CommentCodeX = 'A'
+        try:
+            if comments.CommentCode:
+                CommentCodeX = chr(ord(comments.CommentCode[0]) + 1)
+            else:
+                CommentCodeX = 'A'
+        except AttributeError:
+                CommentCodeX = 'A'
 
         n = Comments(Title=self.request.get('Title'),
                 RefObjType=self.request.get('RefObjType'),

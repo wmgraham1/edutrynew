@@ -14,12 +14,21 @@
 {% set i = -1 %}
 {% for Comment in Comments %}
     {% set i = i + 1 %}
-    {% set mgnwidth = CommentList[Comment.CommentCode]  * 8 %}
-<div style="margin: {{ mgnwidth }};">
-<table id="tbl1" width = 100% border=1 cellspacing=0 cellpadding=0">
+    {% set mgnwidth = CommentList[Comment.CommentCode]  * 24 %}
+<style type="text/css">
+table.tbl1
+{
+width: 80%;
+padding:10px;
+border:5px solid gray;
+margin-left:{{mgnwidth}}px;
+}
+</style>
+<div class="ex">
+<table class="tbl1" align="left" border=1 cellspacing=0 cellpadding=0">
 <tr>
 <td>
-  <table width = 100% border=1 cellspacing=0 cellpadding=2>
+  <table align="left" border=1 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th width=40%>Title</th>
