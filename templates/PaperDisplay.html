@@ -9,44 +9,47 @@
 </div>
 <div class="Comments">
 <h2>Comments</h2>
-<p><a href="/comments/create/{{Paper.key().id()}}">Add New Comment</a> </p>
+<p><a href="/comments/create/{{Paper.key().id()}}">Add Comment to Paper</a> </p>
 <div class="PageContentBlock">
+<style type="text/css">
+table.tbl1{margin-left:0px;}
+table.tbl2{margin-left:30px;}
+table.tbl3{margin-left:60px;}
+table.tbl4{margin-left:90px;}
+table.tbl5{margin-left:120px;}
+table.tbl6{margin-left:150px;}
+table.tbl7{margin-left:180px;}
+table.tbl8{margin-left:210px;}
+table.tbl9{margin-left:240px;}
+</style>
 {% set i = -1 %}
 {% for Comment in Comments %}
     {% set i = i + 1 %}
-    {% set mgnwidth = CommentList[Comment.CommentCode]  * 24 %}
-<style type="text/css">
-table.tbl1
-{
-width: 80%;
-padding:10px;
-border:5px solid gray;
-margin-left:{{mgnwidth}}px;
-}
-</style>
+    {% set mgnwidth = CommentList[Comment.CommentCode] %}
+
 <div class="ex">
-<table class="tbl1" align="left" border=1 cellspacing=0 cellpadding=0">
+<table class="tbl{{mgnwidth}}" align="left" width=90% border=1 cellspacing=0 cellpadding=0">
 <tr>
 <td>
-  <table align="left" border=1 cellspacing=0 cellpadding=2>
+  <table align="left" width=100% border=1 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th width=40%>Title</th>
+      <th width=50%>Title</th>
       <th>Created Date</th>
       <th>CreatedBy</th>
-      <th>RefObj</th>
-      <th>mgnwidth</th>
+<!--	        <th>RefObj</th>
+      <th>mgnwidth</th> -->
       <th>Add Comment</th>
     </tr>
   </thead>
   <tbody>
 	<tr>
-	  <td> {{ Comment.Title }} </td>
+	  <td width = 50%> {{ Comment.Title }} </td>
 	  <td> {{ Comment.CreatedDate }} </td>
 	  <td> {{ Comment.CreatedBy }} </td>
-	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
-	  <td> {{ Comment.mgnwidth }} </td>
-	  <td><a href ="/comments/addcomment/{{ Comment.key().id() }}">Add Comment </a></td>
+<!--	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
+	  <td> {{ Comment.mgnwidth }} </td> -->
+	  <td><a href ="/comments/addcomment/{{ Comment.key().id() }}">Comment on this comment</a></td>
     </tr>
 	<tr>
 	</tr>
