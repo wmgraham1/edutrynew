@@ -61,6 +61,7 @@ class Comments(db.Model):
   RefObjType = db.StringProperty()
   RefObjID = db.StringProperty()
   CommentCode = db.StringProperty()
+  IndentClass = db.IntegerProperty()
   Text = db.TextProperty()
   CreatedBy = db.UserProperty(auto_current_user=True)
   CreatedDate = db.DateTimeProperty(auto_now_add=True)

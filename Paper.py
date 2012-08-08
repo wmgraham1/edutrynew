@@ -144,16 +144,16 @@ class PaperDisplay(BaseHandler):
 
         comments = q.fetch(99)
 
-        commentlist = {}
-        i = -1
-        for commenty in comments:
-            i = i + 1
-            commentlist[commenty.CommentCode] = len(commenty.CommentCode)
+#        commentlist = {}
+#        i = -1
+#        for commenty in comments:
+#            i = i + 1
+#            commentlist[commenty.CommentCode] = len(commenty.CommentCode)
 
         template_values = {
             'Paper': Paper, 
             'Comments': comments,
-            'CommentList': commentlist,
+#            'CommentList': commentlist,
 			'iden': iden
             }
 

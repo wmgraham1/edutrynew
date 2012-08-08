@@ -133,6 +133,7 @@ class CommentCreate(BaseHandler):
                 RefObjType=self.request.get('RefObjType'),
                 RefObjID=RefObjID,
                 CommentCode=CommentCodeX,
+                IndentClass=len(CommentCodeX),
                 Text=self.request.get('Text'),
 #                Status=self.request.get('Status'),
                 CreatedBy=CreatedBy#,
@@ -253,6 +254,7 @@ class CommentSubCreate(BaseHandler):
                 RefObjType=self.request.get('RefObjType'),
                 RefObjID=RefObjID,
                 CommentCode=SubCommentCode,
+                IndentClass=len(SubCommentCode),
                 Text=self.request.get('Text'),
 #                Status=self.request.get('Status'),
                 CreatedBy=CreatedBy#,
@@ -335,6 +337,7 @@ class CommentEdit(BaseHandler):
         Comment.RefObjType = self.request.get('RefObjType')
         Comment.RefObjID = self.request.get('RefObjID')
         Comment.CommentCode = self.request.get('CommentCode')
+        Comment.IndentClass=len(self.request.get('CommentCode'))
         Comment.Text = self.request.get('Text')
         Comment.UpdatedBy = currentuser
         Comment.UpdatedDate = datetime.now()

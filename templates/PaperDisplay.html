@@ -22,13 +22,9 @@ table.tbl7{margin-left:180px;}
 table.tbl8{margin-left:210px;}
 table.tbl9{margin-left:240px;}
 </style>
-{% set i = -1 %}
 {% for Comment in Comments %}
-    {% set i = i + 1 %}
-    {% set mgnwidth = CommentList[Comment.CommentCode] %}
-
 <div class="ex">
-<table class="tbl{{mgnwidth}}" align="left" width=90% border=1 cellspacing=0 cellpadding=0">
+<table class="tbl{{Comment.IndentClass}}" align="left" width=90% border=1 cellspacing=0 cellpadding=0">
 <tr>
 <td>
   <table align="left" width=100% border=1 cellspacing=0 cellpadding=2>
