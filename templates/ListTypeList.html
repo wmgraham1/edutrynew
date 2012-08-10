@@ -13,6 +13,7 @@
       <th>Code</th>
       <th>Description</th>
       <th>Edit</th>
+      <th>Key_ID</th>
     </tr>
   </thead>
   <tbody>
@@ -21,7 +22,8 @@
 	  <td> {{ listtype.ListTypeName }} </td>
 	  <td> {{ listtype.ListTypeCode }} </td>
 	  <td> {{ listtype.Description }} </td>
-	  <td><a href ="/listtypes/edit/{{ listtype.key().id() }}">edit </a></td>
+	  <td> {{ listtype.key.id() }} </td>
+	  <td><a href ="/listtypes/edit/{{ listtype.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

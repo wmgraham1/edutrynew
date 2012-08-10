@@ -19,13 +19,13 @@
   <tbody>
     {% for paper in papers %}
 	<tr>
-	  <td><a href ="/papers/display/{{ paper.key().id() }}"> {{ paper.Title }} </a></td>
+	  <td><a href ="/papers/display/{{ paper.key.id() }}"> {{ paper.Title }} </a></td>
 	  <td> {{ paper.Category }} </td>
 	  <td> {{ paper.Status }} </td>
 	  <td> {{ paper.StatusDate }} </td>
 	  <td> {{ paper.CreatedDate }} </td>
 	  <td> {{ paper.CreatedBy }} </td>
-	  <td><a href ="/papers/edit/{{ paper.key().id() }}">edit </a></td>
+	  <td><a href ="/papers/edit/{{ paper.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

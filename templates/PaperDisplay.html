@@ -9,7 +9,7 @@
 </div>
 <div class="Comments">
 <h2>Comments</h2>
-<p><a href="/comments/create/{{Paper.key().id()}}">Add Comment to Paper</a> </p>
+<p><a href="/comments/create/{{ Paper.key.id()}}">Add Comment to Paper</a> </p>
 <div class="PageContentBlock">
 <style type="text/css">
 table.tbl1{margin-left:0px;}
@@ -33,8 +33,8 @@ table.tbl9{margin-left:240px;}
       <th width=50%>Title</th>
       <th>Created Date</th>
       <th>CreatedBy</th>
-<!--	        <th>RefObj</th>
-      <th>mgnwidth</th> -->
+      <th>RefObj</th>
+      <th>mgnwidth</th> 
       <th>Add Comment</th>
     </tr>
   </thead>
@@ -43,9 +43,9 @@ table.tbl9{margin-left:240px;}
 	  <td width = 50%> {{ Comment.Title }} </td>
 	  <td> {{ Comment.CreatedDate }} </td>
 	  <td> {{ Comment.CreatedBy }} </td>
-<!--	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
-	  <td> {{ Comment.mgnwidth }} </td> -->
-	  <td><a href ="/comments/addcomment/{{ Comment.key().id() }}">Comment on this comment</a></td>
+	  <td> {{ Comment.RefObjType }}/{{ Comment.RefObjID }}/{{ Comment.CommentCode }} </td>
+	  <td> {{ Comment.mgnwidth }} </td> 
+	  <td><a href ="/comments/addcomment/{{ Comment.key.id() }}">Comment on this comment</a></td>
     </tr>
 	<tr>
 	</tr>

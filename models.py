@@ -21,12 +21,12 @@ class ListItems(db.Model):
   CreatedBy = db.UserProperty(auto_current_user=True)
   CreatedDate = db.DateTimeProperty(auto_now_add=True)
   
-class ListTypes(db.Model):
-  ListTypeName = db.StringProperty()
-  ListTypeCode = db.StringProperty()
-  Description = db.StringProperty()
-  CreatedBy = db.UserProperty(auto_current_user=True)
-  CreatedDate = db.DateTimeProperty(auto_now_add=True)
+class ListTypes(ndb.Model):
+  ListTypeName = ndb.StringProperty()
+  ListTypeCode = ndb.StringProperty()
+  Description = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
 
 class PageContents(db.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
@@ -42,34 +42,34 @@ class PageContents(db.Model):
   StatusBy = db.UserProperty(auto_current_user=True)
   StatusDate = db.DateTimeProperty(auto_now_add=True)
   
-class Papers(db.Model):
+class Papers(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
-  Title = db.StringProperty()
-  Category = db.StringProperty()
-  Text = db.TextProperty()
-  CreatedBy = db.UserProperty(auto_current_user=True)
-  CreatedDate = db.DateTimeProperty(auto_now_add=True)
-  UpdatedBy = db.UserProperty()
-  UpdatedDate = db.DateTimeProperty()
-  Status = db.StringProperty()
-  StatusBy = db.UserProperty(auto_current_user=True)
-  StatusDate = db.DateTimeProperty(auto_now_add=True)
+  Title = ndb.StringProperty()
+  Category = ndb.StringProperty()
+  Text = ndb.TextProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
-class Comments(db.Model):
+class Comments(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
-  Title = db.StringProperty()
-  RefObjType = db.StringProperty()
-  RefObjID = db.StringProperty()
-  CommentCode = db.StringProperty()
-  IndentClass = db.IntegerProperty()
-  Text = db.TextProperty()
-  CreatedBy = db.UserProperty(auto_current_user=True)
-  CreatedDate = db.DateTimeProperty(auto_now_add=True)
-  UpdatedBy = db.UserProperty()
-  UpdatedDate = db.DateTimeProperty()
-  Status = db.StringProperty()
-  StatusBy = db.UserProperty(auto_current_user=True)
-  StatusDate = db.DateTimeProperty(auto_now_add=True)
+  Title = ndb.StringProperty()
+  RefObjType = ndb.StringProperty()
+  RefObjID = ndb.StringProperty()
+  CommentCode = ndb.StringProperty()
+  IndentClass = ndb.IntegerProperty()
+  Text = ndb.TextProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
 
 class Notes(db.Model):

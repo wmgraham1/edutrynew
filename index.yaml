@@ -28,6 +28,12 @@ indexes:
   - name: RefObjType
   - name: CommentCode
 
+- kind: Comments
+  properties:
+  - name: RefObjType
+  - name: RefObjID
+  - name: CommentCode
+
 - kind: PageContents
   properties:
   - name: LangCode

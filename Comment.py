@@ -17,7 +17,6 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
-
 class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
@@ -49,44 +48,12 @@ class BaseHandler(webapp2.RequestHandler):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
 
-
 class CommentList(BaseHandler):
 
     def get(self):
-        languages = memcache.get("languages")
-        if languages is not None:
-           logging.info("get languages from memcache.")
-        else:
-           languages = Languages.all()
-           logging.info("Can not get languages from memcache.")
-           if not memcache.add("languages", languages, 10):
-               logging.info("Memcache set failed.")
 
-        if self.request.get('langCode'):
-            langCode=self.request.get('langCode')
-            self.session['langCode'] = langCode
-        else:
-            langCode = self.session.get('langCode')
-        if not langCode:
-            self.session['langCode'] = 'en'
-
-        LangName = 'no language'
-        for language in languages:
-            if language.langCode == langCode:
-                langName = language.langName
-
-		#comments = Comments.all()
-		#pagecontents = 'xxx'
-
-        q = Comments.all()
-        #q.filter("RefObjType =", "paper")
-        #q.filter("RefObjID =", iden)
-        #q.order("CommentCode")
-
-        logging.info('QQQ: Comment Comment List before fetch')
-
+        q = Comments.query().order(Comments.RefObjType, Comments.RefObjID, Comments.CommentCode)
         comments = q.fetch(99)
-
 		
         logout = None
         login = None
@@ -95,7 +62,6 @@ class CommentList(BaseHandler):
               logout = users.create_logout_url('/comments' )
         else:
               login = users.create_login_url('/comments')
-#        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'LangName':LangName, 'currentuser':currentuser, 'login':login, 'logout': logout})
         self.render_template('CommentList.html', {'Comments': comments, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
@@ -107,19 +73,8 @@ class CommentCreate(BaseHandler):
         RefObjID=self.request.get('RefObjID')
         CreatedBy = users.get_current_user()
 
-        q = Comments.all()
-        q.filter("RefObjType =", "paper")
-        q.filter("RefObjID =", RefObjID)
-        q.order("-CommentCode")
-
+        q = Comments.query(Comments.RefObjType == 'paper', Comments.RefObjID == paper_id).order(-Comments.CommentCode)
         comments = q.get()
-
-        CommentMax = chr(ord('A') - 1)
-
-#        for comment in comments:
-#            if len(comment.CommentCode) == 1:
-#                if comment.CommentCode > CommentMax:
-#                    CommentMax = comment.CommentCode
 
         try:
             if comments.CommentCode:
@@ -135,32 +90,24 @@ class CommentCreate(BaseHandler):
                 CommentCode=CommentCodeX,
                 IndentClass=len(CommentCodeX),
                 Text=self.request.get('Text'),
-#                Status=self.request.get('Status'),
-                CreatedBy=CreatedBy#,
-#                StatusBy=CreatedBy
-                )
-
-        logging.info('QQQ: Comment Create before put')
+                Status='Published',
+                CreatedBy=CreatedBy,
+                StatusBy=CreatedBy)
         n.put()
-        logging.info('QQQ: Comment Create after put')
 
-        x = self.redirect('/papers')
-        logging.info('QQQ: Comment Create calc x')
-        logging.info('QQQ: x: %s' % x)
+        x = self.redirect('/papers/display/' + paper_id)
         return x
 
     def get(self, paper_id):
         iden = int(paper_id)
-        Paper = db.get(db.Key.from_path('Papers', iden))
+        Paper = ndb.Key('Papers', iden).get()
+
         RefObjType = 'paper'
         RefObjID = paper_id
         mgnwidth = 0
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-
-        jinja_environment = \
-            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
         template_values = {
             'Comment': Paper, 
@@ -177,62 +124,27 @@ class CommentCreate(BaseHandler):
 
         template = jinja_environment.get_template('CommentCreate.html')
         self.response.out.write(template.render(template_values))
-			
-#        self.render_template('CommentCreate.html', {'Comment': Paper, 'RefObjType': RefObjType, 'RefObjID': RefObjID, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
 class CommentSubCreate(BaseHandler):
 
     def post(self, comment_id):
         iden = int(comment_id)
-        Comment = db.get(db.Key.from_path('Comments', iden))
-        logging.info('QQQ: CommentSub Create POST')
+        Comment = ndb.Key('Comments', iden).get()
 
         RefObjID=self.request.get('RefObjID')
-
-
-        q = Comments.all()
-        q.filter("RefObjType =", "paper")
-        q.filter("RefObjID =", RefObjID)
-        q.order("-CommentCode")
-
+        q = Comments.query(Comments.RefObjType == 'paper', Comments.RefObjID == RefObjID).order(-Comments.CommentCode)
         comments = q.fetch(99)
 
         CommentCodeLen = len(Comment.CommentCode)
-        logging.info('QQQ: CommentCodeLen: %d' % CommentCodeLen)
         commentCodeEndPos = CommentCodeLen
-        logging.info('QQQ: commentCodeEndPos: %d' % commentCodeEndPos)
-
         CommentCodeMax = chr(ord('A') - 1)
         SubCommentCnt = 0
-        logging.info('QQQ: SubCommentCnt: %d' % SubCommentCnt)
-        logging.info('QQQ: Comment.CommentCode: %s' % Comment.CommentCode)
         for subcomment in comments:
-            logging.info('QQQ: subcomment.CommentCode[0:commentCodeEndPos]: %s' % subcomment.CommentCode[0:commentCodeEndPos])
-            logging.info('QQQ: subcomment.CommentCode: %s' % subcomment.CommentCode)
             if subcomment.CommentCode[0:commentCodeEndPos] == Comment.CommentCode:
-                logging.info('QQQ: in if subcomment.CommentCode[0:commentCodeEndPos] == subcomment.CommentCode')
-                logging.info('QQQ: len(subcomment.CommentCode): %s' % len(subcomment.CommentCode))
                 if len(subcomment.CommentCode) == (CommentCodeLen+1):
-                    logging.info('QQQ: in if len(subcomment.CommentCode) == (CommentCodeLen+1)')
                     SubCommentCnt = SubCommentCnt + 1
-                    logging.info('QQQ: SubCommentCnt: %s' % SubCommentCnt)
                     if subcomment.CommentCode[CommentCodeLen] > CommentCodeMax:
-                        logging.info('QQQ: in if subcomment.CommentCode[CommentCodeLen] > CommentCodeMax')
                         CommentCodeMax = subcomment.CommentCode[CommentCodeLen]
-                        logging.info('QQQ: CommentCodeMax: %s' % CommentCodeMax)
-
-        logging.info('QQQ: SubCommentCnt: %d' % SubCommentCnt)
-
-        logging.info('QQQ: CommentCodeMax: %s' % CommentCodeMax)
-					
-#                if comment.CommentCode > CommentMax:
-#                    CommentMax = comment.CommentCode
-#        if CommentMax == chr(ord('A') - 1):
-#		    CommentMax = 'A'
-#        if comments.CommentCode:
-#            CommentCodeX = chr(ord(comments.CommentCode) + 1)
-#        else:
-#            CommentCodeX = 'A'
 
         if SubCommentCnt == 0:
             SubCommentCode = Comment.CommentCode + 'A'
@@ -244,41 +156,27 @@ class CommentSubCreate(BaseHandler):
         RefObjID=self.request.get('RefObjID')
         CreatedBy = users.get_current_user()
 
-
-#        if comments.CommentCode:
-#            CommentCodeX = chr(ord(comments.CommentCode) + 1)
-#        else:
-#            CommentCodeX = 'A'
-
         n = Comments(Title=self.request.get('Title'),
                 RefObjType=self.request.get('RefObjType'),
                 RefObjID=RefObjID,
                 CommentCode=SubCommentCode,
                 IndentClass=len(SubCommentCode),
                 Text=self.request.get('Text'),
-#                Status=self.request.get('Status'),
-                CreatedBy=CreatedBy#,
-#                StatusBy=CreatedBy
-                )
-
-        logging.info('QQQ: CommentSub Create before put')
+                Status='Published',
+                CreatedBy=CreatedBy,
+                StatusBy=CreatedBy)
         n.put()
-        logging.info('QQQ: CommentSub Create after put')
 
-        x = self.redirect('/papers')
-        logging.info('QQQ: CommentSub Create calc x')
-        logging.info('QQQ: x: %s' % x)
-        return x
+        return self.redirect('/papers/display/' + RefObjID)
 
     def get(self, comment_id):
         iden = int(comment_id)
-        Comment = db.get(db.Key.from_path('Comments', iden))
+        Comment = ndb.Key('Comments', iden).get()
+
         RefObjType = Comment.RefObjType
         RefObjID = Comment.RefObjID
         mgnwidth = 0
-        #template_values = {
-        #    'Comment': Comment,
-        #    }
+
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
 
@@ -300,38 +198,12 @@ class CommentSubCreate(BaseHandler):
 
         template = jinja_environment.get_template('CommentCreate.html')
         self.response.out.write(template.render(template_values))
-			
-#        self.render_template('CommentCreate.html', {'Comment': Comment, 'RefObjType': RefObjType, 'RefObjID': RefObjID, 'StatusList': StatusList, 'CategoryList': CategoryList})
-
-class CommentDisplay(BaseHandler):
-
-    def get(self, paper_id):
-        iden = int(paper_id)
-        Paper = db.get(db.Key.from_path('Papers', iden))
-        template_values = {
-            'Paper': Paper,
-            'Title': Paper.Title,
-            'content1': Paper.Text}
-
-        #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
-        jinja_environment = \
-            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
-
-        template = jinja_environment.get_template('PaperDisplay.html')
-        self.response.out.write(template.render(template_values))
-		
-		
-		
-        #StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        #CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-        #self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
-        #self.render_template('PaperDisplay.html', {'Paper': Paper})
 
 class CommentEdit(BaseHandler):
 
     def post(self, comment_id):
         iden = int(comment_id)
-        Comment = db.get(db.Key.from_path('Comments', iden))
+        Comment = ndb.Key('Comments', iden).get()
         currentuser = users.get_current_user()
         Comment.Title = self.request.get('Title')
         Comment.RefObjType = self.request.get('RefObjType')
@@ -351,7 +223,7 @@ class CommentEdit(BaseHandler):
 
     def get(self, comment_id):
         iden = int(comment_id)
-        Comment = db.get(db.Key.from_path('Comments', iden))
+        Comment = ndb.Key('Comments', iden).get()
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
         self.render_template('CommentEdit.html', {'Comment': Comment, 'StatusList': StatusList, 'CategoryList': CategoryList})
@@ -360,6 +232,6 @@ class CommentDelete(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
-        comment = db.get(db.Key.from_path('Comments', iden))
-        db.delete(comment)
+        Comment = ndb.Key('Comments', iden).get()
+        Comment.key.delete()
         return self.redirect('/comments')

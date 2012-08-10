@@ -31,7 +31,7 @@
 	  <td> {{ Comment.StatusDate }} </td>
 	  <td> {{ Comment.CreatedDate }} </td>
 	  <td> {{ Comment.CreatedBy }} </td>
-	  <td><a href ="/comments/edit/{{ Comment.key().id() }}">edit </a></td>
+	  <td><a href ="/comments/edit/{{ Comment.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

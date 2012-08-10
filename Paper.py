@@ -17,7 +17,6 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
-
 class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
@@ -53,35 +52,7 @@ class BaseHandler(webapp2.RequestHandler):
 class PaperList(BaseHandler):
 
     def get(self):
-        languages = memcache.get("languages")
-        if languages is not None:
-           logging.info("get languages from memcache.")
-        else:
-           languages = Languages.all()
-           logging.info("Can not get languages from memcache.")
-           if not memcache.add("languages", languages, 10):
-               logging.info("Memcache set failed.")
-
-        if self.request.get('langCode'):
-            langCode=self.request.get('langCode')
-            self.session['langCode'] = langCode
-        else:
-            langCode = self.session.get('langCode')
-        if not langCode:
-            self.session['langCode'] = 'en'
-
-        LangName = 'no language'
-        for language in languages:
-            if language.langCode == langCode:
-                langName = language.langName
-
-#        q = db.GqlQuery("SELECT * FROM PageContents " + 
-#                "WHERE langCode = :1 " +
-#                "ORDER BY TemplateName ASC",
-#                "en")
-#        pagecontents = q.fetch(999)
-		papers = Papers.all()
-		#pagecontents = 'xxx'
+        papers = Papers.query()
  
         logout = None
         login = None
@@ -90,15 +61,12 @@ class PaperList(BaseHandler):
               logout = users.create_logout_url('/pagecontents' )
         else:
               login = users.create_login_url('/pagecontents/create')
-#        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'LangName':LangName, 'currentuser':currentuser, 'login':login, 'logout': logout})
         self.render_template('PaperList.html', {'papers': papers, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class PaperCreate(BaseHandler):
 
     def post(self):
-        logging.info('QQQ: PaperCreate POST')
-        #return webapp2.redirect('/papers')
         CreatedBy = users.get_current_user()
 	
         n = Papers(Title=self.request.get('Title'),
@@ -106,23 +74,10 @@ class PaperCreate(BaseHandler):
                 Text=self.request.get('Text'),
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
-                StatusBy=CreatedBy
-                )
-
-        logging.info('QQQ: PaperCreate before put')
+                StatusBy=CreatedBy)
         n.put()
-        logging.info('QQQ: PaperCreate after put')
 
-#<<<<<<< HEAD
-        # x = webapp2.redirect('/pagecontents/')
-        x = self.redirect('/papers')
-        logging.info('QQQ: x: %s' % x)
-        return x
-#=======
-#       return webapp2.redirect('/pagecontents')
-#       #return webapp2.redirect('/templates')
-
-#>>>>>>> 0a84a8345dcf5aeb86cca24885ee2d44be5ffce1
+        return self.redirect('/papers')
 
     def get(self):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
@@ -133,28 +88,15 @@ class PaperDisplay(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
-        Paper = db.get(db.Key.from_path('Papers', iden))
+        Paper = ndb.Key('Papers', iden).get()
 
-        q = Comments.all()
-        q.filter("RefObjType =", "paper")
-        q.filter("RefObjID =", paper_id)
-        q.order("CommentCode")
-
-        logging.info('QQQ: Comment Paper Display before fetch')
-
+        q = Comments.query(Comments.RefObjType == 'paper', Comments.RefObjID == paper_id).order(Comments.CommentCode)
         comments = q.fetch(99)
-
-#        commentlist = {}
-#        i = -1
-#        for commenty in comments:
-#            i = i + 1
-#            commentlist[commenty.CommentCode] = len(commenty.CommentCode)
 
         template_values = {
             'Paper': Paper, 
             'Comments': comments,
-#            'CommentList': commentlist,
-			'iden': iden
+			'iden': paper_id
             }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -164,16 +106,11 @@ class PaperDisplay(BaseHandler):
         template = jinja_environment.get_template('PaperDisplay.html')
         self.response.out.write(template.render(template_values))
 
-        #StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        #CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-        #self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
-        #self.render_template('PaperDisplay.html', {'Paper': Paper})
-
 class PaperEdit(BaseHandler):
 
     def post(self, paper_id):
         iden = int(paper_id)
-        paper = db.get(db.Key.from_path('Papers', iden))
+        paper = ndb.Key('Papers', iden).get()
         currentuser = users.get_current_user()
         paper.Title = self.request.get('Title')
         paper.Category = self.request.get('Category')
@@ -190,7 +127,7 @@ class PaperEdit(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
-        Paper = db.get(db.Key.from_path('Papers', iden))
+        Paper = ndb.Key('Papers', iden).get()
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
         self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
@@ -199,6 +136,6 @@ class PaperDelete(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
-        paper = db.get(db.Key.from_path('Papers', iden))
-        db.delete(paper)
+        paper = ndb.Key('Papers', iden).get()
+        ndb.delete(paper)
         return self.redirect('/papers')

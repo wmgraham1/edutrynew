@@ -27,7 +27,7 @@ import contactpage
 from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
-from Comment import CommentList, CommentDisplay, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
+from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete

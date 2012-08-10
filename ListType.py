@@ -3,6 +3,7 @@ import os
 import webapp2
 from datetime import datetime
 from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 from models import ListTypes
@@ -31,7 +32,8 @@ class BaseHandler(webapp2.RequestHandler):
 class ListTypeList(BaseHandler):
 
     def get(self):
-        listtypes = ListTypes.all()
+#        listtypes = ListTypes.all()
+        listtypes = ListTypes.query()
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -64,7 +66,9 @@ class ListTypeEdit(BaseHandler):
 
     def post(self, listtype_id):
         iden = int(listtype_id)
-        listtypes = db.get(db.Key.from_path('ListTypes', iden))
+
+        #listtypes = ndb.get(ndb.Key.from_path('ListTypes', iden))
+        listtypes = ndb.Key('ListTypes', iden).get()
         currentuser = users.get_current_user()
 
         listtypes.ListTypeName = self.request.get('ListTypeName')
@@ -73,9 +77,10 @@ class ListTypeEdit(BaseHandler):
         listtypes.put()
         return webapp2.redirect('/listtypes')
 
-    def get(self, lang_id):
-        iden = int(lang_id)
-        listtypes = db.get(db.Key.from_path('ListTypes', iden))
+    def get(self, listtype_id):
+        iden = int(listtype_id)
+        listtype = ndb.Key('ListTypes', iden).get()
+
         currentuser = users.get_current_user()
 
         logout = None
@@ -85,15 +90,15 @@ class ListTypeEdit(BaseHandler):
               logout = users.create_logout_url('/listtypes' )
         else:
               login = users.create_login_url('/listtypes')
-        self.render_template('LangEdit.html', {'listtypes': listtypes,'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('ListTypeEdit.html', {'listtype': listtype,'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class ListTypeDelete(BaseHandler):
 
-    def get(self, lang_id):
-        iden = int(lang_id)
-        listtypes = db.get(db.Key.from_path('ListTypes', iden))
-        currentuser = users.get_current_user()
+    def get(self, listtype_id):
+        iden = int(listtype_id)
+        listtype = ndb.Key('ListTypes', iden).get()
 
-        db.delete(listtypes)
+#        ndb.delete(listtype)
+        listtype.key.delete()
         return webapp2.redirect('/listtypes')
