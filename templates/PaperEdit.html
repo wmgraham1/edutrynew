@@ -4,6 +4,16 @@
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
+      <label for="id_cat">Cat Code</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="cat" id="id_cat" value="{{ cat }}" />
+	  {{ cat }}
+    </div>
+  </div>
+  
+  <div class="field-wrapper">
+    <div class="field-label">
       <label for="id_Title">Title</label>:
     </div>
     <div class="field-field">
@@ -70,7 +80,7 @@
    <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/papers/delete/{{ Paper.key.id() }}";'>
-  <a href ="/papers/delete/{{ Paper.key.id() }}">Delete Paper</a>
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/papers/delete/{{ Paper.key.id() }}/?cat={{cat}}";'>
+  <a href ="/papers/delete/{{Paper.key.id()}}/?cat={{cat}}">Delete Paper</a>
 </form>
 {% endblock content %}

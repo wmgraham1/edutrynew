@@ -4,6 +4,16 @@
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
+      <label for="id_cat">Cat Code</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="cat" id="id_cat" value="{{ cat }}" />
+	  {{ cat }}
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
       <label for="id_Title">Title</label>:
     </div>
     <div class="field-field">

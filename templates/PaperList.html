@@ -1,8 +1,7 @@
 {% extends "page_template.html" %}
 {% block content %}
-<br/>
-<h2 style="text-align: center;">List of Papers</h2>
-<p><a href="/papers/create">Add New Paper</a> </p>
+<h2 style="text-align: center;">Papers for Category: {{CatName}}</h2>
+<p><a href="/papers/create/?cat={{cat}}">Add New Paper</a> </p>
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
@@ -25,11 +24,11 @@
 	  <td> {{ paper.StatusDate }} </td>
 	  <td> {{ paper.CreatedDate }} </td>
 	  <td> {{ paper.CreatedBy }} </td>
-	  <td><a href ="/papers/edit/{{ paper.key.id() }}">edit </a></td>
+	  <td><a href ="/papers/edit/{{paper.key.id()}}/?cat={{cat}}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>
 </table>
 
-<p><a href="/papers/create">Add New Paper</a> </p>
+<p><a href="/papers/create/?cat={{cat}}">Add New Paper</a> </p>
 {% endblock content %}

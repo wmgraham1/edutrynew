@@ -55,15 +55,20 @@ class PaperList(BaseHandler):
         logging.info("Now in PaperList get.")
 
         if category == 'resources':
-            q = Papers.query(Papers.Category == 'Learning Resources').order(-Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Learning Resources').order(Papers.CreatedDate)
+            CatName = 'Learning Resources'
         elif category == 'platform':
-            q = Papers.query(Papers.Category == 'Learning Platform').order(-Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Learning Platform').order(Papers.CreatedDate)
+            CatName = 'Learning Platform'
         elif category == 'learners':
-            q = Papers.query(Papers.Category == 'Winning Students').order(-Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Winning Students').order(Papers.CreatedDate)
+            CatName = 'Learners and Programs'
         elif category == 'misc':
-            q = Papers.query(Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, -Papers.CreatedDate)
+            q = Papers.query(Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, Papers.CreatedDate)
+            CatName = 'Miscellaneous'
         else:
-			q = Papers.query().order(-Papers.CreatedDate)
+            q = Papers.query().order(Papers.CreatedDate)
+            CatName = 'All'
 
         papers = q.fetch(99)
 		
@@ -74,14 +79,14 @@ class PaperList(BaseHandler):
               logout = users.create_logout_url('/pagecontents' )
         else:
               login = users.create_login_url('/pagecontents/create')
-        self.render_template('PaperList.html', {'papers': papers, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('PaperList.html', {'papers': papers, 'cat': category, 'CatName': CatName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class PaperCreate(BaseHandler):
 
     def post(self):
         CreatedBy = users.get_current_user()
-	
+        cat=self.request.get('cat')	
         n = Papers(Title=self.request.get('Title'),
                 Category=self.request.get('Category'),
                 Text=self.request.get('Text'),
@@ -90,13 +95,14 @@ class PaperCreate(BaseHandler):
                 StatusBy=CreatedBy)
         n.put()
 
-        return self.redirect('/papers')
+        return self.redirect('/papers/' + cat)
 
     def get(self):
+        cat=self.request.get('cat')	
         logging.info("Now in PaperCreate get.")
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances'];
-        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'CategoryList': CategoryList})
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
+        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'cat': cat, 'CategoryList': CategoryList})
 
 class PaperDisplay(BaseHandler):
 
@@ -126,6 +132,7 @@ class PaperEdit(BaseHandler):
         iden = int(paper_id)
         paper = ndb.Key('Papers', iden).get()
         currentuser = users.get_current_user()
+        cat=self.request.get('cat')	
         paper.Title = self.request.get('Title')
         paper.Category = self.request.get('Category')
         paper.Text = self.request.get('Text')
@@ -137,19 +144,21 @@ class PaperEdit(BaseHandler):
             paper.StatusBy = currentuser
             paper.StatusDate = datetime.now()            
         paper.put()
-        return self.redirect('/papers')
+        return self.redirect('/papers/' + cat)
 
     def get(self, paper_id):
         iden = int(paper_id)
         Paper = ndb.Key('Papers', iden).get()
+        cat=self.request.get('cat')	
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
-        self.render_template('PaperEdit.html', {'Paper': Paper, 'StatusList': StatusList, 'CategoryList': CategoryList})
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
+        self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
 class PaperDelete(BaseHandler):
 
     def get(self, paper_id):
         iden = int(paper_id)
+        cat=self.request.get('cat')	
         paper = ndb.Key('Papers', iden).get()
-        ndb.delete(paper)
-        return self.redirect('/papers')
+        paper.key.delete()
+        return self.redirect('/papers/' + cat)

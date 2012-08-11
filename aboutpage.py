@@ -4,6 +4,7 @@ import webapp2
 import logging
 from datetime import datetime
 from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
@@ -55,18 +56,10 @@ class ViewAboutPage(BaseHandler):
             logging.info("got PageContentList from memcache.")
         else:
             logging.info("Can not get PageContentList from memcache.")
-            PageContent = PageContents.all()
-            PageContentList = {}
-			
-        PageContentList = memcache.get("PageContentList")
-        if PageContentList is not None:
-            logging.info("got PageContentList from memcache.")
-        else:
-            logging.info("Can not get PageContentList from memcache.")
-            PageContent = PageContents.all()
+            PageContent = PageContents.query()
             PageContentList = {}
             for PageCntnt in PageContent:
-                PageContentList[PageCntnt.TemplateName] = PageCntnt.key().id()
+                PageContentList[PageCntnt.TemplateName] = PageCntnt.key.id()
             if not memcache.add("PageContentList", PageContentList, 10):
                 logging.info("Memcache set failed.")
             else:
@@ -83,7 +76,8 @@ class ViewAboutPage(BaseHandler):
         if PageContentList.has_key('about-us'):
             template_id = (PageContentList['about-us'])
             iden = int(template_id)
-            PageContent = db.get(db.Key.from_path('PageContents', iden))
+#            PageContent = db.get(db.Key.from_path('PageContents', iden))
+            PageContent = ndb.Key('PageContents', iden).get()
 
 
             template_values = {
