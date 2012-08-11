@@ -52,7 +52,7 @@ app = webapp2.WSGIApplication([
     ('/pagecontents/create', PageContentCreate), 
     ('/pagecontents/edit/([\d]+)', PageContentEdit), 
     ('/pagecontents/delete/([\d]+)', PageContentDelete), 
-    ('/papers', PaperList),
+    ('/papers/([\w]+)', PaperList),
     ('/papers/display/([\d]+)', PaperDisplay), 
     ('/papers/create', PaperCreate), 
     ('/papers/edit/([\d]+)', PaperEdit),
@@ -85,21 +85,11 @@ app = webapp2.WSGIApplication([
     ('/templates/edit/([\d]+)', TemplateEdit),
     ('/templates/delete/([\d]+)', TemplateDelete)
 	],
-								config=config)
-#							  debug=True)
-		  
+                config=config,
+                debug=True)
 
+def main():
+    run_wsgi_app(app)
 
-# below is the code that worked with Python (not 2.7)
-#application = webapp2.WSGIApplication([
-#	('/', homepage.ViewHomePage),
-#	('/about', aboutpage.ViewAboutPage),
-#	('/content', pageadmin.ViewContentPage)
-#	],
-#                              debug=True)
-							  
-#def main():
-#    run_wsgi_app(application)
-
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()

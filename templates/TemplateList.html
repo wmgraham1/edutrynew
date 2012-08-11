@@ -31,7 +31,7 @@
 	  <td> {{ templates.Status }} </td>
 	  <td> {{ templates.StatusDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ templates.StatusBy }} </td>
-	  <td><a href ="/templates/edit/{{ templates.key().id() }}">edit </a></td>
+	  <td><a href ="/templates/edit/{{ templates.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

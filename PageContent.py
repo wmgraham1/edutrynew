@@ -56,7 +56,7 @@ class PageContentList(BaseHandler):
         if languages is not None:
            logging.info("get languages from memcache.")
         else:
-           languages = Languages.all()
+           languages = Languages.query()
            logging.info("Can not get languages from memcache.")
            if not memcache.add("languages", languages, 10):
                logging.info("Memcache set failed.")
@@ -74,21 +74,10 @@ class PageContentList(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
-#        q = db.GqlQuery("SELECT * FROM PageContents " + 
-#                "WHERE langCode = :1 " +
-#                "ORDER BY TemplateName ASC",
-#                "en")
-#        pagecontents = q.fetch(999)
-		pagecontents = PageContents.all()
+		pagecontents = PageContents.query()
 
-#<<<<<<< HEAD
-#        logging.info('QQQ: PageContents.all(): %s' % PageContents.all())
-        #logging.info('QQQ: pagecontents: %s' % pagecontents)
         if not pagecontents:
 		    pagecontents = 'xxx'
-#=======
-		#pagecontents = 'xxx'
-#>>>>>>> Prep for uploading Paper kind
  
         logout = None
         login = None
@@ -97,12 +86,7 @@ class PageContentList(BaseHandler):
               logout = users.create_logout_url('/pagecontents' )
         else:
               login = users.create_login_url('/pagecontents/create')
-#        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'LangName':LangName, 'currentuser':currentuser, 'login':login, 'logout': logout})
         self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'currentuser':currentuser, 'login':login, 'logout': logout})
-#<<<<<<< HEAD
-        # self.render_template('PageContentList.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
-#=======
-#>>>>>>> Prep for uploading Paper kind
 
 
 class PageContentCreate(BaseHandler):
@@ -125,16 +109,9 @@ class PageContentCreate(BaseHandler):
         n.put()
         logging.info('QQQ: PageContentCreate after put')
 
-#<<<<<<< HEAD
-        # x = webapp2.redirect('/pagecontents/')
         x = self.redirect('/pagecontents')
         logging.info('QQQ: x: %s' % x)
         return x
-#=======
-#       return webapp2.redirect('/pagecontents')
-#       #return webapp2.redirect('/templates')
-
-#>>>>>>> 0a84a8345dcf5aeb86cca24885ee2d44be5ffce1
 
     def get(self):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
@@ -145,7 +122,8 @@ class PageContentEdit(BaseHandler):
 
     def post(self, pagecontent_id):
         iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
+#        PageContent = db.get(db.Key.from_path('PageContents', iden))
+        PageContent = ndb.Key('PageContents', iden).get()
         currentuser = users.get_current_user()
         PageContent.TemplateName = self.request.get('TemplateName')
         PageContent.LangCode = self.request.get('LangCode')
@@ -163,7 +141,8 @@ class PageContentEdit(BaseHandler):
 
     def get(self, pagecontent_id):
         iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
+#        PageContent = db.get(db.Key.from_path('PageContents', iden))
+        PageContent = ndb.Key('PageContents', iden).get()
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         self.render_template('PageContentEdit.html', {'PageContent': PageContent, 'StatusList': StatusList})
 
@@ -172,6 +151,8 @@ class PageContentDelete(BaseHandler):
 
     def get(self, pagecontent_id):
         iden = int(pagecontent_id)
-        PageContent = db.get(db.Key.from_path('PageContents', iden))
-        db.delete(PageContent)
+        PageContent = ndb.Key('PageContents', iden).get()
+#        PageContent = db.get(db.Key.from_path('PageContents', iden))
+#        db.delete(PageContent)
+        PageContent.key.delete()
         return self.redirect('/pagecontents')

@@ -3,6 +3,7 @@ import os
 import webapp2
 from datetime import datetime
 from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 from models import Templates
@@ -30,7 +31,7 @@ class TemplateBaseHandler(webapp2.RequestHandler):
 class TemplateList(TemplateBaseHandler):
 
     def get(self):
-        templates = Templates.all()
+        templates = Templates.query()
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -50,13 +51,8 @@ class TemplateCreate(TemplateBaseHandler):
                   , FileName=self.request.get('FileName')
                   , Description=self.request.get('Description')
                   , Status=self.request.get('Status')
-                  #, CreatedBy=users.get_current_user()
-                  #, StatusBy=users.get_current_user()
-                  #, StatusDate=datetime.now() # datetime.datetime.utcnow() - datetime.timedelta(hours = 5) for East Coast United States
                   )
-        #logging.error('QQQ: templatecreate before put')
         n.put()
-        #logging.error('QQQ: templatecreate after put')
         return webapp2.redirect('/templates')
 
     def get(self):
@@ -77,7 +73,7 @@ class TemplateEdit(TemplateBaseHandler):
 
     def post(self, template_id):
         iden = int(template_id)
-        template = db.get(db.Key.from_path('Templates', iden))
+        template = ndb.Key('Templates', iden).get()
         currentuser = users.get_current_user()
         if currentuser != template.CreatedBy and not users.is_current_user_admin():
             self.abort(403)
@@ -86,13 +82,17 @@ class TemplateEdit(TemplateBaseHandler):
         template.TemplateType = self.request.get('TemplateType')
         template.FileName = self.request.get('FileName')
         template.Description = self.request.get('Description')
+        StatusPrev = template.Status
         template.Status = self.request.get('Status')
+        if not template.Status == StatusPrev:
+            template.StatusBy = currentuser
+            template.StatusDate = datetime.now()    
         template.put()
         return webapp2.redirect('/templates')
 
     def get(self, template_id):
         iden = int(template_id)
-        template = db.get(db.Key.from_path('Templates', iden))
+        template = ndb.Key('Templates', iden).get()
         currentuser = users.get_current_user()
         if currentuser != template.CreatedBy and not users.is_current_user_admin():
             self.abort(403)
@@ -113,10 +113,10 @@ class TemplateDelete(TemplateBaseHandler):
 
     def get(self, template_id):
         iden = int(template_id)
-        template = db.get(db.Key.from_path('Templates', iden))
+        template = ndb.Key('Templates', iden).get()
         currentuser = users.get_current_user()
         if currentuser != template.CreatedBy and not users.is_current_user_admin():
             self.abort(403)
             return
-        db.delete(template)
+        template.key.delete()
         return webapp2.redirect('/templates')

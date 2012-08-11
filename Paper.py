@@ -51,9 +51,22 @@ class BaseHandler(webapp2.RequestHandler):
 
 class PaperList(BaseHandler):
 
-    def get(self):
-        papers = Papers.query()
- 
+    def get(self, category):
+        logging.info("Now in PaperList get.")
+
+        if category == 'resources':
+            q = Papers.query(Papers.Category == 'Learning Resources').order(-Papers.CreatedDate)
+        elif category == 'platform':
+            q = Papers.query(Papers.Category == 'Learning Platform').order(-Papers.CreatedDate)
+        elif category == 'learners':
+            q = Papers.query(Papers.Category == 'Winning Students').order(-Papers.CreatedDate)
+        elif category == 'misc':
+            q = Papers.query(Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, -Papers.CreatedDate)
+        else:
+			q = Papers.query().order(-Papers.CreatedDate)
+
+        papers = q.fetch(99)
+		
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -80,8 +93,9 @@ class PaperCreate(BaseHandler):
         return self.redirect('/papers')
 
     def get(self):
+        logging.info("Now in PaperCreate get.")
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Recruiting Volunteers'];
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances'];
         self.render_template('PaperCreate.html', {'StatusList': StatusList, 'CategoryList': CategoryList})
 
 class PaperDisplay(BaseHandler):

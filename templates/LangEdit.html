@@ -7,7 +7,7 @@
       <label for="id_template">Language</label>:
     </div>
     <div class="field-field">
-        <input type="hidden" name="langName" id="id_langName" value="{{ lang.templateName }}" />
+        <input type="text" name="langName" id="id_langName" value="{{ lang.langName }}" />
 	    {{ lang.langName }}
     </div>
   </div>
@@ -35,8 +35,8 @@
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/langs/langDelete/{{ lang.key().id() }}";'>
-  <a href ="/langs/delete/{{ lang.key().id() }}">Delete Language</a>
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/langs/langDelete/{{ lang.key.id() }}";'>
+  <a href ="/langs/delete/{{ lang.key.id() }}">Delete Language</a>
 </form>
 
 {% endblock content %}

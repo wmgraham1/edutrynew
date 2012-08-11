@@ -21,7 +21,7 @@
 	  <td> {{ token.tknValue }} </td>
 	  <td> {{ token.date.strftime('%Y-%m-%d')  }} </td>
 	  <td> {{ token.whichuser }} </td>
-	  <td><a href ="/tokens/edit/{{ token.key().id() }}">edit </a></td>
+	  <td><a href ="/tokens/edit/{{ token.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

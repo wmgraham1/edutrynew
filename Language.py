@@ -3,6 +3,7 @@ import os
 import webapp2
 from datetime import datetime
 from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 from models import Languages
@@ -31,7 +32,7 @@ class LangBaseHandler(webapp2.RequestHandler):
 class LangList(LangBaseHandler):
 
     def get(self):
-        languages = Languages.all()
+        languages = Languages.query()
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -64,7 +65,8 @@ class LangEdit(LangBaseHandler):
 
     def post(self, lang_id):
         iden = int(lang_id)
-        lang = db.get(db.Key.from_path('Languages', iden))
+        lang = ndb.Key('Languages', iden).get()
+#        lang = db.get(db.Key.from_path('Languages', iden))
         currentuser = users.get_current_user()
 
         lang.langName = self.request.get('langName')
@@ -75,7 +77,8 @@ class LangEdit(LangBaseHandler):
 
     def get(self, lang_id):
         iden = int(lang_id)
-        lang = db.get(db.Key.from_path('Languages', iden))
+#        lang = db.get(db.Key.from_path('Languages', iden))
+        lang = ndb.Key('Languages', iden).get()
         currentuser = users.get_current_user()
 
         logout = None
@@ -92,8 +95,9 @@ class LangDelete(LangBaseHandler):
 
     def get(self, lang_id):
         iden = int(lang_id)
-        lang = db.get(db.Key.from_path('Languages', iden))
+#        lang = db.get(db.Key.from_path('Languages', iden))
+        lang = ndb.Key('Languages', iden).get()
         currentuser = users.get_current_user()
-
-        db.delete(lang)
+        lang.key.delete()
+#        db.delete(lang)
         return webapp2.redirect('/langs')

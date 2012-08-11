@@ -34,6 +34,11 @@ indexes:
   - name: RefObjID
   - name: CommentCode
 
+- kind: Languages
+  properties:
+  - name: langCode
+  - name: langName
+
 - kind: PageContents
   properties:
   - name: LangCode
@@ -43,6 +48,12 @@ indexes:
   properties:
   - name: langCode
   - name: TemplateName
+
+- kind: Papers
+  properties:
+  - name: Category
+  - name: CreatedDate
+    direction: desc
 
 - kind: TokenValues
   properties:
@@ -56,3 +67,8 @@ indexes:
   - name: templateName
   - name: tknID
     direction: desc
+
+- kind: TokenValues
+  properties:
+  - name: langCode
+  - name: tknID
