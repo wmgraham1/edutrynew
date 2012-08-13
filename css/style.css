@@ -189,9 +189,10 @@ border-bottom:dashed 1px #DD6A6A;
 }
 
 #header_side ul li {
-	width:			12em;
+	width:			8em;
 	float:			left;
 	list-style: 		none;
+	text-align:right;
 
 }
 
