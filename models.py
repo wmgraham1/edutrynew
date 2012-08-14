@@ -86,6 +86,19 @@ class TokenValues(ndb.Model):
   status = ndb.StringProperty()  
   statusDate = ndb.DateTimeProperty(auto_now_add=True)
   statusBy = ndb.UserProperty(auto_current_user=True)
+
+class UserSuppl(ndb.Model):
+  UserID = ndb.UserProperty(auto_current_user=True)
+  FirstName = ndb.StringProperty()
+  LastName = ndb.StringProperty()
+  Descr = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedDate = ndb.DateTimeProperty()
+  UpdatedBy = ndb.UserProperty()
+  Status = ndb.StringProperty()  
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  StatusBy = ndb.UserProperty(auto_current_user=True)
   
 class Notes(db.Model):
   author = db.StringProperty()

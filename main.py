@@ -14,9 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import jinja2
+import webapp2
+import os
+import logging
+from google.appengine.ext import ndb
+from wtforms.ext.appengine.ndb import model_form
+from webapp2_extras import sessions
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import webapp2
 import homepage
 import pageadmin
 import aboutpage
@@ -28,10 +34,12 @@ from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
+from User import UserList, UserCreate, UserEdit, UserDelete
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
+
 
 
 # Below code is what the original exercise included
@@ -48,6 +56,10 @@ app = webapp2.WSGIApplication([
 	('/about', aboutpage.ViewAboutPage),
 	('/content', pageadmin.ViewContentPage),
 	('/contact', contactpage.ViewContactPage),
+    ('/users', UserList),
+    ('/users/create', UserCreate), 
+    ('/users/edit/([\d]+)', UserEdit), 
+    ('/users/delete/([\d]+)', UserDelete), 
     ('/pagecontents', PageContentList),
     ('/pagecontents/create', PageContentCreate), 
     ('/pagecontents/edit/([\d]+)', PageContentEdit), 

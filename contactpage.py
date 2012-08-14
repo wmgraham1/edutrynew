@@ -34,6 +34,8 @@ class ViewContactPage(BaseHandler):
     def get(self):
         foo = self.session.get('langCode')
 
+        html = 'This is the contact page.  The current language is '
+
         template_values = {
             'content1': html + foo
         }

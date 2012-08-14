@@ -1,0 +1,42 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Users</h2>
+<p><a href="/users/create">Add New User</a></p> 
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>UserID</th>
+      <th>LastName</th>
+      <th>FirstName</th>
+      <th>Description</th>
+	  <th>Created Date</th>
+      <th>Created By</th>
+      <th>Status</th>
+      <th>Status Date</th>
+      <th>Status By</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in user %}
+	<tr>
+	  <td> {{ user.UserID }} </td>
+	  <td> {{ user.LastName }} </td>
+	  <td> {{ user.FirstName }} </td>
+	  <td> {{ user.Descr }} </td>
+	  <td> {{ user.CreatedDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ user.CreatedBy }} </td>
+	  <td> {{ user.Status }} </td>
+	  <td> {{ user.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ user.StatusBy }} </td>
+	  <td><a href ="/users/edit/{{ user.key.id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+<p><a href="/user/create">Add New User</a></p> 
+
+{% endblock content %}

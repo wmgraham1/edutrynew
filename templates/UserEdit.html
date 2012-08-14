@@ -1,0 +1,66 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_UserID">UserID</label>:
+    </div>
+    <div class="field-field">
+	  <input type="hidden" name="UserID" id="id_UserID" value="{{ currentuser }}" />
+	  {{ currentuser }}
+    </div>
+  </div>
+
+   <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_FirstName">First Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="FirstName" id="id_FirstName" value="{{ user.FirstName }}"/>
+    </div>
+  </div>
+
+   <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LastName">Last Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="LastName" id="id_LastName" value="{{ user.LastName }}"/>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Descr">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Descr" id="id_Descr" value="{{ user.Descr }}" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == user.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+  
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/users/Delete/{{ user.key.id() }}";'>
+  <a href ="/users/delete/{{ user.key.id() }}">Delete User</a>
+</form>
+
+{% endblock content %}
