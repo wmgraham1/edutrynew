@@ -17,6 +17,8 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
+- url: /images
+  static_dir: images
   
 - url: /notes/create
   script: main.app

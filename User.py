@@ -1,10 +1,13 @@
 import jinja2
 import os
 import webapp2
+import logging
 from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from webapp2_extras import sessions
+from google.appengine.api import memcache
 
 from models import UserSuppl
 
@@ -27,6 +30,22 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
+
 
 class UserList(BaseHandler):
 
@@ -36,10 +55,26 @@ class UserList(BaseHandler):
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/templates' )
+              logout = users.create_logout_url('/users' )
         else:
-              login = users.create_login_url('/templates/create')
+              login = users.create_login_url('/users')
         self.render_template('UserList.html', {'user': user, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+
+class UserJoin(BaseHandler):
+
+    def get(self):
+        user = UserSuppl.query()
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+            logout = users.create_logout_url('/users/join' )
+            UserRegOK = 'Y'
+        else:
+            login = users.create_login_url('/users/join')
+            UserRegOK = 'N'
+        self.render_template('UserJoin.html', {'UserRegOK': UserRegOK, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class UserCreate(BaseHandler):
@@ -64,8 +99,13 @@ class UserCreate(BaseHandler):
               logout = users.create_logout_url('/users' )
         else:
               login = users.create_login_url('/users/create')
-
-        self.render_template('UserCreate.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
+        q = UserSuppl.query(UserSuppl.UserID == currentuser)
+        user = q.get()
+        UserID = user.UserID
+        if UserID:
+            return webapp2.redirect('/users/join')
+        else:
+            self.render_template('UserCreate.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class UserEdit(BaseHandler):
@@ -73,7 +113,9 @@ class UserEdit(BaseHandler):
     def post(self, user_id):
         iden = int(user_id)
         user = ndb.Key('UserSuppl', iden).get()
+#        UserID = self.session.get('UserID')
         currentuser = users.get_current_user()
+#        user.UserID = UserID   #self.request.get('UserID')
         user.UserID = self.request.get('UserID')
         user.FirstName = self.request.get('FirstName')
         user.LastName = self.request.get('LastName')
@@ -89,8 +131,6 @@ class UserEdit(BaseHandler):
     def get(self, user_id):
         iden = int(user_id)
         user = ndb.Key('UserSuppl', iden).get()
-
-        logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:

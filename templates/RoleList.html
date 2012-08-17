@@ -1,0 +1,26 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="text-align: center;">List of Roles</h2>
+
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    {% for key, value in RoleDict.items() %}
+	<tr>
+	  <td><a href ="/admin/roles/display/{{ key }}"> {{ key }} </a></td>
+	  <td> {{ value }} </td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+
+{% endblock content %}

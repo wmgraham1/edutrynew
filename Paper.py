@@ -82,28 +82,6 @@ class PaperList(BaseHandler):
         self.render_template('PaperList.html', {'papers': papers, 'cat': category, 'CatName': CatName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class PaperCreate(BaseHandler):
-
-    def post(self):
-        CreatedBy = users.get_current_user()
-        cat=self.request.get('cat')	
-        n = Papers(Title=self.request.get('Title'),
-                Category=self.request.get('Category'),
-                Text=self.request.get('Text'),
-                Status=self.request.get('Status'),
-                CreatedBy=CreatedBy,
-                StatusBy=CreatedBy)
-        n.put()
-
-        return self.redirect('/papers/' + cat)
-
-    def get(self):
-        cat=self.request.get('cat')	
-        logging.info("Now in PaperCreate get.")
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
-        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'cat': cat, 'CategoryList': CategoryList})
-
 class PaperDisplay(BaseHandler):
 
     def get(self, paper_id):
@@ -125,6 +103,28 @@ class PaperDisplay(BaseHandler):
 
         template = jinja_environment.get_template('PaperDisplay.html')
         self.response.out.write(template.render(template_values))
+
+class PaperCreate(BaseHandler):
+
+    def post(self):
+        CreatedBy = users.get_current_user()
+        cat=self.request.get('cat')	
+        n = Papers(Title=self.request.get('Title'),
+                Category=self.request.get('Category'),
+                Text=self.request.get('Text'),
+                Status=self.request.get('Status'),
+                CreatedBy=CreatedBy,
+                StatusBy=CreatedBy)
+        n.put()
+
+        return self.redirect('/papers/' + cat)
+
+    def get(self):
+        cat=self.request.get('cat')	
+        logging.info("Now in PaperCreate get.")
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
+        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'cat': cat, 'CategoryList': CategoryList})
 
 class PaperEdit(BaseHandler):
 

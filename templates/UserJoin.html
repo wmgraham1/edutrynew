@@ -1,0 +1,17 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<h2 style="font-size:30px;"}>Join us to help make the world a better place through education.<h2>
+
+<p style="font-size: 14px;">This is a restricted access site, but we are happy to have people who are serious about improving education using tools such as Khan Academy.  If you would like to join us simply submit an application and tell us why you would like to join.  Your application will be reviewed and you will be informed of the result shortly.</p>
+<br /><br />
+{% if UserRegOK == "Y": %}
+    <a style="font-size: 14px; text-align: center;" href="/users/create">Continue to Registration Page</a> 
+{% else: %}
+	<p style="text-align: left; font-size: 14px;"><span style="color: red; font-weight: bold;">NOTE: </span>You must be logged in using a Google ID before you can submit an application to join this site.<br />Click on the Login link at the top right of this window to login.</p>
+{% endif %}
+<div class="PageContentBlock">
+{{content1}} 
+</div>
+<br/><br/>
+{% endblock content %}

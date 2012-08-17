@@ -32,6 +32,7 @@ class TemplateList(TemplateBaseHandler):
 
     def get(self):
         templates = Templates.query()
+
         logout = None
         login = None
         currentuser = users.get_current_user()
