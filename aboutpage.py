@@ -8,12 +8,14 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
+from Security import AccessOK
 
 from models import PageContents
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+jinja_environment.filters['AccessOK'] = AccessOK
 
 #jinja_environment = jinja2.Environment(autoescape=True,
 #    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))

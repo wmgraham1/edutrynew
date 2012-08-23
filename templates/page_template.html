@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 <title>Simple Test of inserting content in a template</title>
 <link rel="stylesheet" href="/static/css/reset.css">
 <link href="/css/style.css" rel="stylesheet" type="text/css" />
@@ -36,35 +37,35 @@ jQuery(function(){
                 {% endif %} 
                 </ul>
             </div>  	<!-- header_side -->
-			<table><tr>
-			<td><img id="logo" src="/images/learning.png" alt="Learning Logo"/></td>
-            <td><p id="title">Khan Academy International Collaboration Site</p></td>
-			</tr></table>
-            <p id="slogan">This is the site slogan</p>
+            <div id="logo"><img src="/images/learning.png" alt="Logo"/></div>
+            <div id="title">Khan Academy International Collaboration Site</div>
+            <div id="slogan">This is the site slogan - it can be quite long.</div>
 		</div>	<!-- header -->
         <div id="sf-menu"> 
             <ul class="sf-menu">
                 <li><a href="/">Home</a></li>
+				{% if 1|AccessOK %} 
                 <li><a href="/papers/resources">Lrng Resources</a></li>	
                 <li><a href="#">Platform</a>
 					<ul>
 						<li><a href="/papers/platform">Disc. Papers</a></li>
+
 						<li><a href="#">Translations</a>
 							<ul>
 								<li><a href="/tokens-step1">Tokens</a></li>
 								<li><a href="#">menu item</a></li>
-								<li><a href="#">menu item</a></li>
-								<li><a href="#">menu item</a></li>
-								<li><a href="#">menu item</a></li>
 							</ul>
 						</li>
+
 					</ul>
 				</li>
 				<li><a href="/papers/learners">Learners/Prgms</a></li>	
 				<li><a href="/papers/misc">Misc Discussions</a></li>	
+				{% endif %} 
 				<li><a href="/about">About us</a></li>
 				<li><a href="/users/join">Join us</a></li>
-				<li><a href="/contact">Contact Us</a></li>			
+				<li><a href="/contact">Contact Us</a></li>
+				{% if 1|AccessOK %} 
 				<li><a href="#">Admin</a>
 					<ul>
 						<li><a href="/langs">Languages</a></li>
@@ -72,13 +73,14 @@ jQuery(function(){
 						<li><a href="/comments">Comments</a></li>
 						<li><a href="/listtypes">List Types</a></li>
 						<li><a href="/papers/all">Papers</a></li>
-						<li><a href="/users">Users</a></li>
 						<li><a href="/notes">Notes</a></li>
+						<li><a href="/users">Users</a></li>
 						<li><a href="/admin/permissions">Permissions</a></li>
 						<li><a href="/admin/roles">Roles</a></li>
 						<li><a href="/pagecontents">Page Content</a></li>
 					</ul>
 				</li>
+				{% endif %} 
 			</ul>
 			</div>	<!-- sf-menu -->
 		<div id="contentColumn">

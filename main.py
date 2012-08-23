@@ -34,7 +34,7 @@ from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
-from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete
+from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, PermissionTest
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
@@ -60,8 +60,10 @@ app = webapp2.WSGIApplication([
     ('/users', UserList),
     ('/users/join', UserJoin), 
     ('/users/create', UserCreate), 
+    ('/users/permissiontest', PermissionTest), 
     ('/users/edit/([\d]+)', UserEdit), 
     ('/users/delete/([\d]+)', UserDelete), 
+    ('/users/calcrights/([\w]+)', UserRightsCalc), 
     ('/admin/permissions', PermissionList),
     ('/admin/roles', RoleList),
     ('/admin/roles/display/([\w]+)', RoleDisplay),

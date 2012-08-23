@@ -4,10 +4,12 @@ import webapp2
 from datetime import datetime
 from google.appengine.ext import db
 from webapp2_extras import sessions
+from Security import AccessOK
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+jinja_environment.filters['AccessOK'] = AccessOK
 
 #jinja_environment = jinja2.Environment(autoescape=True,
 #    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))

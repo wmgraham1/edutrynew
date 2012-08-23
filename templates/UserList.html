@@ -3,6 +3,7 @@
 <br/>
 <h2 style="text-align: center;">List of Users</h2>
 <p><a href="/users/create">Add New User</a></p> 
+<p><a href="/users/permissiontest">Permission Test</a></p> 
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
@@ -10,6 +11,8 @@
       <th>UserID</th>
       <th>LastName</th>
       <th>FirstName</th>
+      <th>Role</th>
+      <th>Permissions</th>
       <th>Description</th>
 	  <th>Created Date</th>
       <th>Created By</th>
@@ -25,6 +28,8 @@
 	  <td> {{ user.UserID }} </td>
 	  <td> {{ user.LastName }} </td>
 	  <td> {{ user.FirstName }} </td>
+	  <td> {{ user.Role }} </td>
+	  <td> {{ user.Permissions }} </td>
 	  <td> {{ user.Descr }} </td>
 	  <td> {{ user.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ user.CreatedBy }} </td>

@@ -14,14 +14,14 @@
 	border-top:		none;
 }
 .sf-navbar li ul {
-	width:			44em; /*IE6 soils itself without this*/
+	width:			2em;/*44em; *//*IE6 soils itself without this*/
 }
 .sf-navbar li li {
 	background:		#BDD2FF;
 	position:		relative;
 }
 .sf-navbar li li ul {
-	width:			13em;
+	width:			10em;/*13em;*/
 }
 .sf-navbar li li li {
 	width:			100%;

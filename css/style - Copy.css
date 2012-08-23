@@ -11,37 +11,32 @@ body {
 	color: #000000;
 	background: #FFFFFF;
 }
-*
-{
+
+* {
   margin: 0 auto 0 auto;
  text-align:left;}
  
- 
- html, body {
+html, body {
 text-align: center;
 }
+
 p {text-align: left;}
 
-
-h1
-{
+h1 {
 font-size:30px;
 font-weight:normal;
 padding:10px;
 text-align: center;
 }
 
-
-h2
-{
+h2 {
 font-size:26px;
 font-weight:normal;
 padding-left:15px;
 padding-top:35px;
 }
 
-#main
-{
+#main {
 width:961px;
 height:auto;
 padding-bottom:20px;

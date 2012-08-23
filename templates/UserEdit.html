@@ -7,7 +7,7 @@
       <label for="id_UserID">UserID</label>:
     </div>
     <div class="field-field">
-	  <input type="hidden" name="UserID" id="id_UserID" value="{{ currentuser }}" />
+	  <input type="hidden" name="UserIDx" id="id_UserID" value="{{ currentuser }}" />
 	  {{ currentuser }}
     </div>
   </div>
@@ -27,6 +27,23 @@
     </div>
     <div class="field-field">
       <input type="text" name="LastName" id="id_LastName" value="{{ user.LastName }}"/>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Role">Role</label>:
+    </div>
+    <div class="field-field">
+        <select name="Role">
+        {% for Role in RoleList %}
+            <option value="{{Role}}" 
+            {% if Role == user.Role %}
+                selected="selected"
+            {% endif %}
+            >{{Role}}</option>
+        {% endfor %}
+        </select>
     </div>
   </div>
 

@@ -8,12 +8,14 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
+from Security import AccessOK
 
 from models import PageContents
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+jinja_environment.filters['AccessOK'] = AccessOK
 
 #jinja_environment = jinja2.Environment(autoescape=True,
 #    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
@@ -69,9 +71,9 @@ class ViewHomePage(BaseHandler):
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/langs' )
+              logout = users.create_logout_url('/' )
         else:
-              login = users.create_login_url('/langs')
+              login = users.create_login_url('/')
 
         if PageContentList.has_key('homepage'):
             template_id = (PageContentList['homepage'])
@@ -85,4 +87,6 @@ class ViewHomePage(BaseHandler):
             template_values = {
                 'content1': 'No home page content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
         template = jinja_environment.get_template('stdpage_block.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+
         self.response.out.write(template.render(template_values))

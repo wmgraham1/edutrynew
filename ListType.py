@@ -5,13 +5,14 @@ from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from Security import AccessOK
 
 from models import ListTypes
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
-
+jinja_environment.filters['AccessOK'] = AccessOK
 
 class BaseHandler(webapp2.RequestHandler):
 
