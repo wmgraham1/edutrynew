@@ -93,6 +93,7 @@ class UserSuppl(ndb.Model):
   LastName = ndb.StringProperty()
   Descr = ndb.StringProperty()
   Role = ndb.StringProperty()
+  Email = ndb.StringProperty()
   Permissions = ndb.IntegerProperty(repeated=True)
   CreatedBy = ndb.UserProperty(auto_current_user=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)

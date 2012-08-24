@@ -19,12 +19,35 @@ handlers:
   static_dir: js
 - url: /images
   static_dir: images
-
-- url: /
-  script: main.app
   
-- url: /(home|users/join|about|contact).*
+- url: /notes/create
   script: main.app
+#  login: admin
+  login: required
+
+- url: /notes/edit/.*
+  script: main.app
+  login: required
+
+- url: /notes/delete/.*
+  script: main.app
+  login: required
+  
+- url: /tokens/create
+  script: main.app
+  login: required
+
+- url: /tokens/edit/.*
+  script: main.app
+  login: required
+
+- url: /tokens/delete/.*
+  script: main.app
+  login: required
+
+- url: /tokens/clone/.*
+  script: main.app
+  login: required
 
 - url: .*
   script: main.app

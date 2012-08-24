@@ -17,7 +17,7 @@
       <label for="id_FirstName">First Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="FirstName" id="id_FirstName" value="{{ user.FirstName }}"/>
+      <input type="text" name="FirstName" id="id_FirstName" value="{{ user.FirstName }}" size="30"/>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
       <label for="id_LastName">Last Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="LastName" id="id_LastName" value="{{ user.LastName }}"/>
+      <input type="text" name="LastName" id="id_LastName" value="{{ user.LastName }}" size="30"/>
     </div>
   </div>
 
@@ -47,12 +47,21 @@
     </div>
   </div>
 
-  <div class="field-wrapper">
+   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Descr">Description</label>:
+      <label for="id_Email">Email address we should use to communicate with you</label>:
     </div>
     <div class="field-field">
-	  <input type="text" name="Descr" id="id_Descr" value="{{ user.Descr }}" />
+      <input type="text" name="Email" id="id_Email" value="{{ user.Email }}" size="50"/>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Descr">Explanation of why you want access including the language you primarily are involved with</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Descr" id="id_Descr" value="{{ user.Descr }}" size="80"/>
     </div>
   </div>
 

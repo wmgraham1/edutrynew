@@ -6,14 +6,14 @@ from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
 from google.appengine.api import users
-#from Security import AccessOK
+from SecurityUtils import AccessOK
 
 from models import UserSuppl
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
-#jinja_environment.filters['AccessOK'] = AccessOK
+jinja_environment.filters['AccessOK'] = AccessOK
 
 class BaseHandler(webapp2.RequestHandler):
 
@@ -226,28 +226,3 @@ def UserPermissionsCalc():
 	usersuppl = q.fetch(999)
 # this function does not appear to have been completed.
 	return
-
-def AccessOK(PermissionID):
-#    PermissionID = int(PermID)
-    currentuser = users.get_current_user()
-    logging.info('GGG: PermissionID: %s' % PermissionID)
-    logging.info('GGG: current_user_admin: %s' % users.is_current_user_admin())
-    IsOK = False
-    if users.is_current_user_admin():
-        IsOK = True
-    else:
-        q = UserSuppl.query(UserSuppl.UserID == currentuser)
-        user = q.get()
-        if user:
-            logging.info('GGG: UserID: %s' % user.UserID)
-            logging.info('GGG: Role: %s' % user.Role)
-            logging.info('GGG: Status: %s' % user.Status)
-            if user.Status == 'Assigned':
-                if user.Role == 'admin':
-                    IsOK = True
-                else:
-                    if PermissionID in user.Permissions:
-                        IsOK = True
-#    IsOK = True
-    logging.info('GGG: Final IsOK: %s' % IsOK)
-    return IsOK

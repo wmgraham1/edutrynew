@@ -1,17 +1,17 @@
 {% extends "page_template.html" %}
 {% block content %}
-<br/>
-<h2 style="font-size:30px;"}>Join us to help make the world a better place through education.<h2>
-
-<p style="font-size: 14px;">This is a restricted access site, but we are happy to have people who are serious about improving education using tools such as Khan Academy.  If you would like to join us simply submit an application and tell us why you would like to join.  Your application will be reviewed and you will be informed of the result shortly.</p>
-<br /><br />
-{% if UserRegOK == "Y": %}
-    <a style="font-size: 14px; text-align: center;" href="/users/create">Continue to Registration Page</a> 
+{% if AlreadyRegistered: %}
+	<h3 style="text-align: center;">Your application has been received, thank you.</h3>
 {% else: %}
-	<p style="text-align: left; font-size: 14px;"><span style="color: red; font-weight: bold;">NOTE: </span>You must be logged in using a Google ID before you can submit an application to join this site.<br />Click on the Login link at the top right of this window to login.</p>
+	<h3 style="text-align: center;">Join us to help make the world a better place through education.</h3>
+	<p>This is a restricted access site, but we are happy to have people who are serious about improving education using tools such as Khan Academy.  If you would like to join us simply submit an application and tell us why you would like to join.  Your application will be reviewed and you will be informed of the result shortly.</p>
+	<br />
+	{% if UserRegOK == "Y": %}
+		<p style="text-align: center;"><a href="/users/create"><span style="color: red; font-weight: bold;">Continue to Registration Page</span></a></p>
+	{% else: %}
+		<p><span style="color: red; font-weight: bold;">NOTE: </span>You must be logged in using a Google ID before you can submit an application to join this site.  Click on the link below to login.</p>
+		<p style="text-align: center;"><a href="/_ah/login?continue=http%3A//localhost%3A8094/users/join"><span style="color: red; font-weight: bold;">Login</span></a></p>	
+	{% endif %}
 {% endif %}
-<div class="PageContentBlock">
-{{content1}} 
-</div>
 <br/><br/>
 {% endblock content %}

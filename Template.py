@@ -5,7 +5,7 @@ from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
 from google.appengine.api import users
-from Security import AccessOK
+from SecurityUtils import AccessOK
 
 from models import Templates
 

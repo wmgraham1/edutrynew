@@ -3,7 +3,7 @@ import os
 import webapp2
 from datetime import datetime
 from google.appengine.ext import db
-from Security import AccessOK
+from SecurityUtils import AccessOK
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \

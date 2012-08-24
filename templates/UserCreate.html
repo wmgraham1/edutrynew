@@ -18,7 +18,7 @@
       <label for="id_FirstName">First Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="FirstName" id="id_FirstName" />
+      <input type="text" name="FirstName" id="id_FirstName" size="30" />
     </div>
   </div>
 
@@ -27,16 +27,25 @@
       <label for="id_LastName">Last Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="LastName" id="id_LastName" />
+      <input type="text" name="LastName" id="id_LastName" size="30" />
     </div>
   </div>
 
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Descr">Explanation of why you want access including the language you primarily are involved with.</label>:
+      <label for="id_Email">Email address we should use to communicate with you</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="Descr" id="id_Descr" />
+      <input type="text" name="Email" id="id_Email" value="{{ currentuser }}" size="50" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Descr">Explanation of why you want access including the language you primarily are involved with</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Descr" id="id_Descr" size="80" />
     </div>
   </div>
   

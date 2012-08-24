@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Expire" content="now">
+<meta http-equiv="Pragma" content="no-cache">
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 <title>Simple Test of inserting content in a template</title>
-<link rel="stylesheet" href="/static/css/reset.css">
 <link href="/css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" media="screen" href="/css/superfish.css" />
 <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script> 
-<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
-<script type="text/javascript" src="/js/hoverIntent.js"></script>
 <script type="text/javascript" src="/js/superfish.js"></script>
 <script type="text/javascript">
 
@@ -38,13 +37,13 @@ jQuery(function(){
                 </ul>
             </div>  	<!-- header_side -->
             <div id="logo"><img src="/images/learning.png" alt="Logo"/></div>
-            <div id="title">Khan Academy International Collaboration Site</div>
-            <div id="slogan">This is the site slogan - it can be quite long.</div>
+            <div id="title">Education for a Better World</div>
+            <div id="slogan">A Site for Advocates of Better Education based on the Khan Academy Approach to Collaborate & Share</div>
 		</div>	<!-- header -->
         <div id="sf-menu"> 
             <ul class="sf-menu">
                 <li><a href="/">Home</a></li>
-				{% if 1|AccessOK %} 
+				{% if currentuser|AccessOK(110) %} 
                 <li><a href="/papers/resources">Lrng Resources</a></li>	
                 <li><a href="#">Platform</a>
 					<ul>
@@ -61,11 +60,11 @@ jQuery(function(){
 				</li>
 				<li><a href="/papers/learners">Learners/Prgms</a></li>	
 				<li><a href="/papers/misc">Misc Discussions</a></li>	
-				{% endif %} 
+				{% endif %}
 				<li><a href="/about">About us</a></li>
 				<li><a href="/users/join">Join us</a></li>
 				<li><a href="/contact">Contact Us</a></li>
-				{% if 1|AccessOK %} 
+				{% if currentuser|AccessOK(1) %} 
 				<li><a href="#">Admin</a>
 					<ul>
 						<li><a href="/langs">Languages</a></li>
@@ -80,7 +79,7 @@ jQuery(function(){
 						<li><a href="/pagecontents">Page Content</a></li>
 					</ul>
 				</li>
-				{% endif %} 
+				{% endif %}
 			</ul>
 			</div>	<!-- sf-menu -->
 		<div id="contentColumn">
@@ -93,7 +92,7 @@ jQuery(function(){
 		</div>	<!-- contentColumn -->
 <!-- Please leave the link(s) in the footer, but please do modify it in any other way you please -->
 		<div id="footer">
-			<a href="http://www.free-templates.me">free templates</a>
+		    Copyright © 2012 by Education for a Better World
 		</div>	<!-- footer -->
 	<div> 	<!-- main -->
 </body>

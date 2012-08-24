@@ -34,7 +34,7 @@ from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
-from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, PermissionTest
+from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
@@ -54,16 +54,19 @@ config['webapp2_extras.sessions'] = {
 
 app = webapp2.WSGIApplication([
 	('/', homepage.ViewHomePage),
+	('/home', homepage.ViewHomePage),
 	('/about', aboutpage.ViewAboutPage),
 	('/content', pageadmin.ViewContentPage),
 	('/contact', contactpage.ViewContactPage),
     ('/users', UserList),
     ('/users/join', UserJoin), 
     ('/users/create', UserCreate), 
+    ('/users/applthks', UserApplicationThanks), 
     ('/users/permissiontest', PermissionTest), 
     ('/users/edit/([\d]+)', UserEdit), 
     ('/users/delete/([\d]+)', UserDelete), 
     ('/users/calcrights/([\w]+)', UserRightsCalc), 
+    ('/users/calcuser/([\w]+)', SingleUserRightsCalc), 
     ('/admin/permissions', PermissionList),
     ('/admin/roles', RoleList),
     ('/admin/roles/display/([\w]+)', RoleDisplay),

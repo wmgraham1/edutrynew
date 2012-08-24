@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
-from Security import AccessOK
+from SecurityUtils import AccessOK
 
 from models import TokenValues
 from models import Languages

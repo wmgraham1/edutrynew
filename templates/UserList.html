@@ -3,40 +3,40 @@
 <br/>
 <h2 style="text-align: center;">List of Users</h2>
 <p><a href="/users/create">Add New User</a></p> 
-<p><a href="/users/permissiontest">Permission Test</a></p> 
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>UserID</th>
-      <th>LastName</th>
-      <th>FirstName</th>
+      <th>Name</th>
       <th>Role</th>
+      <th>Email</th>
       <th>Permissions</th>
       <th>Description</th>
 	  <th>Created Date</th>
       <th>Created By</th>
       <th>Status</th>
       <th>Status Date</th>
-      <th>Status By</th>
       <th>Edit</th>
+      <th>Calc Permissions</th>
     </tr>
+
   </thead>
   <tbody>
     {% for user in user %}
 	<tr>
 	  <td> {{ user.UserID }} </td>
-	  <td> {{ user.LastName }} </td>
-	  <td> {{ user.FirstName }} </td>
+	  <td> {{ user.LastName }}, {{ user.FirstName }} </td>
 	  <td> {{ user.Role }} </td>
+	  <td> {{ user.Email }} </td>
 	  <td> {{ user.Permissions }} </td>
 	  <td> {{ user.Descr }} </td>
 	  <td> {{ user.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ user.CreatedBy }} </td>
 	  <td> {{ user.Status }} </td>
 	  <td> {{ user.StatusDate.strftime('%Y-%m-%d') }} </td>
-	  <td> {{ user.StatusBy }} </td>
-	  <td><a href ="/users/edit/{{ user.key.id() }}">edit </a></td>
+	  <td><a href ="/users/edit/{{ user.key.id() }}">Edit </a></td>
+	  <td><a href ="/users/calcuser/{{ user.key.id() }}">Calc Permissions </a></td>
     </tr>
     {% endfor %}	
   </tbody>
