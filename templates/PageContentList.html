@@ -3,33 +3,35 @@
 <br/>
 <h2 style="text-align: center;">List of Content Blocks</h2>
 <p><a href="/pagecontents/create">Add New Content Block</a> </p>
-
-<table width = 100% border=2 cellspacing=0 cellpadding=2>
-  <thead>
-    <tr>
-      <th>TemplateName</th>
-      <th>TokenTag</th>
-      <th>Status</th>
-      <th>Status Date</th>
-      <th>Created Date</th>
-      <th>CreatedBy</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for pagecontent in pagecontents %}
-	<tr>
-	  <td><big> {{ pagecontent.TemplateName }} </big></td>
-	  <td> {{ pagecontent.TokenTag }} </td>
-	  <td> {{ pagecontent.Status }} </td>
-	  <td> {{ pagecontent.StatusDate }} </td>
-	  <td> {{ pagecontent.CreatedDate }} </td>
-	  <td> {{ pagecontent.CreatedBy }} </td>
-	  <td><a href ="/pagecontents/edit/{{ pagecontent.key.id() }}">edit </a></td>
-    </tr>
-    {% endfor %}	
-  </tbody>
-</table>
-
+{% if NoContent: %}
+	<h2 style="text-align: center;">No current page blocks content.</h2>
+{% else %}
+	<table width = 100% border=2 cellspacing=0 cellpadding=2>
+	  <thead>
+		<tr>
+		  <th>TemplateName</th>
+		  <th>TokenTag</th>
+		  <th>Status</th>
+		  <th>Status Date</th>
+		  <th>Created Date</th>
+		  <th>CreatedBy</th>
+		  <th>Edit</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for pagecontent in pagecontents %}
+		<tr>
+		  <td><big> {{ pagecontent.TemplateName }} </big></td>
+		  <td> {{ pagecontent.TokenTag }} </td>
+		  <td> {{ pagecontent.Status }} </td>
+		  <td> {{ pagecontent.StatusDate }} </td>
+		  <td> {{ pagecontent.CreatedDate }} </td>
+		  <td> {{ pagecontent.CreatedBy }} </td>
+		  <td><a href ="/pagecontents/edit/{{ pagecontent.key.id() }}">edit </a></td>
+		</tr>
+		{% endfor %}	
+	  </tbody>
+	</table>
+{% endif %}
 <p><a href="/pagecontents/create">Add New Content Block</a> </p>
 {% endblock content %}

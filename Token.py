@@ -12,6 +12,8 @@ from SecurityUtils import AccessOK
 
 from models import TokenValues
 from models import Languages
+from models import Templates
+
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -122,7 +124,7 @@ class TokenList(BaseHandler):
 
 #        languages = Languages.all().filter('langCode =', langCode)
         q = Languages.query(Languages.langCode == langCode).order(Languages.langCode, Languages.langName)
-        languages = q.fetch(99)
+        languages = q.fetch(999)
 
         langName = 'no language'
         for language in languages:
@@ -163,9 +165,42 @@ class TokenCreate(BaseHandler):
         #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
 		#logging.info(xyz)
         #return webapp2.redirect('/tokens')
-        return self.redirect('/tokens')
-
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
+		
+		
     def get(self):
+        languages = memcache.get("languages")
+        if languages is not None:
+           logging.info("get languages from memcache.")
+        else:
+           languages = Languages.query()
+           logging.info("Can not get languages from memcache.")
+           if not memcache.add("languages", languages, 10):
+               logging.info("Memcache set failed.")
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en'
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+        q = Languages.query().order(Languages.langCode, Languages.langName)
+        languages = q.fetch(999)
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+        templates = Templates.query()
+				
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -175,7 +210,7 @@ class TokenCreate(BaseHandler):
               login = users.create_login_url('/tokens/create')
 			  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TokenClone(BaseHandler):
@@ -278,6 +313,8 @@ class TokenDelete(BaseHandler):
     def get(self, token_id):
         iden = int(token_id)
         token = ndb.Key('TokenValues', iden).get()
+        templateName = token.templateName
+        langCode = token.langCode
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
         if currentuser != token.whichuser and not users.is_current_user_admin():
@@ -287,4 +324,4 @@ class TokenDelete(BaseHandler):
 #        db.delete(token)
         token.key.delete()
 
-        return self.redirect('/tokens')
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)

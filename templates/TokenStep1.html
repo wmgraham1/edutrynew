@@ -22,7 +22,9 @@
       <!-- <th>Template/Language</th> -->
       <th style="text-align: center;">Template</th>
       <th style="text-align: center;"># Tokens English</th>
+	  {% if not langName == 'English': %}
       <th style="text-align: center;"># Tokens {{langName}}</th>
+      {% endif %}
       <th style="text-align: center;">Clone</th>
     </tr>
   </thead>
@@ -31,7 +33,9 @@
 	<tr>
 	  <td><big> <a href="/tokens?templateName={{key}}&langCode={{langCode}}">{{key}}</a> </big></td>
 	  <td style="text-align: center;"> {{countmap_en[key]}} </td>
+	  {% if not langName == 'English': %}
 	  <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
+      {% endif %}
   	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
     </tr>
     {% endfor %}	

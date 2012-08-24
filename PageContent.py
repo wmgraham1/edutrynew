@@ -75,10 +75,11 @@ class PageContentList(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
-		pagecontents = PageContents.query()
+        pagecontents = PageContents.query()
 
-        if not pagecontents:
-		    pagecontents = 'xxx'
+        NoContent = True
+        if pagecontents:
+		    NoContent = False
  
         logout = None
         login = None
@@ -87,7 +88,7 @@ class PageContentList(BaseHandler):
               logout = users.create_logout_url('/pagecontents' )
         else:
               login = users.create_login_url('/pagecontents/create')
-        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('PageContentList.html', {'pagecontents': pagecontents, 'NoContent': NoContent, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class PageContentCreate(BaseHandler):

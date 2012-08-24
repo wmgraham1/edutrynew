@@ -138,7 +138,6 @@ class UserEdit(BaseHandler):
         iden = int(user_id)
         user = ndb.Key('UserSuppl', iden).get()
 #        UserID = self.session.get('UserID')
-        currentuser = users.get_current_user()
 #        user.UserID = UserID   #self.request.get('UserID')
 #        user.UserID = self.request.get('UserIDx')
         user.FirstName = self.request.get('FirstName')
@@ -146,11 +145,13 @@ class UserEdit(BaseHandler):
         user.Role = self.request.get('Role')
         user.Email = self.request.get('Email')
         user.Descr = self.request.get('Descr')
+        currentuser = users.get_current_user()
         StatusPrev = user.Status
         user.Status = self.request.get('Status')
         if not user.Status == StatusPrev:
             user.StatusBy = currentuser
-            user.StatusDate = datetime.now()    
+            user.StatusDate = datetime.now() 
+        logging.info('GGG: UserID: %s' % user.UserID)
         user.put()
         return self.redirect('/users')
 
