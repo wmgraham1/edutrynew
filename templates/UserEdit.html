@@ -7,8 +7,8 @@
       <label for="id_UserID">UserID</label>:
     </div>
     <div class="field-field">
-	  <input type="hidden" name="UserIDx" id="id_UserID" value="{{ user.UserID }}" />
-{{ user.UserID }}
+	  <input type="hidden" name="UserIDx" id="id_UserID" value="{{ userx.UserID }}" />
+{{ userx.UserID }}
     </div>
   </div>
 
@@ -17,7 +17,7 @@
       <label for="id_FirstName">First Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="FirstName" id="id_FirstName" value="{{ user.FirstName }}" size="30"/>
+      <input type="text" name="FirstName" id="id_FirstName" value="{{ userx.FirstName }}" size="30"/>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
       <label for="id_LastName">Last Name</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="LastName" id="id_LastName" value="{{ user.LastName }}" size="30"/>
+      <input type="text" name="LastName" id="id_LastName" value="{{ userx.LastName }}" size="30"/>
     </div>
   </div>
 
@@ -38,7 +38,7 @@
         <select name="Role">
         {% for Role in RoleList %}
             <option value="{{Role}}" 
-            {% if Role == user.Role %}
+            {% if Role == userx.Role %}
                 selected="selected"
             {% endif %}
             >{{Role}}</option>
@@ -52,7 +52,7 @@
       <label for="id_Email">Email address we should use to communicate with you</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="Email" id="id_Email" value="{{ user.Email }}" size="50"/>
+      <input type="text" name="Email" id="id_Email" value="{{ userx.Email }}" size="50"/>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
       <label for="id_Descr">Explanation of why you want access including the language you primarily are involved with</label>:
     </div>
     <div class="field-field">
-	  <input type="text" name="Descr" id="id_Descr" value="{{ user.Descr }}" size="80"/>
+	  <input type="text" name="Descr" id="id_Descr" value="{{ userx.Descr }}" size="80"/>
     </div>
   </div>
 
@@ -73,7 +73,7 @@
         <select name="Status">
         {% for Status in StatusList %}
             <option value="{{Status}}" 
-            {% if Status == user.Status %}
+            {% if Status == userx.Status %}
                 selected="selected"
             {% endif %}
             >{{Status}}</option>
@@ -85,8 +85,8 @@
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/users/Delete/{{ user.key.id() }}";'>
-  <a href ="/users/delete/{{ user.key.id() }}">Delete User</a>
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/users/Delete/{{ userx.key.id() }}";'>
+  <a href ="/users/delete/{{ userx.key.id() }}">Delete User</a>
 </form>
 
 {% endblock content %}

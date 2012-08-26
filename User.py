@@ -157,7 +157,7 @@ class UserEdit(BaseHandler):
 
     def get(self, user_id):
         iden = int(user_id)
-        user = ndb.Key('UserSuppl', iden).get()
+        userx = ndb.Key('UserSuppl', iden).get()
         login = None
         currentuser = users.get_current_user()
         if currentuser:
@@ -166,7 +166,7 @@ class UserEdit(BaseHandler):
               login = users.create_login_url('/users')
         UserStatusList = ['Pending Assignment', 'Assigned', 'Blocked'];		  
         RoleList = ['admin', 'advocate', 'tokentranslator'];		  
-        self.render_template('UserEdit.html', {'user': user, 'StatusList': UserStatusList, 'RoleList': RoleList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('UserEdit.html', {'userx': userx, 'StatusList': UserStatusList, 'RoleList': RoleList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class UserRightsCalc(BaseHandler):
