@@ -137,9 +137,7 @@ class UserEdit(BaseHandler):
     def post(self, user_id):
         iden = int(user_id)
         user = ndb.Key('UserSuppl', iden).get()
-#        UserID = self.session.get('UserID')
-#        user.UserID = UserID   #self.request.get('UserID')
-#        user.UserID = self.request.get('UserIDx')
+
         logging.info('GGG: UserEdit_Put_UserID_just_after read DB: %s' % user.UserID)
         user.FirstName = self.request.get('FirstName')
         user.LastName = self.request.get('LastName')
@@ -158,14 +156,14 @@ class UserEdit(BaseHandler):
 
     def get(self, user_id):
         iden = int(user_id)
-        userx = ndb.Key('UserSuppl', iden).get()
-        logging.info('GGG: UserEdit_Get_UserID_just_after read DB: %s' % userx.UserID)
         login = None
         currentuser = users.get_current_user()
         if currentuser:
               logout = users.create_logout_url('/users' )
         else:
               login = users.create_login_url('/users')
+        userx = ndb.Key('UserSuppl', iden).get()
+        logging.info('GGG: UserEdit_Get_UserID_just_after read DB: %s' % userx.UserID)
         UserStatusList = ['Pending Assignment', 'Assigned', 'Blocked'];		  
         RoleList = ['admin', 'advocate', 'tokentranslator'];		  
         logging.info('GGG: UserEdit_Get_UserID_just_B4_Render: %s' % userx.UserID)
