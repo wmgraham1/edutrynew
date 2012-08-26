@@ -2,8 +2,9 @@
 {% block content %}
 <br/>
 <h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
+{% if currentuser|AccessOK(221) %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
-
+{% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
@@ -11,7 +12,9 @@
       <th>Value</th>
 	  <th>Created</th>
       <th>CreatedBy</th>
+	  {% if currentuser|AccessOK(221) %} 
       <th>Edit</th>
+	  {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -21,11 +24,15 @@
 	  <td> {{ token.tknValue }} </td>
 	  <td> {{ token.date.strftime('%Y-%m-%d')  }} </td>
 	  <td> {{ token.whichuser }} </td>
+	  {% if currentuser|AccessOK(221) %} 
 	  <td><a href ="/tokens/edit/{{ token.key.id() }}">edit </a></td>
+	  {% endif %}
     </tr>
     {% endfor %}	
   </tbody>
  </table>
 
+{% if currentuser|AccessOK(221) %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
+{% endif %}
 {% endblock content %}
