@@ -140,6 +140,7 @@ class UserEdit(BaseHandler):
 #        UserID = self.session.get('UserID')
 #        user.UserID = UserID   #self.request.get('UserID')
 #        user.UserID = self.request.get('UserIDx')
+        logging.info('GGG: UserEdit_Put_UserID_just_after read DB: %s' % user.UserID)
         user.FirstName = self.request.get('FirstName')
         user.LastName = self.request.get('LastName')
         user.Role = self.request.get('Role')
@@ -151,13 +152,14 @@ class UserEdit(BaseHandler):
         if not user.Status == StatusPrev:
             user.StatusBy = currentuser
             user.StatusDate = datetime.now() 
-        logging.info('GGG: UserID: %s' % user.UserID)
+        logging.info('GGG: UserEdit_Put_UserID_just_B4_Put: %s' % user.UserID)
         user.put()
         return self.redirect('/users')
 
     def get(self, user_id):
         iden = int(user_id)
         userx = ndb.Key('UserSuppl', iden).get()
+        logging.info('GGG: UserEdit_Get_UserID_just_after read DB: %s' % userx.UserID)
         login = None
         currentuser = users.get_current_user()
         if currentuser:
@@ -166,6 +168,7 @@ class UserEdit(BaseHandler):
               login = users.create_login_url('/users')
         UserStatusList = ['Pending Assignment', 'Assigned', 'Blocked'];		  
         RoleList = ['admin', 'advocate', 'tokentranslator'];		  
+        logging.info('GGG: UserEdit_Get_UserID_just_B4_Render: %s' % userx.UserID)
         self.render_template('UserEdit.html', {'userx': userx, 'StatusList': UserStatusList, 'RoleList': RoleList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
