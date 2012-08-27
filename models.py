@@ -86,6 +86,19 @@ class TokenValues(ndb.Model):
   UpdatedDate = ndb.DateTimeProperty()
   UpdatedBy = ndb.UserProperty()
 
+class GeneratedFiles(ndb.Model):
+  templateName = ndb.StringProperty()
+  FolderName = ndb.StringProperty()
+  langCode = ndb.StringProperty()
+  FileTxt = ndb.BlobProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  Status = ndb.StringProperty(default="Pending Translation")
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedDate = ndb.DateTimeProperty()
+  UpdatedBy = ndb.UserProperty()
+
 class UserSuppl(ndb.Model):
   UserID = ndb.UserProperty(auto_current_user_add=True)
   FirstName = ndb.StringProperty()

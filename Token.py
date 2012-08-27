@@ -162,7 +162,6 @@ class TokenCreate(BaseHandler):
                 , status = 'Pending Translation'
 #                , whichuser=users.get_current_user()
                 )
-
         n.put()
         #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
 		#logging.info(xyz)
@@ -275,11 +274,10 @@ class TokenClone(BaseHandler):
         else:		
             for token in tokens:
                 if token.tknID not in countmap_other_language:
-                    n = TokenValues(templateName=token.templateName,
-                        langCode=self.request.get('langCode'),
-                        tknID=token.tknID,
-                        tknValue=token.tknValue,
-                        whichuser=users.get_current_user()
+                    n = TokenValues(templateName=token.templateName
+                        , langCode=self.request.get('langCode')
+                        , tknID=token.tknID
+                        , tknValue=token.tknValue
                         )
                     n.put()
             return self.redirect('/tokens-step1')
