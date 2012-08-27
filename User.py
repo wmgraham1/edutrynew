@@ -24,19 +24,13 @@ class BaseHandler(webapp2.RequestHandler):
     def jinja2(self):
         return jinja2.get_jinja2(app=self.app)
 
-    def render_template(
-        self,
-        filename,
-        template_values,
-        **template_args
-        ):
+    def render_template(self, filename, template_values, **template_args ):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
     def dispatch(self):
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
-
         try:
             # Dispatch the request.
             webapp2.RequestHandler.dispatch(self)
@@ -173,10 +167,12 @@ class UserEdit(BaseHandler):
 class UserRightsCalc(BaseHandler):
 
     def get(self, role_id):
+        RoleListAdmin = [];
         RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenBuilder = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenTranslator = [110,111,120, 121, 210, 220, 230, 231, 232];
         RolePermissionDict = {}
+        RolePermissionDict['admin'] = RoleListAdmin
         RolePermissionDict['advocate'] = RoleListAdvocate
         RolePermissionDict['tokenbuilder'] = RoleListTokenBuilder
         RolePermissionDict['tokentranslator'] = RoleListTokenTranslator

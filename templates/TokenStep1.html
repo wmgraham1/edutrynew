@@ -1,5 +1,37 @@
 {% extends "page_template.html" %}
 {% block content %}
+<SCRIPT>
+function legend(){
+	if(document.all.legend.style.display == "")
+		document.all.legend.style.display = "none";
+	else
+		document.all.legend.style.display = "";
+	}
+</SCRIPT>
+<STYLE>
+DIV.lix LI {font-family: verdana; font-weight: normal; font-size: 8pt;}
+DIV.lix TD {text-align: left; font-family: verdana; font-weight: normal; font-size: 8pt;}
+DIV.lix TABLE {background-color: lightyellow; text-align: left; font-family: verdana; font-weight: normal;}
+</STYLE>
+<DIV>
+
+	<INPUT TYPE=BUTTON onClick='legend();' VALUE=" Display/Hide Help" NAME="ButHelp" STYLE="background-color: cornflowerblue; color: yellow;">
+	<DIV ID="legend" STYLE="display: none;">
+	<DIV CLASS="lix">
+		<TABLE BORDER=1 CELLPADDING=2 CELLSPACING=0 WIDTH="90%" ALIGN=CENTER>
+			<TR>
+				<TD>
+<p>The platform is actually made up of many files.  These files include container templates, exercise files templates, javascript function files that generate content for the exercise templates, etc.</p>
+<p>This site includes utility functions to assist in the managing translations of all the text in these various files so that users can fully experience the platform in their preferred language.</p>
+<P></P>
+				</TD>
+			</TR>
+		</TABLE>
+	</DIV>
+	</DIV>
+	
+</DIV>
+<br />
 <form method="GET">
 <select name="langCode">
     {% for language in languages %}

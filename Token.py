@@ -59,12 +59,13 @@ class TokenStep1Page(BaseHandler):
         #languages = Languages.all()
         languages = memcache.get("languages")
         if languages is not None:
-           logging.info("get languages from memcache.")
+            logging.info("get languages from memcache.")
         else:
-           languages = Languages.query()
-           logging.info("Can not get languages from memcache.")
-           if not memcache.add("languages", languages, 10):
-               logging.info("Memcache set failed.")
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 10):
+                logging.info("Memcache set failed.")
 
         if self.request.get('langCode'):
             langCode=self.request.get('langCode')
@@ -88,7 +89,7 @@ class TokenStep1Page(BaseHandler):
         tokens = q.fetch(99)
 #        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
-            logging.info('QQQ: token: %s' % token.langCode)
+            logging.info('QQQ: token_en: %s' % token.langCode)
             if token.templateName in countmap_en:
                     countmap_en[token.templateName]=countmap_en[token.templateName]+1
             else:
@@ -100,7 +101,7 @@ class TokenStep1Page(BaseHandler):
             tokens = q.fetch(99)
 #		tokens = TokenValues().all().filter('langCode =', langCode)
             for token in tokens:
-                logging.info('QQQ: token: %s' % token.langCode)
+                logging.info('QQQ: token_non-EN: %s' % token.langCode)
                 if token.templateName in countmap_other_language:
                         countmap_other_language[token.templateName]=countmap_other_language[token.templateName]+1
                 else:
@@ -154,11 +155,12 @@ class TokenCreate(BaseHandler):
     def post(self):
         templateName = self.request.get('templateName')
         langCode = self.request.get('langCode')
-        n = TokenValues(templateName=templateName,
-                langCode=langCode,
-                tknID=self.request.get('tknID'),
-                tknValue=self.request.get('tknValue'), 
-                whichuser=users.get_current_user()
+        n = TokenValues(templateName=templateName
+                , langCode=langCode
+                , tknID=self.request.get('tknID')
+                , tknValue=self.request.get('tknValue')
+                , status = 'Pending Translation'
+#                , whichuser=users.get_current_user()
                 )
 
         n.put()
@@ -171,12 +173,13 @@ class TokenCreate(BaseHandler):
     def get(self):
         languages = memcache.get("languages")
         if languages is not None:
-           logging.info("get languages from memcache.")
+            logging.info("get languages from memcache.")
         else:
-           languages = Languages.query()
-           logging.info("Can not get languages from memcache.")
-           if not memcache.add("languages", languages, 10):
-               logging.info("Memcache set failed.")
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 10):
+                logging.info("Memcache set failed.")
 
         if self.request.get('langCode'):
             langCode=self.request.get('langCode')
@@ -199,7 +202,9 @@ class TokenCreate(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
-        templates = Templates.query()
+#        templates = Templates.query()
+        q = Templates.query().order(Templates.Name)
+        templates = q.fetch(99)
 				
         logout = None
         login = None
@@ -227,8 +232,12 @@ class TokenClone(BaseHandler):
             langCode2 = 'xx'
         if self.request.get('templateName'):
             templateName2=self.request.get('templateName')
+        else:
+            templateName2='none'
         if langCode2 != 'en': 
-            q = TokenValues.query(TokenValues.langCode == langCode2, TokenValues.templateName == templateName2).order(TokenValues.langCode2, TokenValues.templateName)
+            logging.info('GGG: langCode_just_B4_Query1_NotEN: %s' % langCode2)
+            logging.info('GGG: templateName_just_B4_Query1_NotEN: %s' % templateName2)
+            q = TokenValues.query(TokenValues.langCode == langCode2, TokenValues.templateName == templateName2).order(TokenValues.langCode, TokenValues.templateName)
 #		q = db.GqlQuery("SELECT * FROM TokenValues " + 
 #                "WHERE langCode = :1 AND templateName = :2 " +
 #                "ORDER BY tknID ASC",
@@ -241,7 +250,9 @@ class TokenClone(BaseHandler):
                         countmap_other_language[token.tknID]=1
 
         langCode='en'
-        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode2, TokenValues.templateName)
+        logging.info('GGG: langCode_just_B4_Query2_EN: %s' % langCode)
+        logging.info('GGG: templateName_just_B4_Query2_EN: %s' % templateName2)
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName2).order(TokenValues.langCode, TokenValues.templateName)
 #        q = db.GqlQuery("SELECT * FROM TokenValues " + 
 #            "WHERE langCode = :1 AND templateName = :2 " +
 #            "ORDER BY tknID ASC",
@@ -258,7 +269,9 @@ class TokenClone(BaseHandler):
               login = users.create_login_url('/tokens/create')
 
         if langCode2 == 'xx':
-            self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
+            return self.redirect('/tokens-step1')
+
+#        self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
         else:		
             for token in tokens:
                 if token.tknID not in countmap_other_language:
@@ -269,7 +282,9 @@ class TokenClone(BaseHandler):
                         whichuser=users.get_current_user()
                         )
                     n.put()
-            self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
+            return self.redirect('/tokens-step1')
+#            return self.redirect('/tokens?templateName=' + templateName2 + '&langCode=' + langCode)
+#            self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 		
 		
 class TokenEdit(BaseHandler):
@@ -279,25 +294,34 @@ class TokenEdit(BaseHandler):
         token = ndb.Key('TokenValues', iden).get()
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
-        if currentuser != token.whichuser and not users.is_current_user_admin():
-            self.abort(403)
-            return
-        token.templateName = self.request.get('templateName')
-        token.langCode = self.request.get('langCode')
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
+        templateName = self.request.get('templateName')
+        langCode = self.request.get('langCode')
+        token.templateName = templateName
+        token.langCode = langCode
         token.tknID = self.request.get('tknID')
         token.tknValue = self.request.get('tknValue')
-        token.date = datetime.now()
+#        token.status = self.request.get('status')
+#        token.date = datetime.now()
+        StatusPrev = token.Status
+        token.Status = self.request.get('Status')
+        if not token.Status == StatusPrev:
+            token.StatusBy = currentuser
+            token.StatusDate = datetime.now()    
+
         token.put()
-        return self.redirect('/tokens')
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 
     def get(self, token_id):
         iden = int(token_id)
         token = ndb.Key('TokenValues', iden).get()
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
-        if currentuser != token.whichuser and not users.is_current_user_admin():
-            self.abort(403)
-            return
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -305,7 +329,8 @@ class TokenEdit(BaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens')
-        self.render_template('TokenEdit.html', {'token': token,'currentuser':currentuser, 'login':login, 'logout': logout})
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        self.render_template('TokenEdit.html', {'token': token, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TokenDelete(BaseHandler):
@@ -317,11 +342,10 @@ class TokenDelete(BaseHandler):
         langCode = token.langCode
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
-        if currentuser != token.whichuser and not users.is_current_user_admin():
-            self.abort(403)
-            return
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
 
 #        db.delete(token)
         token.key.delete()
-
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)

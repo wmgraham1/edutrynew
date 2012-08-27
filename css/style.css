@@ -246,6 +246,12 @@ a:hover {
   list-style-type: lower-alpha;
   }
   
+  
+#contentColumn li ul {
+  padding: 3px;
+  list-style-type: lower-alpha;
+  }
+  
 #contentColumn p {
 /*  background-color: blue;
   line-height: 25px;
@@ -288,6 +294,20 @@ a:hover {
 .a {
   list-style-type: lower-alpha;
   }
+  
+ 
+.list1 {
+  list-style-type: decimal;
+  }
+
+.lista {
+  list-style-type: lower-alpha;
+  }
+
+.listi {
+  list-style-type: lower-roman;
+  }
+
 /*	
 .divider {
 	background-image:url(divider.jpg);

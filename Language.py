@@ -34,7 +34,7 @@ class LangBaseHandler(webapp2.RequestHandler):
 class LangList(LangBaseHandler):
 
     def get(self):
-        languages = Languages.query()
+        languages = Languages.query().order(Languages.langName)
         logout = None
         login = None
         currentuser = users.get_current_user()

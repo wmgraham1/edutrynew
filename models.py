@@ -60,6 +60,7 @@ class Comments(ndb.Model):
 
 class Templates(ndb.Model):
   Name = ndb.StringProperty(required=True)
+  FolderName = ndb.StringProperty()
   TemplateType = ndb.StringProperty()
   Description = ndb.StringProperty()
   FileName = ndb.StringProperty()
@@ -68,7 +69,7 @@ class Templates(ndb.Model):
   Status = ndb.StringProperty(default="Pending Translation")
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
-  UpdatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedDate = ndb.DateTimeProperty()
   UpdatedBy = ndb.UserProperty()
  
 class TokenValues(ndb.Model):
@@ -77,15 +78,13 @@ class TokenValues(ndb.Model):
   langCode = ndb.StringProperty()
   tknID = ndb.StringProperty()
   tknValue = ndb.StringProperty()
-  date = ndb.DateTimeProperty(auto_now_add=True)
-  whichuser = ndb.UserProperty()
-  createdDate = ndb.DateTimeProperty(auto_now_add=True)
-  createdBy = ndb.UserProperty(auto_current_user_add=True)
-  updatedDate = ndb.DateTimeProperty()
-  updatedBy = ndb.UserProperty()
-  status = ndb.StringProperty()  
-  statusDate = ndb.DateTimeProperty(auto_now_add=True)
-  statusBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedBy = ndb.UserProperty(auto_current_user=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now=True)
+  Status = ndb.StringProperty(default="Pending Translation")
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedDate = ndb.DateTimeProperty()
+  UpdatedBy = ndb.UserProperty()
 
 class UserSuppl(ndb.Model):
   UserID = ndb.UserProperty(auto_current_user_add=True)

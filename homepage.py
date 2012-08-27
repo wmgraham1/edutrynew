@@ -86,7 +86,8 @@ class ViewHomePage(BaseHandler):
         else:
             template_values = {
                 'content1': 'No home page content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
-        template = jinja_environment.get_template('stdpage_block.html')
+#        template = jinja_environment.get_template('stdpage_block.html')
+        template = jinja_environment.get_template('Home.html')
         jinja_environment.filters['AccessOK'] = AccessOK
 
         self.response.out.write(template.render(template_values))

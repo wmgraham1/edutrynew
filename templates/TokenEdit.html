@@ -40,13 +40,30 @@
     </div>
   </div>
   
-<div class="field-wrapper">
+  <div class="field-wrapper">
     <div class="field-label">
       <label for="id_tknval">Token Value</label>:
     </div>
     <div class="field-field">
       <input type="text" name="tknValue" id="id_tknvalue" size="120" value="{{ token.tknValue }}" />
     </div>   
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == token.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
   </div>
 
 <br />      

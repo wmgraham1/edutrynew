@@ -33,7 +33,7 @@ class TemplateBaseHandler(webapp2.RequestHandler):
 class TemplateList(TemplateBaseHandler):
 
     def get(self):
-        templates = Templates.query()
+        templates = Templates.query().order(Templates.Name)
 
         logout = None
         login = None
@@ -51,6 +51,7 @@ class TemplateCreate(TemplateBaseHandler):
         #logging.error('QQQ: templatecreate POST')
         n = Templates(Name=self.request.get('Name')
                   , TemplateType=self.request.get('TemplateType')
+                  , FolderName=self.request.get('FolderName')
                   , FileName=self.request.get('FileName')
                   , Description=self.request.get('Description')
                   , Status=self.request.get('Status')
@@ -67,9 +68,10 @@ class TemplateCreate(TemplateBaseHandler):
         else:
               login = users.create_login_url('/templates/create')
 
+        FolderList = ['exercises', 'utils', 'other'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
-        self.render_template('TemplateCreate.html', {'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TemplateCreate.html', {'FolderList': FolderList, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TemplateEdit(TemplateBaseHandler):
@@ -83,6 +85,7 @@ class TemplateEdit(TemplateBaseHandler):
             return
         template.Name = self.request.get('Name')
         template.TemplateType = self.request.get('TemplateType')
+        template.FolderName=self.request.get('FolderName')
         template.FileName = self.request.get('FileName')
         template.Description = self.request.get('Description')
         StatusPrev = template.Status
@@ -107,9 +110,10 @@ class TemplateEdit(TemplateBaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates')
+        FolderList = ['exercises', 'utils', 'other'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
-        self.render_template('TemplateEdit.html', {'template': template, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TemplateEdit.html', {'template': template, 'FolderList': FolderList, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TemplateDelete(TemplateBaseHandler):

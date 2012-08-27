@@ -13,6 +13,23 @@
 
   <div class="field-wrapper">
     <div class="field-label">
+      <label for="id_FolderName">Folder Name</label>:
+    </div>
+    <div class="field-field">
+        <select name="FolderName">
+        {% for FolderName in FolderList %}
+            <option value="{{FolderName}}" 
+            {% if FolderName == template.FolderName %}
+                selected="selected"
+            {% endif %}
+            >{{FolderName}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
       <label for="id_TemplateType">TemplateType</label>:
     </div>
     <div class="field-field">

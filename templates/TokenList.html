@@ -10,6 +10,7 @@
     <tr>
       <th>Token</th>
       <th>Value</th>
+	  <th>Status</th>
 	  <th>Created</th>
       <th>CreatedBy</th>
 	  {% if currentuser|AccessOK(221) %} 
@@ -22,8 +23,9 @@
 	<tr>
 	  <td> {{ token.tknID }} </td>
 	  <td> {{ token.tknValue }} </td>
-	  <td> {{ token.date.strftime('%Y-%m-%d')  }} </td>
-	  <td> {{ token.whichuser }} </td>
+	  <td> {{ token.Status }} </td>
+	  <td> {{ token.CreatedDate  }} </td>
+	  <td> {{ token.CreatedBy }} </td>
 	  {% if currentuser|AccessOK(221) %} 
 	  <td><a href ="/tokens/edit/{{ token.key.id() }}">edit </a></td>
 	  {% endif %}
