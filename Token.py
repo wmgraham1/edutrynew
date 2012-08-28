@@ -164,7 +164,7 @@ class TokenCreate(BaseHandler):
                 , langCode=langCode
                 , tknID=self.request.get('tknID')
                 , tknValue=self.request.get('tknValue')
-                , status = 'Pending Translation'
+                , Status = 'Pending Translation'
 #                , whichuser=users.get_current_user()
                 )
         n.put()
