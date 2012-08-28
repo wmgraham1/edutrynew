@@ -35,6 +35,13 @@ indexes:
   - name: RefObjID
   - name: CommentCode
 
+- kind: GeneratedFiles
+  properties:
+  - name: LangCode
+  - name: TemplateName
+  - name: CreatedDate
+    direction: desc
+
 - kind: Languages
   properties:
   - name: langCode

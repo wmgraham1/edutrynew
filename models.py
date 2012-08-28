@@ -87,9 +87,9 @@ class TokenValues(ndb.Model):
   UpdatedBy = ndb.UserProperty()
 
 class GeneratedFiles(ndb.Model):
-  templateName = ndb.StringProperty()
+  TemplateName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
-  langCode = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
   FileTxt = ndb.BlobProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)

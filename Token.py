@@ -13,6 +13,7 @@ from SecurityUtils import AccessOK
 from models import TokenValues
 from models import Languages
 from models import Templates
+from models import GeneratedFiles
 
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -134,21 +135,25 @@ class TokenList(BaseHandler):
 
         templateName=self.request.get('templateName')
 
-        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName)
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
 #        q = db.GqlQuery("SELECT * FROM TokenValues " + 
 #                "WHERE langCode = :1 AND templateName = :2 " +
 #                "ORDER BY tknID ASC",
 #                langCode, templateName)
         tokens = q.fetch(999)
+        
+#        q = Templates.query(Templates.Name == templateName)
+#        template = q.get()
 
+#        templatekey = template.key.id()
         logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:
               logout = users.create_logout_url('/tokens' )
         else:
-              login = users.create_login_url('/tokens/create')
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+              login = users.create_login_url('/tokens')
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'langCode':langCode, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 
@@ -216,6 +221,69 @@ class TokenCreate(BaseHandler):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         self.render_template('TokenCreate.html', {'templates': templates, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
+		
+class TokenEdit(BaseHandler):
+
+    def post(self, token_id):
+        iden = int(token_id)
+        token = ndb.Key('TokenValues', iden).get()
+#        token = db.get(db.Key.from_path('TokenValues', iden))
+        currentuser = users.get_current_user()
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
+        templateName = self.request.get('templateName')
+        langCode = self.request.get('langCode')
+        token.templateName = templateName
+        token.langCode = langCode
+        token.tknID = self.request.get('tknID')
+        token.tknValue = self.request.get('tknValue')
+#        token.status = self.request.get('status')
+#        token.date = datetime.now()
+        StatusPrev = token.Status
+        token.Status = self.request.get('Status')
+        if not token.Status == StatusPrev:
+            token.StatusBy = currentuser
+            token.StatusDate = datetime.now()    
+
+        token.put()
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
+
+    def get(self, token_id):
+        iden = int(token_id)
+        token = ndb.Key('TokenValues', iden).get()
+#        token = db.get(db.Key.from_path('TokenValues', iden))
+        currentuser = users.get_current_user()
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        self.render_template('TokenEdit.html', {'token': token, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+
+class TokenDelete(BaseHandler):
+
+    def get(self, token_id):
+        iden = int(token_id)
+        token = ndb.Key('TokenValues', iden).get()
+        templateName = token.templateName
+        langCode = token.langCode
+#        token = db.get(db.Key.from_path('TokenValues', iden))
+        currentuser = users.get_current_user()
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
+
+#        db.delete(token)
+        token.key.delete()
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 
 class TokenClone(BaseHandler):
 
@@ -284,66 +352,44 @@ class TokenClone(BaseHandler):
 #            return self.redirect('/tokens?templateName=' + templateName2 + '&langCode=' + langCode)
 #            self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 		
-		
-class TokenEdit(BaseHandler):
+class TokenFileGen(BaseHandler):
 
-    def post(self, token_id):
+    def get(self):
+        templateName=self.request.get('templateName')
+
+        q = Templates.query(Templates.Name == templateName)
+        template = q.get()
+#        template = ndb.Key('Templates', iden).get()
+        TemplateName = template.Name
+        FolderName = template.FolderName
+        FileName = template.FileName
+
+        LangCode=self.request.get('langCode')
+        q = TokenValues.query(TokenValues.langCode == LangCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        tokenvals = q.fetch(999)
+        tokendict = {}
+        for tokenval in tokenvals:
+            tokendict[tokenval.tknID] = tokenval.tknValue
+        #tokenvals = tokendict()
+
+        template = jinja_environment.get_template('khan-exercise.html')     
+        blobtext = template.render(tokenvals = tokendict)
+        bloboutput = (blobtext.encode('ASCII'))
+
+        f = GeneratedFiles(
+            TemplateName = TemplateName
+            , FolderName = FolderName
+            , LangCode = LangCode
+            , FileTxt = bloboutput
+            , Status = 'Published'
+            )
+        f.put()
+
+        return self.redirect('/tokens?templateName=' + TemplateName + '&langCode=' + LangCode)
+        
+class TokenFileView(BaseHandler):
+
+    def get(self):
         iden = int(token_id)
-        token = ndb.Key('TokenValues', iden).get()
-#        token = db.get(db.Key.from_path('TokenValues', iden))
-        currentuser = users.get_current_user()
-#        if currentuser != token.whichuser and not users.is_current_user_admin():
-#            self.abort(403)
-#            return
-        templateName = self.request.get('templateName')
-        langCode = self.request.get('langCode')
-        token.templateName = templateName
-        token.langCode = langCode
-        token.tknID = self.request.get('tknID')
-        token.tknValue = self.request.get('tknValue')
-#        token.status = self.request.get('status')
-#        token.date = datetime.now()
-        StatusPrev = token.Status
-        token.Status = self.request.get('Status')
-        if not token.Status == StatusPrev:
-            token.StatusBy = currentuser
-            token.StatusDate = datetime.now()    
-
-        token.put()
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 
-    def get(self, token_id):
-        iden = int(token_id)
-        token = ndb.Key('TokenValues', iden).get()
-#        token = db.get(db.Key.from_path('TokenValues', iden))
-        currentuser = users.get_current_user()
-#        if currentuser != token.whichuser and not users.is_current_user_admin():
-#            self.abort(403)
-#            return
-        logout = None
-        login = None
-        currentuser = users.get_current_user()
-        if currentuser:
-              logout = users.create_logout_url('/tokens' )
-        else:
-              login = users.create_login_url('/tokens')
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenEdit.html', {'token': token, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
-
-
-class TokenDelete(BaseHandler):
-
-    def get(self, token_id):
-        iden = int(token_id)
-        token = ndb.Key('TokenValues', iden).get()
-        templateName = token.templateName
-        langCode = token.langCode
-#        token = db.get(db.Key.from_path('TokenValues', iden))
-        currentuser = users.get_current_user()
-#        if currentuser != token.whichuser and not users.is_current_user_admin():
-#            self.abort(403)
-#            return
-
-#        db.delete(token)
-        token.key.delete()
-        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)

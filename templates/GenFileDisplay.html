@@ -1,0 +1,43 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div class="PaperTitle">
+<h2>Template: {{ genfile.TemplateName }} in Language: {{ genfile.LangCode }}</h2>
+</div>
+<div class="PageContentBlock">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Text">File Text</label>:
+    </div>
+    <div class="field-field">
+      <textarea class="field-field" rows="40" cols="120" id="editor2" name="Text" >{{ genfile.FileTxt }}</textarea>
+	  <script type="text/javascript">
+		//<![CDATA[
+
+			CKEDITOR.replace( 'editor2',
+			{
+				fullPage : false
+				
+			});
+				
+		//]]>
+		</script>
+	</div>
+    <div style="clear: both;"></div>
+  </div>
+
+
+    <textarea name="code" class="html" cols="120" rows="40">
+    {{ genfile.FileTxt }}
+    </textarea>
+</div>
+<br/><br/>
+{% endblock content %}
+<link type="text/css" rel="stylesheet" href="css/SyntaxHighlighter.css"></link>
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shCore.js"></script>
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushPython.js"></script>
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushCss.js"></script>
+<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushXml.js"></script>
+<script language="javascript">
+dp.SyntaxHighlighter?.ClipboardSwf? = 'dp.SyntaxHighlighter/Scripts/clipboard.swf';
+dp.SyntaxHighlighter?.HighlightAll('code');
+</script>

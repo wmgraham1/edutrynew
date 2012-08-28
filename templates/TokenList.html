@@ -2,6 +2,9 @@
 {% block content %}
 <br/>
 <h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
+<br />
+<p><a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/genfiles/altdisplay?TemplateName={{templateName}}&LangCode={{langCode}}">View Translated File</a></p>
+<br />
 {% if currentuser|AccessOK(221) %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
 {% endif %}

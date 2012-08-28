@@ -35,11 +35,12 @@ from PageContent import PageContentList, PageContentCreate, PageContentEdit, Pag
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
-from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone
+from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
+from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 
 
 
@@ -94,6 +95,8 @@ app = webapp2.WSGIApplication([
     ('/tokens/edit/([\d]+)', TokenEdit),
     ('/tokens/delete/([\d]+)', TokenDelete),
     ('/tokens/clone', TokenClone),
+    ('/tokens/translate', TokenFileGen),
+    ('/tokens/viewtranslated', TokenFileView),
     ('/listtypes', ListTypeList),
     ('/listtypes/create', ListTypeCreate), 
     ('/listtypes/edit/([\d]+)', ListTypeEdit),
@@ -105,7 +108,11 @@ app = webapp2.WSGIApplication([
     ('/templates', TemplateList),
     ('/templates/create', TemplateCreate), 
     ('/templates/edit/([\d]+)', TemplateEdit),
-    ('/templates/delete/([\d]+)', TemplateDelete)
+    ('/templates/delete/([\d]+)', TemplateDelete),
+    ('/genfiles', GenFileList), 
+    ('/genfiles/display/([\d]+)', GenFileDisplay),
+    ('/genfiles/altdisplay', GenFileAltDisplay),
+    ('/genfiles/delete/([\d]+)', GenFileDelete),
 	],
                 config=config,
                 debug=True)

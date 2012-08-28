@@ -80,9 +80,9 @@ class TemplateEdit(TemplateBaseHandler):
         iden = int(template_id)
         template = ndb.Key('Templates', iden).get()
         currentuser = users.get_current_user()
-        if currentuser != template.CreatedBy and not users.is_current_user_admin():
-            self.abort(403)
-            return
+#        if currentuser != template.CreatedBy and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
         template.Name = self.request.get('Name')
         template.TemplateType = self.request.get('TemplateType')
         template.FolderName=self.request.get('FolderName')
@@ -99,10 +99,6 @@ class TemplateEdit(TemplateBaseHandler):
     def get(self, template_id):
         iden = int(template_id)
         template = ndb.Key('Templates', iden).get()
-        currentuser = users.get_current_user()
-        if currentuser != template.CreatedBy and not users.is_current_user_admin():
-            self.abort(403)
-            return
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -122,8 +118,10 @@ class TemplateDelete(TemplateBaseHandler):
         iden = int(template_id)
         template = ndb.Key('Templates', iden).get()
         currentuser = users.get_current_user()
-        if currentuser != template.CreatedBy and not users.is_current_user_admin():
-            self.abort(403)
-            return
+#        if currentuser != template.CreatedBy and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
         template.key.delete()
         return webapp2.redirect('/templates')
+
+
