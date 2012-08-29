@@ -15,8 +15,11 @@
 
 			CKEDITOR.replace( 'editor2',
 			{
-				fullPage : false
-				
+                toolbar :
+                    [
+                    ['Source']
+                    ]
+	
 			});
 				
 		//]]>
@@ -25,19 +28,6 @@
     <div style="clear: both;"></div>
   </div>
 
-
-    <textarea name="code" class="html" cols="120" rows="40">
-    {{ genfile.FileTxt }}
-    </textarea>
 </div>
 <br/><br/>
 {% endblock content %}
-<link type="text/css" rel="stylesheet" href="css/SyntaxHighlighter.css"></link>
-<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shCore.js"></script>
-<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushPython.js"></script>
-<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushCss.js"></script>
-<script language="javascript" src="dp.SyntaxHighlighter/Scripts/shBrushXml.js"></script>
-<script language="javascript">
-dp.SyntaxHighlighter?.ClipboardSwf? = 'dp.SyntaxHighlighter/Scripts/clipboard.swf';
-dp.SyntaxHighlighter?.HighlightAll('code');
-</script>
