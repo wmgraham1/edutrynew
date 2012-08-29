@@ -372,7 +372,7 @@ class TokenFileGen(BaseHandler):
             tokendict[tokenval.tknID] = tokenval.tknValue
         #tokenvals = tokendict()
 
-        template = jinja_environment.get_template('khan-exercise.html')     
+        template = jinja_environment.get_template(FileName)     
         blobtext = template.render(tokenvals = tokendict)
         bloboutput = (blobtext.encode('ASCII'))
 
