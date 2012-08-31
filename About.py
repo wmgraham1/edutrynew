@@ -51,21 +51,8 @@ class BaseHandler(webapp2.RequestHandler):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
 
-class ViewHomePage(BaseHandler):
+class DisplayAboutSite(BaseHandler):
     def get(self):
-        PageContentList = memcache.get("PageContentList")
-        if PageContentList is not None:
-            logging.info("got PageContentList from memcache.")
-        else:
-            logging.info("Can not get PageContentList from memcache.")
-            PageContent = PageContents.query()
-            PageContentList = {}
-            for PageCntnt in PageContent:
-                PageContentList[PageCntnt.TemplateName] = PageCntnt.key.id()
-            if not memcache.add("PageContentList", PageContentList, 10):
-                logging.info("Memcache set failed.")
-            else:
-                logging.info("Memcache set succeeded.")
 
         logout = None
         login = None
@@ -75,19 +62,45 @@ class ViewHomePage(BaseHandler):
         else:
               login = users.create_login_url('/')
 
-        if PageContentList.has_key('homepage'):
-            template_id = (PageContentList['homepage'])
-            iden = int(template_id)
-#            PageContent = db.get(db.Key.from_path('PageContents', iden))
-            PageContent = ndb.Key('PageContents', iden).get()
-
-            template_values = {
-                'content1': PageContent.ContentText, 'currentuser':currentuser, 'login':login, 'logout': logout}
-        else:
-            template_values = {
-                'content1': 'No home page content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
+        template_values = {'content1': 'No About Site content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
 #        template = jinja_environment.get_template('stdpage_block.html')
-        template = jinja_environment.get_template('Home.html')
+        template = jinja_environment.get_template('AboutSite.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+
+        self.response.out.write(template.render(template_values))
+
+class DisplayAboutUs(BaseHandler):
+    def get(self):
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/' )
+        else:
+              login = users.create_login_url('/')
+
+        template_values = {'content1': 'No About Site content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
+#        template = jinja_environment.get_template('stdpage_block.html')
+        template = jinja_environment.get_template('AboutUs.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+
+        self.response.out.write(template.render(template_values))
+
+class DisplayAboutKA(BaseHandler):
+    def get(self):
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/' )
+        else:
+              login = users.create_login_url('/')
+
+        template_values = {'content1': 'No About Site content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
+#        template = jinja_environment.get_template('stdpage_block.html')
+        template = jinja_environment.get_template('AboutKA.html')
         jinja_environment.filters['AccessOK'] = AccessOK
 
         self.response.out.write(template.render(template_values))

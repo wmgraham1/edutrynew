@@ -56,8 +56,8 @@ DIV.lix TABLE {background-color: lightyellow; text-align: left; font-family: ver
       <th style="text-align: center;"># Tokens English</th>
 	  {% if not langName == 'English': %}
       <th style="text-align: center;"># Tokens {{langName}}</th>
-      {% endif %}
       <th style="text-align: center;">Clone</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -67,8 +67,8 @@ DIV.lix TABLE {background-color: lightyellow; text-align: left; font-family: ver
 	  <td style="text-align: center;"> {{countmap_en[key]}} </td>
 	  {% if not langName == 'English': %}
 	  <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
-      {% endif %}
   	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
+      {% endif %}
     </tr>
     {% endfor %}	
 

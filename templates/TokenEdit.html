@@ -1,54 +1,71 @@
 {% extends "page_template.html" %}
 {% block content %}
+<h2 style="text-align: center;">Token: {{ token.tknID }} for Template: {{token.templateName}} and Language: {{token.langCode}}</h2>
 
 <form action="" method="post">
   <div class="field-wrapper">
+{% if token.langCode == 'en' %} 
     <div class="field-label">
       <label for="id_template">Template</label>:
     </div>
+{% endif %}
     <div class="field-field">
 	  {% if token.langCode == 'en' %} 
         <input type="text" name="templateName" id="id_template" value="{{ token.templateName }}" />
       {% else %}
         <input type="hidden" name="templateName" id="id_template" value="{{ token.templateName }}" />
-	    {{ token.templateName }}
       {% endif %}
     </div>
   </div>
-
+<br />
   <div class="field-wrapper">
+{% if token.langCode == 'en' %} 
     <div class="field-label">
       <label for="id_language">Language Code</label>:
     </div>
+{% endif %}
     <div class="field-field">
 	  <input type="hidden" name="langCode" id="id_language" value="{{ token.langCode }}" />
-	  {{ token.langCode }}
     </div>
   </div>
-  
+<br />
   <div class="field-wrapper">
+{% if token.langCode == 'en' %} 
     <div class="field-label">
-      <label for="id_token">Token Nbr</label>:
+      <label for="id_token">Token ID</label>:
     </div>
+{% endif %}
     <div class="field-field">
 	  {% if token.langCode == 'en' %} 
         <input type="text" name="tknID" id="id_token" value="{{ token.tknID }}" />
       {% else %}
         <input type="hidden" name="tknID" id="id_token" value="{{ token.tknID }}" />
-	    {{ token.tknID }}
       {% endif %}
     </div>
   </div>
-  
+<br />
+
+{% if not token.langCode == 'en' %} 
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_tknval">Token Value</label>:
+      <label for="id_tknval">English Token Value</label>:
+    </div>
+    <div class="field-field">
+      {{ tknValue_en }}
+    </div>   
+  </div>
+<br />
+{% endif %}  
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_tknval">Current Language Token Value</label>:
     </div>
     <div class="field-field">
       <input type="text" name="tknValue" id="id_tknvalue" size="120" value="{{ token.tknValue }}" />
     </div>   
   </div>
-
+<br />
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Status">Status</label>:

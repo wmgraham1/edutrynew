@@ -33,6 +33,7 @@ class Papers(ndb.Model):
   Title = ndb.StringProperty()
   Category = ndb.StringProperty()
   Text = ndb.TextProperty()
+  Type = ndb.TextProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
   UpdatedBy = ndb.UserProperty()

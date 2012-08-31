@@ -72,6 +72,11 @@ indexes:
   properties:
   - name: langCode
   - name: templateName
+
+- kind: TokenValues
+  properties:
+  - name: langCode
+  - name: templateName
   - name: tknID
 
 - kind: TokenValues
@@ -84,4 +89,15 @@ indexes:
 - kind: TokenValues
   properties:
   - name: langCode
+  - name: templateName
+    direction: desc
+
+- kind: TokenValues
+  properties:
+  - name: langCode
   - name: tknID
+
+- kind: TokenValues
+  properties:
+  - name: tknID
+  - name: templateName

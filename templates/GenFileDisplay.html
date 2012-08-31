@@ -3,6 +3,7 @@
 <div class="PaperTitle">
 <h2>Template: {{ genfile.TemplateName }} in Language: {{ genfile.LangCode }}</h2>
 </div>
+<p>Click on the Source Button to see the actual source text that was changed.</p>
 <div class="PageContentBlock">
   <div class="field-wrapper">
     <div class="field-label">
@@ -12,16 +13,15 @@
       <textarea class="field-field" rows="40" cols="120" id="editor2" name="Text" >{{ genfile.FileTxt }}</textarea>
 	  <script type="text/javascript">
 		//<![CDATA[
-
 			CKEDITOR.replace( 'editor2',
-			{
+			{   height: '600px',
+            
                 toolbar :
                     [
                     ['Source']
                     ]
 	
 			});
-				
 		//]]>
 		</script>
 	</div>

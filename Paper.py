@@ -66,13 +66,18 @@ class PaperList(BaseHandler):
             q = Papers.query(Papers.Category == 'Winning Students').order(Papers.CreatedDate)
             CatName = 'Learners and Programs'
         elif category == 'misc':
-            q = Papers.query(Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, Papers.CreatedDate)
+            q = Papers.query(Papers.Category != 'Feedback', Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, Papers.CreatedDate)
             CatName = 'Miscellaneous'
         else:
-            q = Papers.query().order(Papers.CreatedDate)
+            q = Papers.query().order(Papers.Category, Papers.CreatedDate)
             CatName = 'All'
 
         papers = q.fetch(99)
+
+        if papers:
+            Havepapers = True
+        else:
+            Havepapers = False
 		
         logout = None
         login = None
@@ -81,7 +86,46 @@ class PaperList(BaseHandler):
               logout = users.create_logout_url('/pagecontents' )
         else:
               login = users.create_login_url('/pagecontents/create')
-        self.render_template('PaperList.html', {'papers': papers, 'cat': category, 'CatName': CatName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('PaperList.html', {'papers': papers, 'Havepapers': Havepapers, 'cat': category, 'CatName': CatName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+class FeedbackList(BaseHandler):
+
+    def get(self):
+        logging.info("Now in FeedbackList get.")
+        CatName = 'All'
+
+        q = Papers.query(Papers.Category == 'Feedback').order(-Papers.CreatedDate)
+        papers = q.fetch(999)
+        
+        if papers:
+            Havepapers = True
+        else:
+            Havepapers = False
+		
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/feedback' )
+        else:
+              login = users.create_login_url('/feedback')
+
+        template_values = {
+            'papers': papers, 
+            'Havepapers': Havepapers,
+            'currentuser':currentuser, 
+            'login':login, 
+            'logout': logout
+            }
+
+        jinja_environment = \
+            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+        jinja_environment.filters['AccessOK'] = AccessOK
+
+        template = jinja_environment.get_template('FeedbackList.html')
+        self.response.out.write(template.render(template_values))
+
+#        self.render_template('FeedbackList.html', {'papers': papers, 'Havepapers': Havepapers, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class PaperDisplay(BaseHandler):
@@ -93,10 +137,21 @@ class PaperDisplay(BaseHandler):
         q = Comments.query(Comments.RefObjType == 'paper', Comments.RefObjID == paper_id).order(Comments.CommentCode)
         comments = q.fetch(99)
 
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/paper/display' )
+        else:
+              login = users.create_login_url('/paper/display')
+
         template_values = {
             'Paper': Paper, 
             'Comments': comments,
-			'iden': paper_id
+			'iden': paper_id,
+            'currentuser':currentuser, 
+            'login':login, 
+            'logout': logout
             }
 
         #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -104,6 +159,41 @@ class PaperDisplay(BaseHandler):
             jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
         template = jinja_environment.get_template('PaperDisplay.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+        self.response.out.write(template.render(template_values))
+
+class FeedbackDisplay(BaseHandler):
+
+    def get(self, paper_id):
+        iden = int(paper_id)
+        Paper = ndb.Key('Papers', iden).get()
+
+        q = Comments.query(Comments.RefObjType == 'paper', Comments.RefObjID == paper_id).order(Comments.CommentCode)
+        comments = q.fetch(99)
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/feedback/display' )
+        else:
+              login = users.create_login_url('/feedback/display')
+
+        template_values = {
+            'Paper': Paper, 
+            'Comments': comments,
+			'iden': paper_id,
+            'currentuser':currentuser, 
+            'login':login, 
+            'logout': logout
+            }
+
+        #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
+#        jinja_environment = \
+#            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+
+        template = jinja_environment.get_template('FeedbackDisplay.html')
+#        jinja_environment.filters['AccessOK'] = AccessOK
         self.response.out.write(template.render(template_values))
 
 class PaperCreate(BaseHandler):
@@ -114,6 +204,7 @@ class PaperCreate(BaseHandler):
         n = Papers(Title=self.request.get('Title'),
                 Category=self.request.get('Category'),
                 Text=self.request.get('Text'),
+                Type='Paper',
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
                 StatusBy=CreatedBy)
@@ -127,6 +218,32 @@ class PaperCreate(BaseHandler):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
         self.render_template('PaperCreate.html', {'StatusList': StatusList, 'cat': cat, 'CategoryList': CategoryList})
+
+class FeedbackCreate(BaseHandler):
+
+    def post(self):
+        CreatedBy = users.get_current_user()
+        n = Papers(
+            Title=self.request.get('Title'),
+            Category='Feedback',
+            Text=self.request.get('Text'),
+            Type='Feedback',
+            Status='Published',
+            CreatedBy=CreatedBy,
+            StatusBy=CreatedBy)
+        logging.info('QQQ: FeedbackPost_Title: %s' % n.Title)
+        logging.info('QQQ: FeedbackPost_Category: %s' % n.Category)
+        logging.info('QQQ: FeedbackPost_Text: %s' % n.Text)
+        logging.info('QQQ: FeedbackPost_Type: %s' % n.Type)
+        logging.info('QQQ: FeedbackPost_Status: %s' % n.Status)
+        n.put()
+
+        return self.redirect('/feedback')
+
+    def get(self):
+        cat=self.request.get('cat')	
+        logging.info("Now in PaperCreate get.")
+        self.render_template('FeedbackCreate.html', {'cat': cat})
 
 class PaperEdit(BaseHandler):
 
@@ -153,8 +270,37 @@ class PaperEdit(BaseHandler):
         Paper = ndb.Key('Papers', iden).get()
         cat=self.request.get('cat')	
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
         self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
+
+class FeedbackEdit(BaseHandler):
+
+    def post(self, paper_id):
+        iden = int(paper_id)
+        paper = ndb.Key('Papers', iden).get()
+        currentuser = users.get_current_user()
+        cat=self.request.get('cat')	
+        paper.Title = self.request.get('Title')
+        paper.Category = 'Feedback'
+        paper.Text = self.request.get('Text')
+        paper.Type = 'Feedback'
+        paper.UpdatedBy = currentuser
+        paper.UpdatedDate = datetime.now()
+        StatusPrev = paper.Status
+        paper.Status = self.request.get('Status')
+        if not paper.Status == StatusPrev:
+            paper.StatusBy = currentuser
+            paper.StatusDate = datetime.now()            
+        paper.put()
+        return self.redirect('feedback')
+
+    def get(self, paper_id):
+        iden = int(paper_id)
+        Paper = ndb.Key('Papers', iden).get()
+        cat=self.request.get('cat')	
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
+        self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
 class PaperDelete(BaseHandler):
 

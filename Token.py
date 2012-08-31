@@ -252,6 +252,25 @@ class TokenEdit(BaseHandler):
     def get(self, token_id):
         iden = int(token_id)
         token = ndb.Key('TokenValues', iden).get()
+        logging.info('GGG: token.langCode: %s' % token.langCode)
+        tknValue_en = 'no entry'
+        if  (token.langCode != 'en'):
+            TemplateName_en = token.templateName
+            tknID_en = token.tknID
+            logging.info('GGG: TemplateName_en: %s' % TemplateName_en)
+            logging.info('GGG: tknID_en: %s' % tknID_en)
+            logging.info('GGG: tknValue: %s' % token.tknValue)
+            q = TokenValues.query(TokenValues.templateName == TemplateName_en, TokenValues.tknID == tknID_en, TokenValues.langCode == 'en')
+            TokenVal_en = q.get()
+            logging.info('GGG: TokenVal_en.templateName: %s' % TokenVal_en.templateName)
+            logging.info('GGG: TokenVal_en.tknID: %s' % TokenVal_en.tknID)
+            logging.info('GGG: TokenVal_en.langCode: %s' % TokenVal_en.langCode)
+            logging.info('GGG: TokenVal_en.tknValue: %s' % TokenVal_en.tknValue)
+            logging.info('GGG: TemplateName_en: %s' % TemplateName_en)
+            logging.info('GGG: tknID_en: %s' % tknID_en)
+            logging.info('GGG: tknValue: %s' % token.tknValue)
+            tknValue_en = TokenVal_en.tknValue
+
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
 #        if currentuser != token.whichuser and not users.is_current_user_admin():
@@ -265,7 +284,7 @@ class TokenEdit(BaseHandler):
         else:
               login = users.create_login_url('/tokens')
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenEdit.html', {'token': token, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenEdit.html', {'token': token, 'tknValue_en': tknValue_en, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TokenDelete(BaseHandler):
@@ -370,8 +389,11 @@ class TokenFileGen(BaseHandler):
         tokendict = {}
         for tokenval in tokenvals:
             tokendict[tokenval.tknID] = tokenval.tknValue
+            logging.info('QQQ: TknID: %s' % tokenval.tknID)
+            logging.info('QQQ: tknValue: %s' % tokenval.tknValue)
         #tokenvals = tokendict()
 
+        logging.info('QQQ: FileName: %s' % FileName)
         template = jinja_environment.get_template(FileName)     
         blobtext = template.render(tokenvals = tokendict)
         bloboutput = (blobtext.encode('ASCII'))

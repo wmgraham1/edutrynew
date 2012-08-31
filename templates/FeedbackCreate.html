@@ -1,37 +1,21 @@
 {% extends "page_template.html" %}
 {% block content %}
-<div class="PaperCommentTitle">
-<h1>{{Comment.Title}}</h1>
-</div>
-<div class="PageContentBlock">
-{{Comment.Text}} 
-</div>
+
 <form action="" method="post">
+
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Title">Subject</label>:
+      <label for="id_Title">Title</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="Title" id="Title"  size="80"/>
-    </div>
-  </div>
-
-  <div class="field-wrapper">
-    <div class="field-field">
-      <input type="hidden" name="RefObjType" value="{{ RefObjType }}" id="RefObjType" />
-    </div>
-  </div>
-
-  <div class="field-wrapper">
-    <div class="field-field">
-      <input type="hidden" name="RefObjID" value="{{ RefObjID }}" id="RefObjID" />
+      <input type="text" name="Title" id="Title" size="80"/>
     </div>
   </div>
 
   <div class="field-wrapper">
     
     <div class="field-label">
-      <label for="id_Text">Text</label>:
+      <label for="id_ContentText">Feedback</label>:
     </div>
     
     <div class="field-field">
@@ -52,9 +36,9 @@
     </div>
   </div>
 
-  <br>
+  <br />
   <input type="submit" value=submit />
 </form>
-
+<br /><br />
 {% endblock content %}
 

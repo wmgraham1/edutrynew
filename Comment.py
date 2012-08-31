@@ -125,6 +125,7 @@ class CommentCreate(BaseHandler):
             jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
         template = jinja_environment.get_template('CommentCreate.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
         self.response.out.write(template.render(template_values))
 
 class CommentSubCreate(BaseHandler):
@@ -199,6 +200,7 @@ class CommentSubCreate(BaseHandler):
             jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
         template = jinja_environment.get_template('CommentCreate.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
         self.response.out.write(template.render(template_values))
 
 class CommentEdit(BaseHandler):

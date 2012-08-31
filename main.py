@@ -23,16 +23,17 @@ from wtforms.ext.appengine.ndb import model_form
 from webapp2_extras import sessions
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import homepage
+#import homepage
 import pageadmin
-import aboutpage
+#import aboutpage
 import contactpage
 
 #import notes
 #import views
+from Home import DisplayHome
 from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
-from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete
+from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView
@@ -41,6 +42,7 @@ from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
+from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 
 
 
@@ -54,11 +56,14 @@ config['webapp2_extras.sessions'] = {
 }
 
 app = webapp2.WSGIApplication([
-	('/', homepage.ViewHomePage),
-	('/home', homepage.ViewHomePage),
-	('/about', aboutpage.ViewAboutPage),
-	('/content', pageadmin.ViewContentPage),
-	('/contact', contactpage.ViewContactPage),
+	('/', DisplayHome),
+	('/home', DisplayHome),
+	('/about/site', DisplayAboutSite),
+	('/about/us', DisplayAboutUs),
+	('/about/ka', DisplayAboutKA),
+    ('/feedback', FeedbackList),
+    ('/feedback/display', FeedbackDisplay),
+    ('/feedback/create', FeedbackCreate),
     ('/users', UserList),
     ('/users/join', UserJoin), 
     ('/users/create', UserCreate), 

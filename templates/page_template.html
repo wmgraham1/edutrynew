@@ -48,21 +48,26 @@ jQuery(function(){
                 <li><a href="#">Platform</a>
 					<ul>
 						<li><a href="/papers/platform">Disc. Papers</a></li>
-
 						<li><a href="#">Translations</a>
 							<ul>
+								<li><a href="/topics">Topics</a></li>
 								<li><a href="/tokens-step1">Tokens</a></li>
 							</ul>
 						</li>
-
 					</ul>
 				</li>
 				<li><a href="/papers/learners">Learners/Prgms</a></li>	
 				<li><a href="/papers/misc">Misc Discussions</a></li>	
 				{% endif %}
-				<li><a href="/about">About us</a></li>
+				<li><a href="#">About</a>
+					<ul>
+						<li><a href="/about/site">About this site</a></li>
+						<li><a href="/about/us">About Us</a></li>
+						<li><a href="/about/ka">About Khan Academy</a></li>
+					</ul>
+                </li>
 				<li><a href="/users/join">Join us</a></li>
-				<li><a href="/contact">Contact Us</a></li>
+				<li><a href="/feedback">Feedback</a></li>
 				{% if currentuser|AccessOK(1) %} 
 				<li><a href="#">Admin</a>
 					<ul>

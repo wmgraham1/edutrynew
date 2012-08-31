@@ -2,7 +2,7 @@
 {% block content %}
 <h2 style="text-align: center;">Papers for Category: {{CatName}}</h2>
 <p><a href="/papers/create/?cat={{cat}}">Add New Paper</a> </p>
-
+{% if Havepapers %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
@@ -29,6 +29,9 @@
     {% endfor %}	
   </tbody>
 </table>
+{% else %}
+<p style="text-align: center;">No papers for this category yet.</p>
+{% endif %}
 
 <p><a href="/papers/create/?cat={{cat}}">Add New Paper</a> </p>
 {% endblock content %}

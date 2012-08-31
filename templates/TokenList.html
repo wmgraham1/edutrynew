@@ -1,11 +1,9 @@
 {% extends "page_template.html" %}
 {% block content %}
-<br/>
 <h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
-<br />
 <p><a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/genfiles/altdisplay?TemplateName={{templateName}}&LangCode={{langCode}}">View Translated File</a></p>
 <br />
-{% if currentuser|AccessOK(221) %} 
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
 {% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
