@@ -3,7 +3,15 @@
 <div class="PageContentBlock">
 <h2>About This Site</h2>
 <p>This site is intended to provide a place for advocates for better education based on the philosophies of Salman Khan and the efforts of Khan Academy to share problems and ideas and collaborate on efforts to improve educational achievement world-wide.</p>
-<h4>There are 2 major focuses to this site:</h4>
+<div class="addlmargin">
+<ul>
+<li><a href="#focus">Focus of this site</a></li>
+<li><a href="#technology">Site Technology</a></li>
+<li><a href="#todo">Issues/ToDos</a></li>
+<li><a href="#devhelp">Developer Help Needed</a></li>
+</ul>
+</div>
+<h4><a name="focus">There are 2 major focuses to this site:</a></h4>
 <ol class="list1">
     <li><span style="font-side: 16px; font-weight: bold;">A Discussion Forum where advocates can share and discuss ideas, problems and experiences.</span>  Papers, Questions, etc. are divided into 4 broad categories that are represented on the main menu of the site:</li>
     <ol class="lista">
@@ -35,8 +43,22 @@
     <li>Issues related to disagreement on desired methods for math and other subjects or on content to be taught.</li>
 </ol>
 </p>
-<h2>Site Technology:</h2>
+<h2><a name="technology">Site Technology:</a></h2>
 <p>This site is developed in Python for Google App Engine (because this is the technology being used by Khan Academy).  It also uses webapp2, ndb, jQuery (Superfish menu) and ckEditor.</p>
-</div>
+<h2><a name="todo">Site Issues/ToDos:</a></h2>
+<ol class="list1">
+    <li>Add option to be automatically notified when new papers or comments to papers are posted.</li>
+    <li>Ensure expanded character sets for foreign languages are enabled everywhere.</li>
+    <li>Enable uploading of images and embedding of images in papers.</li>
+    <li>Add 5-star rating of papers and comments.</li>
+    <li>Enable exporting of translated files</li>
+    <li>Enable "try-it" functionality for translated exercises.</li>
+    <li>Document the process for setting up the foreign language site from A-Z and keeping it up-to-date.</li>
+    <li>Add functionality for posting news of interest about Khan Academy, events in the various countries or education in general.</li>
+    <li>Add quick link lists on front page to most recent papers and/or papers with most recent comments.</li>
+</ol>
+<h2><a name="devhelp">Developer Help Needed:</a></h2>
+<p>This site has been developed in a purely volunteer basis.  Additional volunteers are needed to help polish and enhance the site as well as administer the site.  Don't know Python or Google App Engine? HTML, CSS, Javascrips, jQuery and graphic design capabilities are also sorely needed.  Testers and functionality designers are also needed.  If you are interested in helping please send feedback stating that you would like to help.</p>
+
 <br/><br/>
 {% endblock content %}
