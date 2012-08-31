@@ -202,11 +202,12 @@ class UserRightsCalc(BaseHandler):
 class SingleUserRightsCalc(BaseHandler):
 
     def get(self, user_id):
-
+        RoleListAdmin = [];
         RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenBuilder = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenTranslator = [110,111,120, 121, 210, 220, 230, 231, 232];
         RolePermissionDict = {}
+        RolePermissionDict['admin'] = RoleListAdmin
         RolePermissionDict['advocate'] = RoleListAdvocate
         RolePermissionDict['tokenbuilder'] = RoleListTokenBuilder
         RolePermissionDict['tokentranslator'] = RoleListTokenTranslator

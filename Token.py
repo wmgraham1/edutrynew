@@ -114,7 +114,7 @@ class TokenStep1Page(BaseHandler):
         if currentuser:
               logout = users.create_logout_url('/tokens' )
         else:
-              login = users.create_login_url('/tokens/create')
+              login = users.create_login_url('/tokens')
 
         self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 

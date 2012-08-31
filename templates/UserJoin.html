@@ -10,7 +10,7 @@
 		<p style="text-align: center;"><a href="/users/create"><span style="color: red; font-weight: bold;">Continue to Registration Page</span></a></p>
 	{% else: %}
 		<p><span style="color: red; font-weight: bold;">NOTE: </span>You must be logged in using a Google ID before you can submit an application to join this site.  Click on the link below to login.</p>
-		<p style="text-align: center;"><a href="/_ah/login?continue=http%3A//localhost%3A8094/users/join"><span style="color: red; font-weight: bold;">Login</span></a></p>	
+		<p style="text-align: center;"><a href="{{login}}"><span style="color: red; font-weight: bold;">Login</span></a></p>	
 	{% endif %}
 {% endif %}
 <br/><br/>
