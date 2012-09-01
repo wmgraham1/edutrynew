@@ -175,6 +175,7 @@ class TokenCreate(BaseHandler):
 		
 		
     def get(self):
+        templateName = self.request.get('tName')
         languages = memcache.get("languages")
         if languages is not None:
             logging.info("get languages from memcache.")
@@ -217,9 +218,76 @@ class TokenCreate(BaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens/create')
-			  
+        Src = 'top'	  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'templates': templates, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+class TemplateTokenCreate(BaseHandler):
+
+    def post(self):
+        templateName = self.request.get('templateName')
+        langCode = self.request.get('langCode')
+        n = TokenValues(templateName=templateName
+                , langCode=langCode
+                , tknID=self.request.get('tknID')
+                , tknValue=self.request.get('tknValue')
+                , Status = 'Pending Translation'
+#                , whichuser=users.get_current_user()
+                )
+        n.put()
+        #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
+		#logging.info(xyz)
+        #return webapp2.redirect('/tokens')
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
+		
+		
+    def get(self):
+        templateName = self.request.get('tName')
+        languages = memcache.get("languages")
+        if languages is not None:
+            logging.info("get languages from memcache.")
+        else:
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 10):
+                logging.info("Memcache set failed.")
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en'
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+        q = Languages.query().order(Languages.langCode, Languages.langName)
+        languages = q.fetch(999)
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+#        templates = Templates.query()
+        q = Templates.query().order(Templates.Name)
+        templates = q.fetch(99)
+				
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens/create')
+        Src = 'template'	  
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 		
 class TokenEdit(BaseHandler):

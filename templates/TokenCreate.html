@@ -10,6 +10,9 @@
         <select name="templateName">
         {% for template in templates %}
             <option value="{{template.Name}}"
+            {% if template.Name == templateName %}
+                selected="selected"
+            {% endif %}
 			>{{template.Name}}</option>
         {% endfor %}
         </select>
@@ -41,7 +44,7 @@
       <label for="id_tknval">Token Value</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="tknValue" id="id_tknvalue" />
+      <input type="text" name="tknValue" size="120" id="id_tknvalue" />
     </div>   
   </div>
 

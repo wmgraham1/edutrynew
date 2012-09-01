@@ -36,7 +36,7 @@ from PageContent import PageContentList, PageContentCreate, PageContentEdit, Pag
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
-from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView
+from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView, TemplateTokenCreate
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
@@ -97,6 +97,7 @@ app = webapp2.WSGIApplication([
     ('/tokens-step1', TokenStep1Page),
     ('/tokens', TokenList),
     ('/tokens/create', TokenCreate), 
+    ('/tokens/createt', TemplateTokenCreate), 
     ('/tokens/edit/([\d]+)', TokenEdit),
     ('/tokens/delete/([\d]+)', TokenDelete),
     ('/tokens/clone', TokenClone),

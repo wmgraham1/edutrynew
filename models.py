@@ -33,7 +33,7 @@ class Papers(ndb.Model):
   Title = ndb.StringProperty()
   Category = ndb.StringProperty()
   Text = ndb.TextProperty()
-  Type = ndb.TextProperty()
+  Type = ndb.StringProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
   UpdatedBy = ndb.UserProperty()
@@ -58,6 +58,57 @@ class Comments(ndb.Model):
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
+class ToDos(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  Title = ndb.StringProperty()
+  Category = ndb.StringProperty()
+  Descr = ndb.TextProperty()
+  AssignedTo = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
+class LearningUnits(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  LearningUnitID = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
+  Name = ndb.StringProperty()
+  Descr = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
+class NewsItems(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  Title = ndb.StringProperty()
+  Category = ndb.StringProperty()
+  Text = ndb.TextProperty()
+  Source = ndb.StringProperty()
+  ItemDate = ndb.DateTimeProperty(auto_now_add=True)
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
+class SessionSuppl(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  SessionID = ndb.StringProperty()
+  UserID = ndb.StringProperty()
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedDate = ndb.DateTimeProperty(auto_now=True)
+  Status = ndb.StringProperty()
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
 class Templates(ndb.Model):
   Name = ndb.StringProperty(required=True)

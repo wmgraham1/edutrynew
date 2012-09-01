@@ -4,7 +4,7 @@
 <p><a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/genfiles/altdisplay?TemplateName={{templateName}}&LangCode={{langCode}}">View Translated File</a></p>
 <br />
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/tokens/create">Add New Template Token</a> </p>
+<p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>
 {% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
@@ -35,7 +35,7 @@
   </tbody>
  </table>
 
-{% if currentuser|AccessOK(221) %} 
-<p><a href="/tokens/create">Add New Template Token</a> </p>
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>
 {% endif %}
 {% endblock content %}
