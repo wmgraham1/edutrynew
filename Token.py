@@ -174,16 +174,8 @@ class TokenList(BaseHandler):
             q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
         else:
             q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status == StatusFilter).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
-#        q = db.GqlQuery("SELECT * FROM TokenValues " + 
-#                "WHERE langCode = :1 AND templateName = :2 " +
-#                "ORDER BY tknID ASC",
-#                langCode, templateName)
         tokens = q.fetch(999)
-        
-#        q = Templates.query(Templates.Name == templateName)
-#        template = q.get()
 
-#        templatekey = template.key.id()
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -201,21 +193,35 @@ class TokenCreate(BaseHandler):
     def post(self):
         templateName = self.request.get('templateName')
         langCode = self.request.get('langCode')
-        n = TokenValues(templateName=templateName
-                , langCode=langCode
-                , tknID=self.request.get('tknID')
-                , tknValue=self.request.get('tknValue')
-                , Status = 'Pending Translation'
-#                , whichuser=users.get_current_user()
-                )
-        n.put()
-        #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
-		#logging.info(xyz)
-        #return webapp2.redirect('/tokens')
-        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
+        tknID = self.request.get('tknID')
+
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.tknID == tknID).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        tokens = q.get()
+        if tokens:
+            logging.info('QQQ: In CreateToken Returning as DuptknID=: %s' % tknID)
+            return self.redirect('/tokens/create?templateName=' + templateName + '&langCode=' + langCode + '&msg=dup' + '&tknID=' + tknID)
+        else:
+            logging.info('QQQ: In CreateToken putting content tknID=: %s' % tknID)
+            n = TokenValues(templateName = templateName
+                    , langCode = langCode
+                    , tknID = tknID
+                    , tknValue = self.request.get('tknValue')
+                    , Status = 'Pending Translation'
+                    )
+            n.put()
+            #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
+            #logging.info(xyz)
+            #return webapp2.redirect('/tokens')
+            return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 		
 		
     def get(self):
+        Dup = False
+        if self.request.get('msg') == 'dup':
+            Dup = True
+
+        tknID = self.request.get('tknID')
+        
         templateName = self.request.get('tName')
         languages = memcache.get("languages")
         if languages is not None:
@@ -261,28 +267,43 @@ class TokenCreate(BaseHandler):
               login = users.create_login_url('/tokens/create')
         Src = 'top'	  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TemplateTokenCreate(BaseHandler):
 
     def post(self):
         templateName = self.request.get('templateName')
         langCode = self.request.get('langCode')
-        n = TokenValues(templateName=templateName
-                , langCode=langCode
-                , tknID=self.request.get('tknID')
-                , tknValue=self.request.get('tknValue')
-                , Status = 'Pending Translation'
-#                , whichuser=users.get_current_user()
-                )
-        n.put()
-        #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
-		#logging.info(xyz)
-        #return webapp2.redirect('/tokens')
-        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
+        tknID = self.request.get('tknID')
+
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.tknID == tknID).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        tokens = q.get()
+        if tokens:
+            logging.info('QQQ: In CreateToken Returning as DuptknID=: %s' % tknID)
+            return self.redirect('/tokens/createt?tName=' + templateName + '&langCode=' + langCode + '&msg=dup' + '&tknID=' + tknID)
+        else:
+            logging.info('QQQ: In CreateToken putting content tknID=: %s' % tknID)
+            n = TokenValues(templateName=templateName
+                    , langCode=langCode
+                    , tknID = tknID
+                    , tknValue=self.request.get('tknValue')
+                    , Status = 'Pending Translation'
+    #                , whichuser=users.get_current_user()
+                    )
+            n.put()
+            #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
+            #logging.info(xyz)
+            #return webapp2.redirect('/tokens')
+            return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 		
 		
     def get(self):
+        Dup = False
+        if self.request.get('msg') == 'dup':
+            Dup = True
+        
+        tknID = self.request.get('tknID')
+
         templateName = self.request.get('tName')
         languages = memcache.get("languages")
         if languages is not None:
@@ -328,7 +349,7 @@ class TemplateTokenCreate(BaseHandler):
               login = users.create_login_url('/tokens/create')
         Src = 'template'	  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 		
 class TokenEdit(BaseHandler):

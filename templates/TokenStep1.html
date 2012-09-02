@@ -47,7 +47,7 @@ English is the default language for templates and tokens.  You should not see ri
 </form>
 <h2 style="text-align: center;">Template Token Count for Language: {{langName}}</h2>
 <p>The clone option lets the user clone any new tokens to the selected language.  The option is only available if the number of English tokens is greater than the number of tokens for the selected language.</p>
-{% if currentuser|AccessOK(221) %} 
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
 {% endif %}
 <table width = 80% border=2 cellspacing=0 cellpadding=2>
@@ -81,7 +81,7 @@ English is the default language for templates and tokens.  You should not see ri
   </tbody>
  </table>
 
-{% if currentuser|AccessOK(221) %} 
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
 {% endif %}
 <br/>
