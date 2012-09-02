@@ -10,7 +10,8 @@ from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
 
-from models import PageContents
+from models import Papers
+
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -54,6 +55,14 @@ class BaseHandler(webapp2.RequestHandler):
 class DisplayHome(BaseHandler):
     def get(self):
 
+        q = Papers.query(Papers.Category != 'Feedback').order(Papers.Category, -Papers.CreatedDate)
+        papers = q.fetch(10)
+
+        if papers:
+            Havepapers = True
+        else:
+            Havepapers = False
+		
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -62,7 +71,7 @@ class DisplayHome(BaseHandler):
         else:
               login = users.create_login_url('/')
 
-        template_values = {'content1': 'No content yet.', 'currentuser':currentuser, 'login':login, 'logout': logout}
+        template_values = {'content1': 'No content yet.', 'papers':papers, 'Havepapers':Havepapers, 'currentuser':currentuser, 'login':login, 'logout': logout}
 
         template = jinja_environment.get_template('Home.html')
         jinja_environment.filters['AccessOK'] = AccessOK

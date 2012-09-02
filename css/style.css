@@ -303,6 +303,17 @@ a:hover {
 	padding-top:50px;
 	}
 */
+
+#leftcontent {
+	float:left;
+    width:700px;
+    }
+
+#rightsidebar {
+    float:right;
+    width:260px;
+    }
+
 .d {
   list-style-type: lower-alpha;
   }

@@ -1,40 +1,81 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div class="PageContentBlock">
-<h3>Welcome to the site where advocates for better education share problems and ideas and collaborate to improve educational achievement.</h3>
-<p>This site is intended to provide a place for advocates for better education based on the philosophies of Salman Khan and the efforts of Khan Academy to share problems and ideas and collaborate on efforts to improve educational achievement world-wide.</p>
-<h4>There are 2 major focuses to this site:</h4>
-<ol class="list1">
-    <li><span style="font-side: 16px; font-weight: bold;">A Discussion Forum where advocates can share and discuss ideas, problems and experiences.</span>  Papers, Questions, etc. are divided into 4 broad categories that are represented on the main menu of the site:</li>
-    <ol class="lista">
-        <li><span style="font-weight: bold;">Learning Resources:</span> How to obtain or link in Learning resources in each language and education jurisdiction</li>
-        <li><span style="font-weight: bold;">Learning Platform:</span> How to get a platform available in all applicable languages and provide maximum learning functionality</li>
-        <li><span style="font-weight: bold;">Learners/Programs:</span> How to get learners involved and succeeding using the platform and learning resources</li>
-        <li><span style="font-weight: bold;">Misc Discussions:</span> Goals, Strategies, Alliances & Partnerships, Recruitment & Organization, etc.</li>
+    <div id="leftcontent">
+    <h3>Welcome to the site where advocates for better education share problems and ideas and collaborate to improve educational achievement.</h3>
+    <p>This site is intended to provide a place for advocates for better education based on the philosophies of Salman Khan and the efforts of Khan Academy to share problems and ideas and collaborate on efforts to improve educational achievement world-wide.</p>
+    <h4>There are 2 major focuses to this site:</h4>
+    <ol class="list1">
+        <li><span style="font-side: 16px; font-weight: bold;">A Discussion Forum where advocates can share and discuss ideas, problems and experiences.</span>  Papers, Questions, etc. are divided into 4 broad categories that are represented on the main menu of the site:</li>
+        <ol class="lista">
+            <li><span style="font-weight: bold;">Learning Resources:</span> How to obtain or link in Learning resources in each language and education jurisdiction</li>
+            <li><span style="font-weight: bold;">Learning Platform:</span> How to get a platform available in all applicable languages and provide maximum learning functionality</li>
+            <li><span style="font-weight: bold;">Learners/Programs:</span> How to get learners involved and succeeding using the platform and learning resources</li>
+            <li><span style="font-weight: bold;">Misc Discussions:</span> Goals, Strategies, Alliances & Partnerships, Recruitment & Organization, etc.</li>
+        </ol>
+        <li><span style="font-side: 16px; font-weight: bold;">Translation Efforts related to Khan Academy:</span></li>
+        <ol class="lista">
+            <li><span style="font-weight: bold;">Topic/Learning Unit Names:</span> The names that are visible</li>
+            <li><span style="font-weight: bold;">Templates:</span> This is the name of the files that have language-related content.  Templates fall intot he following categories:</li>
+                <ol class="listi">
+                    <li><span style="font-weight: bold;">Page Content:</span> The templates that contain the static content on pages.</li>
+                    <li><span style="font-weight: bold;">Container Templates:</span> These are the parts of a web page surrounding other templates (currently the site-template and the exercise-wrapper template).</li>
+                    <li><span style="font-weight: bold;">Exercise Templates:</span> These are the templates that contain the actual content for individual exercises.</li>
+                    <li><span style="font-weight: bold;">Function Templates:</span> These are the javascript files that generate content that go into other templates, in particular the Exercise Templates.</li>
+                    <li><span style="font-weight: bold;">Report Templates:</span> These are the templates that contain report content for learners and coaches.</li>
+                    <li>Etc.</li>
+        </ol>
     </ol>
-    <li><span style="font-side: 16px; font-weight: bold;">Translation Efforts related to Khan Academy:</span></li>
-    <ol class="lista">
-        <li><span style="font-weight: bold;">Topic/Learning Unit Names:</span> The names that are visible</li>
-        <li><span style="font-weight: bold;">Templates:</span> This is the name of the files that have language-related content.  Templates fall intot he following categories:</li>
-            <ol class="listi">
-                <li><span style="font-weight: bold;">Page Content:</span> The templates that contain the static content on pages.</li>
-                <li><span style="font-weight: bold;">Container Templates:</span> These are the parts of a web page surrounding other templates (currently the site-template and the exercise-wrapper template).</li>
-                <li><span style="font-weight: bold;">Exercise Templates:</span> These are the templates that contain the actual content for individual exercises.</li>
-                <li><span style="font-weight: bold;">Function Templates:</span> These are the javascript files that generate content that go into other templates, in particular the Exercise Templates.</li>
-                <li><span style="font-weight: bold;">Report Templates:</span> These are the templates that contain report content for learners and coaches.</li>
-                <li>Etc.</li>
+    </p>
+    <p>The site is still under development.  Some functionalities do not yet exist.  Please provide feedback to make the site better and please be patient as we complete and enhance the site.</p>
+    <p><span style="font-weight: bold;">NOTE:</span> The translation efforts are based on the philosopy of translating as much as possible as quickly as possible and then tackle the tougher issues.  We will find more tougher issues as we proceed, but currently known issues include:
+    <ol class="list1">
+        <li>Issues related to right-to-left languages such as Arabic and Hebrew.</li>
+        <li>Generated text content that involves grammar (especially dealing with langauges where spelling of nouns, verbs, adjectives, pronouns, etc. is based on gender, case, plurality, etc.).</li>
+        <li>Generated graphic content that might not take language, or methods into consideration.</li>
+        <li>Issues related to disagreement on desired methods for math and other subjects or on content to be taught.</li>
     </ol>
-</ol>
-</p>
-<p>The site is still under development.  Some functionalities do not yet exist.  Please provide feedback to make the site better and please be patient as we complete and enhance the site.</p>
-<p><span style="font-weight: bold;">NOTE:</span> The translation efforts are based on the philosopy of translating as much as possible as quickly as possible and then tackle the tougher issues.  We will find more tougher issues as we proceed, but currently known issues include:
-<ol class="list1">
-    <li>Issues related to right-to-left languages such as Arabic and Hebrew.</li>
-    <li>Generated text content that involves grammar (especially dealing with langauges where spelling of nouns, verbs, adjectives, pronouns, etc. is based on gender, case, plurality, etc.).</li>
-    <li>Generated graphic content that might not take language, or methods into consideration.</li>
-    <li>Issues related to disagreement on desired methods for math and other subjects or on content to be taught.</li>
-</ol>
-</p>
+    </p>
+    </div>  <!-- end of leftcontent -->
+    <script type="text/javascript">
+    $(document).ready(function () {
+      $('#test').rssfeed('http://feeds.reuters.com/reuters/oddlyEnoughNews', {
+        limit: 5
+      });
+    });
+    </script>    
+    <div id="rightsidebar"">
+    <div id="test">
+    </div>
+    <div class="rcntlist">
+    {% if Havepapers %}
+        <table width = 90% border=1 cellspacing=0 cellpadding=2>
+          <thead>
+            <tr>
+              <th style="text-align: center;">Most Recent Papers</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for paper in papers %}
+            <tr>
+              <td>
+              {% if currentuser|AccessOK(110): %} 
+                <a href ="/papers/display/{{ paper.key.id() }}"> {{ paper.Title }} </a>({{ paper.Category }})
+              {% else: %}
+                {{ paper.Title }} ({{ paper.Category }})
+              {% endif %}
+              </td>
+            </tr>
+            {% endfor %}	
+          </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center;">No papers yet.</p>
+    {% endif %}
+    </div>
+    </div>
+    
 </div>
+
 <br/><br/>
 {% endblock content %}

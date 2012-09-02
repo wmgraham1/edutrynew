@@ -1,40 +1,44 @@
 {% extends "page_template.html" %}
 {% block content %}
-<form method="GET">
-<select name="langCode">
-    {% for language in languages %}
-		    <option value="{{language.langCode}}" 
-            {% if language.langCode == langCode %}
-            selected="selected"
-            {% endif %}
-            >{{language.langName}}</option>
-    {% endfor %}
-</select>
-<input type="submit" value="Select Language">
-</form>
-
+<div>
+    <div style="float: left;">
+    <form method="GET">
+    <select name="langCode">
+        {% for language in languages %}
+                <option value="{{language.langCode}}" 
+                {% if language.langCode == langCode %}
+                selected="selected"
+                {% endif %}
+                >{{language.langName}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Select Language">
+    </form>
+    </div>
+    <div>
+    <form method="GET">
+        <select name="StatusFilter">
+            <option value="all" 
+            {% if 'all' == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >All</option>
+            {% for Status in StatusList %}
+                <option value="{{Status}}" 
+                {% if Status == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >{{Status}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="Select Status">
+    </form>
+    </div>
+</div>
 <h2 style="text-align: center;">List of Learning Units (Topics)</h2>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/units/create">Add New Topic</a></p> 
 {% endif %}
-<form method="GET">
-    <select name="StatusFilter">
-        <option value="all" 
-        {% if 'all' == StatusFilter %}
-                selected="selected"
-            {% endif %}
-            >All</option>
-        {% for Status in StatusList %}
-            <option value="{{Status}}" 
-            {% if Status == StatusFilter %}
-                selected="selected"
-            {% endif %}
-            >{{Status}}</option>
-        {% endfor %}
-    </select>
-<input type="submit" value="Select Status">
-</form>
-
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Learning Units in English and {{count_other_language}} Units in {{langName}}.
   {% if count_en > count_other_language: %}
