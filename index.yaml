@@ -52,6 +52,12 @@ indexes:
   - name: LangCode
   - name: LearningUnitID
 
+- kind: LearningUnits
+  properties:
+  - name: LangCode
+  - name: Status
+  - name: LearningUnitID
+
 - kind: PageContents
   properties:
   - name: LangCode

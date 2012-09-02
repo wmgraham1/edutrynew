@@ -17,6 +17,23 @@
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/units/create">Add New Topic</a></p> 
 {% endif %}
+<form method="GET">
+    <select name="StatusFilter">
+        <option value="all" 
+        {% if 'all' == StatusFilter %}
+                selected="selected"
+            {% endif %}
+            >All</option>
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == StatusFilter %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+    </select>
+<input type="submit" value="Select Status">
+</form>
 
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Learning Units in English and {{count_other_language}} Units in {{langName}}.

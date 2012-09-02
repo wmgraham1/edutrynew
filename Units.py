@@ -77,6 +77,15 @@ class LearnUnitList(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
+        if self.request.get('StatusFilter'):
+            StatusFilter=self.request.get('StatusFilter')
+            self.session['StatusFilter'] = StatusFilter
+        else:
+            StatusFilter = self.session.get('StatusFilter')
+        if not StatusFilter:
+            self.session['StatusFilter'] = 'all'
+            StatusFilter = 'all'
+
         count_en = 0
         langCode_en = 'en'
         q = LearningUnits.query(LearningUnits.LangCode == langCode_en)
@@ -95,7 +104,11 @@ class LearnUnitList(BaseHandler):
             count_other_language = count_other_language + 1
         logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
-        q = LearningUnits.query(LearningUnits.LangCode == langCode).order(LearningUnits.LearningUnitID)
+        logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+        if StatusFilter == 'all':
+            q = LearningUnits.query(LearningUnits.LangCode == langCode).order(LearningUnits.LearningUnitID)
+        else:
+            q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.LearningUnitID)
         units = q.fetch(999)
 
         logout = None
@@ -106,7 +119,9 @@ class LearnUnitList(BaseHandler):
         else:
               login = users.create_login_url('/units')
 
-        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+
+        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnUnitCreate(BaseHandler):
