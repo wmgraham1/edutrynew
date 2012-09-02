@@ -135,6 +135,22 @@ class TokenList(BaseHandler):
 
         templateName=self.request.get('templateName')
 
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status != 'Published')
+        TokensNotReady = q.get()
+
+        if TokensNotReady:
+            TemplateGenReady = False
+        else:        
+            TemplateGenReady = True
+        
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.TemplateName == templateName).order(-GeneratedFiles.CreatedDate)
+        GenFile = q.get()
+
+        if GenFile:
+            GenFileReady = GenFile.key.id()
+        else:        
+            GenFileReady = None
+        
         q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
 #        q = db.GqlQuery("SELECT * FROM TokenValues " + 
 #                "WHERE langCode = :1 AND templateName = :2 " +
@@ -153,7 +169,7 @@ class TokenList(BaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens')
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'langCode':langCode, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'langCode':langCode, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 

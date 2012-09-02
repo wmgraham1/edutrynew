@@ -47,6 +47,11 @@ indexes:
   - name: langCode
   - name: langName
 
+- kind: LearningUnits
+  properties:
+  - name: LangCode
+  - name: LearningUnitID
+
 - kind: PageContents
   properties:
   - name: LangCode
@@ -72,6 +77,12 @@ indexes:
   properties:
   - name: langCode
   - name: templateName
+
+- kind: TokenValues
+  properties:
+  - name: langCode
+  - name: templateName
+  - name: Status
 
 - kind: TokenValues
   properties:

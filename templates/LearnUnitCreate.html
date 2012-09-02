@@ -1,0 +1,42 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitName">Learning Unit Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Name" id="id_LearnUnitName" />
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <select name="Subject">
+        {% for Subject in SubjectList %}
+            <option value="{{Subject}}" 
+            >{{Subject}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<!--
+ <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Description" id="id_Description" />
+    </div>
+  </div>
+-->
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

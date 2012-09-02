@@ -1,0 +1,64 @@
+{% extends "page_template.html" %}
+{% block content %}
+<form method="GET">
+<select name="langCode">
+    {% for language in languages %}
+		    <option value="{{language.langCode}}" 
+            {% if language.langCode == langCode %}
+            selected="selected"
+            {% endif %}
+            >{{language.langName}}</option>
+    {% endfor %}
+</select>
+<input type="submit" value="Select Language">
+</form>
+
+<h2 style="text-align: center;">List of Learning Units (Topics)</h2>
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/units/create">Add New Topic</a></p> 
+{% endif %}
+
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Learning Units in English and {{count_other_language}} Units in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/units/clone?langCode={{langCode}}"> Clone missing Learning Units.</a></td>
+        {% endif %}
+  {% endif %}
+</p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Language</th>
+	  <th>Created Date</th>
+      <th>Created By</th>
+      <th>Status</th>
+      <th>Status Date</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for unit in units %}
+	<tr>
+	  <td> {{ unit.LearningUnitID }} </td>
+	  <td> {{ unit.Name }} </td>
+	  <td> {{ unit.Subject }} </td>
+	  <td> {{ unit.LangCode }} </td>
+	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ unit.CreatedBy }} </td>
+	  <td> {{ unit.Status }} </td>
+	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td><a href ="/units/edit/{{ unit.key.id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/units/create">Add New Topic</a></p> 
+{% endif %}
+
+{% endblock content %}

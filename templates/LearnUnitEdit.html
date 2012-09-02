@@ -1,0 +1,64 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitName">Learning Unit Name</label>:
+    </div>
+    <div class="field-field">
+        <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" /
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <select name="Subject">
+        {% for Subject in SubjectList %}
+            <option value="{{Subject}}" 
+            {% if Subject == unit.Subject %}
+                selected="selected"
+            {% endif %}
+            >{{Subject}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<!--
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" />
+    </div>
+  </div>
+-->
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == unit.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+  
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/units/Delete/{{ unit.key.id() }}";'>
+  <a href ="/units/delete/{{ unit.key.id() }}">Delete Learning Unit</a>
+</form>
+
+{% endblock content %}

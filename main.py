@@ -43,6 +43,7 @@ from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
+from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
 
 
 
@@ -82,8 +83,8 @@ app = webapp2.WSGIApplication([
     ('/pagecontents/delete/([\d]+)', PageContentDelete), 
     ('/papers/display/([\d]+)', PaperDisplay), 
     ('/papers/create/', PaperCreate), 
-    ('/papers/edit/([\d]+)/', PaperEdit),
-    ('/papers/delete/([\d]+)/', PaperDelete),
+    ('/papers/edit/([\d]+)', PaperEdit),
+    ('/papers/delete/([\d]+)', PaperDelete),
     ('/papers/([\w]+)', PaperList),
     ('/comments', CommentList),
     ('/comments/create/([\d]+)', CommentCreate), 
@@ -119,6 +120,11 @@ app = webapp2.WSGIApplication([
     ('/genfiles/display/([\d]+)', GenFileDisplay),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
+    ('/units', LearnUnitList), 
+    ('/units/create', LearnUnitCreate), 
+    ('/units/edit/([\d]+)', LearnUnitEdit),
+    ('/units/clone', LearnUnitClone),
+    ('/units/delete/([\d]+)', LearnUnitDelete),
 	],
                 config=config,
                 debug=True)

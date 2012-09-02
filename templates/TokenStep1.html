@@ -43,9 +43,10 @@ English is the default language for templates and tokens.  You should not see ri
             >{{language.langName}}</option>
     {% endfor %}
 </select>
-<br/><input type="submit">
+<input type="submit" value="Select Language">
 </form>
 <h2 style="text-align: center;">Template Token Count for Language: {{langName}}</h2>
+<p>The clone option lets the user clone any new tokens to the selected language.  The option is only available if the number of English tokens is greater than the number of tokens for the selected language.</p>
 {% if currentuser|AccessOK(221) %} 
 <p><a href="/tokens/create">Add New Template Token</a> </p>
 {% endif %}
@@ -56,8 +57,8 @@ English is the default language for templates and tokens.  You should not see ri
       <th style="text-align: center;">Template</th>
       <th style="text-align: center;"># Tokens English</th>
 	  {% if not langName == 'English': %}
-      <th style="text-align: center;"># Tokens {{langName}}</th>
-      <th style="text-align: center;">Clone</th>
+        <th style="text-align: center;"># Tokens {{langName}}</th>
+        <th style="text-align: center;">Clone</th>
       {% endif %}
     </tr>
   </thead>
@@ -67,8 +68,12 @@ English is the default language for templates and tokens.  You should not see ri
 	  <td><big> <a href="/tokens?templateName={{key}}&langCode={{langCode}}">{{key}}</a> </big></td>
 	  <td style="text-align: center;"> {{countmap_en[key]}} </td>
 	  {% if not langName == 'English': %}
-	  <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
-  	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
+	    <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
+        {% if countmap_en[key] > countmap_other_language[key]: %}
+    	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
+        {% else: %}
+    	  <td style="text-align: center;">&nbsp;</td>
+        {% endif %}
       {% endif %}
     </tr>
     {% endfor %}	
