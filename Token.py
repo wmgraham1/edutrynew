@@ -505,16 +505,15 @@ class TokenFileGen(BaseHandler):
 
     def get(self):
         templateName=self.request.get('templateName')
+        langCode=self.request.get('langCode')
 
         q = Templates.query(Templates.Name == templateName)
         template = q.get()
 #        template = ndb.Key('Templates', iden).get()
-        TemplateName = template.Name
         FolderName = template.FolderName
         FileName = template.FileName
 
-        LangCode=self.request.get('langCode')
-        q = TokenValues.query(TokenValues.langCode == LangCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
         tokenvals = q.fetch(999)
         tokendict = {}
         for tokenval in tokenvals:
@@ -523,21 +522,29 @@ class TokenFileGen(BaseHandler):
             logging.info('QQQ: tknValue: %s' % tokenval.tknValue)
         #tokenvals = tokendict()
 
+        currentuser = users.get_current_user()
+
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.TemplateName == templateName)
+        genfiles = q.fetch(9)
+        if genfiles:
+            for genfile in genfiles:
+                genfile.key.delete()
+
         logging.info('QQQ: FileName: %s' % FileName)
         template = jinja_environment.get_template(FileName)     
         blobtext = template.render(tokenvals = tokendict)
         bloboutput = (blobtext.encode('ASCII'))
 
         f = GeneratedFiles(
-            TemplateName = TemplateName
+            TemplateName = templateName
             , FolderName = FolderName
-            , LangCode = LangCode
+            , LangCode = langCode
             , FileTxt = bloboutput
             , Status = 'Published'
             )
         f.put()
 
-        return self.redirect('/tokens?templateName=' + TemplateName + '&langCode=' + LangCode)
+        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
         
 class TokenFileView(BaseHandler):
 
