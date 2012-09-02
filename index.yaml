@@ -75,6 +75,13 @@ indexes:
 
 - kind: TokenValues
   properties:
+  - name: Status
+  - name: langCode
+  - name: templateName
+  - name: tknID
+
+- kind: TokenValues
+  properties:
   - name: langCode
   - name: templateName
 

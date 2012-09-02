@@ -9,6 +9,24 @@
 <a href="/genfiles/display/{{GenFileReady}}?TemplateName={{templateName}}&LangCode={{langCode}}">View Translated File</a>
 {% endif %}
 </p>
+<form method="GET">
+    <select name="StatusFilter">
+        <option value="all" 
+        {% if 'all' == StatusFilter %}
+                selected="selected"
+            {% endif %}
+            >All</option>
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == StatusFilter %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+    </select>
+<input type="submit" value="Select Status">
+</form>
+
 <br />
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>

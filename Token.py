@@ -122,7 +122,27 @@ class TokenList(BaseHandler):
 
     def get(self):
         #langCode='en'
-        langCode=self.request.get('langCode')
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+
+        if self.request.get('templateName'):
+            templateName=self.request.get('templateName')
+            self.session['templateName'] = templateName
+        else:
+            templateName = self.session.get('templateName')
+
+        if self.request.get('StatusFilter'):
+            StatusFilter=self.request.get('StatusFilter')
+            self.session['StatusFilter'] = StatusFilter
+        else:
+            StatusFilter = self.session.get('StatusFilter')
+        if not StatusFilter:
+            self.session['StatusFilter'] = 'all'
+            StatusFilter = 'all'
 
 #        languages = Languages.all().filter('langCode =', langCode)
         q = Languages.query(Languages.langCode == langCode).order(Languages.langCode, Languages.langName)
@@ -132,8 +152,6 @@ class TokenList(BaseHandler):
         for language in languages:
             if language.langCode == langCode:
                 langName = language.langName
-
-        templateName=self.request.get('templateName')
 
         q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status != 'Published')
         TokensNotReady = q.get()
@@ -150,8 +168,12 @@ class TokenList(BaseHandler):
             GenFileReady = GenFile.key.id()
         else:        
             GenFileReady = None
-        
-        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+
+        logging.info('GGG: StatusFilter in TokenList: %s' % StatusFilter)
+        if StatusFilter == 'all':
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        else:
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status == StatusFilter).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
 #        q = db.GqlQuery("SELECT * FROM TokenValues " + 
 #                "WHERE langCode = :1 AND templateName = :2 " +
 #                "ORDER BY tknID ASC",
@@ -169,7 +191,10 @@ class TokenList(BaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens')
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'templateName':templateName, 'langCode':langCode, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'templateName':templateName, 'langCode':langCode, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 
