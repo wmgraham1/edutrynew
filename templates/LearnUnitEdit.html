@@ -7,10 +7,10 @@
       <label for="id_LearnUnitName">Learning Unit Name</label>:
     </div>
     <div class="field-field">
-        <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" /
+        <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" size="80" />
     </div>
   </div>
-
+<br />
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Subject">Subject</label>:
@@ -27,6 +27,7 @@
         </select>
     </div>
   </div>
+<br />
 <!--
   <div class="field-wrapper">
     <div class="field-label">
@@ -51,6 +52,24 @@
             >{{Status}}</option>
         {% endfor %}
         </select>
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitCreatedBy">Created By</label>:
+    </div>
+    <div class="field-field">
+        {{ unit.CreatedBy }}
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitCreatedDate">Created Date:</label>:
+    </div>
+    <div class="field-field">
+       {{ unit.CreatedDate }}
     </div>
   </div>
   

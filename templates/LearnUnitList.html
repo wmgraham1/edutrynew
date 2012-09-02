@@ -34,7 +34,6 @@
       <th>Subject</th>
       <th>Language</th>
 	  <th>Created Date</th>
-      <th>Created By</th>
       <th>Status</th>
       <th>Status Date</th>
       <th>Edit</th>
@@ -48,7 +47,6 @@
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
-	  <td> {{ unit.CreatedBy }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
 	  <td><a href ="/units/edit/{{ unit.key.id() }}">edit </a></td>
