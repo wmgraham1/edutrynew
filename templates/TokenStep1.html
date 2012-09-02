@@ -68,8 +68,8 @@ English is the default language for templates and tokens.  You should not see ri
 	  <td><big> <a href="/tokens?templateName={{key}}&langCode={{langCode}}">{{key}}</a> </big></td>
 	  <td style="text-align: center;"> {{countmap_en[key]}} </td>
 	  {% if not langName == 'English': %}
-	    <td style="text-align: center;"> {{countmap_other_language[key]}} </td>
-        {% if countmap_en[key] > countmap_other_language[key]: %}
+	    <td style="text-align: center;"> {% if countmap_other_language[key]: %} {{countmap_other_language[key]}} {% else: %} 0 {% endif %}</td>
+        {% if not countmap_other_language[key] or (countmap_en[key] > countmap_other_language[key]): %}
     	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{key}}&langCode={{langCode}}"> clone </a></td>
         {% else: %}
     	  <td style="text-align: center;">&nbsp;</td>
