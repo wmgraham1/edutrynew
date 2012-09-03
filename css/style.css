@@ -206,11 +206,12 @@ a:hover {
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: #000000;
   font-weight: normal;
-  line-height: 1.5em;
+  line-height: 1.3em;
   }
 
 #contentColumn h1 {
   font-size: 30px;
+  line-height: 1.5em;
   font-weight: bold;
   padding: 10px;
   text-align: center;
@@ -218,31 +219,34 @@ a:hover {
   }
 
 #contentColumn h2 {
-  padding-top: 35px;
-/*  padding-left: 0;*/
+  padding-top: 13px;
   font-size: 26px; 
-  line-height: 1.5em;
+  line-height: 1.3em;
+/*  padding-left: 0;*/
   font-weight: bold;
   }
 
 #contentColumn h3 {
-  padding-top: 24px;
+  padding-top: 12px;
 /*  padding-left: 0;*/
   font-size: 24px;
-  line-height: 1.5em;
+  line-height: 1.3em;
   font-weight: bold;
   }
 
 #contentColumn h4 {
-  padding-top: 20px;
-/*  padding-left: 0;*/
+  padding-top: 10px;
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
+
+  /*  padding-left: 0;*/
   font-size: 20px;
-  line-height: 1.5em;
+  line-height: 1.3em;
   font-weight: bold;
   }
 
 #contentColumn h5 {
-  padding-top: 16px;
+  padding-top: 8px;
 /*  padding-left: 0;*/
   font-size: 16px;
   line-height: 1.5em;
@@ -262,7 +266,6 @@ a:hover {
   list-style-type: lower-alpha;
   }
   
-  
 #contentColumn li ul {
   padding: 3px;
   list-style-type: lower-alpha;
@@ -274,6 +277,10 @@ a:hover {
   letter-spacing: -1px;
   margin: 6px;
   padding: 1.0em;*/
+  }
+
+#welcomeHeader {
+  margin-top: -20px;
   }
 
 #footer {
