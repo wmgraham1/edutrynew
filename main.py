@@ -44,7 +44,8 @@ from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
-
+from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
+from How import HowIntro, HowTrans
 
 
 # Below code is what the original exercise included
@@ -125,6 +126,8 @@ app = webapp2.WSGIApplication([
     ('/units/edit/([\d]+)', LearnUnitEdit),
     ('/units/clone', LearnUnitClone),
     ('/units/delete/([\d]+)', LearnUnitDelete),
+    ('/how', HowIntro),
+    ('/how/trans', HowTrans)
 	],
                 config=config,
                 debug=True)
