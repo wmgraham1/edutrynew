@@ -265,7 +265,7 @@ class PaperEdit(BaseHandler):
         logging.info('QQQ: PaperEdit_cat: %s' % cat)
         paper.Title = self.request.get('Title')
         paper.Category = self.request.get('Category')
-        paper.Category = self.request.get('Type')
+        paper.Type = self.request.get('Type')
         paper.Text = self.request.get('Text')
         paper.UpdatedBy = currentuser
         paper.UpdatedDate = datetime.now()
