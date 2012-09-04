@@ -53,7 +53,7 @@ class PermissionList(BaseHandler):
         RoleDict['tokenbuilder'] = 'Can create Templates and English Tokens plus the permissions of Token-Translator.'
         RoleDict['tokentranslator'] = 'Can create Tokens in any language except English.'
         RoleDict['advocate'] = 'Advocates can create papers and post initial discussion topics.'
-        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
+        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 230, 231, 232];
         RoleListTokenBuilder = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenTranslator = [110,111,120, 121, 210, 220, 230, 231, 232];
         RolePermissionDict = {}
@@ -95,7 +95,7 @@ class RoleList(BaseHandler):
         RoleDict['tokenbuilder'] = 'Can create Templates and English Tokens plus the permissions of Token-Translator.'
         RoleDict['tokentranslator'] = 'Can create Tokens in any language except English.'
         RoleDict['advocate'] = 'Advocates can create papers and post initial discussion topics.'
-        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
+        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 230, 231, 232];
         RoleListTokenBuilder = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenTranslator = [110,111,120, 121, 210, 220, 230, 231, 232];
         RolePermissionDict = {}
@@ -139,7 +139,7 @@ class RoleDisplay(BaseHandler):
         RoleDict['tokenbuilder'] = 'Can create Templates and English Tokens plus the permissions of Token-Translator.'
         RoleDict['tokentranslator'] = 'Can create Tokens in any language except English.'
         RoleDict['advocate'] = 'Advocates can create papers and post initial discussion topics.'
-        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
+        RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 230, 231, 232];
         RoleListTokenBuilder = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
         RoleListTokenTranslator = [110,111,120, 121, 210, 220, 230, 231, 232];
         RolePermissionDict = {}
@@ -196,7 +196,7 @@ def UserPermissionsCalc():
 	RoleDict['tokenbuilder'] = 'Can create Templates and English Tokens plus the permissions of Token-Translator.'
 	RoleDict['tokentranslator'] = 'Can create Tokens in any language except English.'
 	RoleDict['advocate'] = 'Advocates can create papers and post initial discussion topics.'
-	RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 221, 230, 231, 232];
+	RoleListAdvocate = [110,111,120, 121, 210, 211, 220, 230, 231, 232];
 	RoleListTokenBuilder = [110, 111, 120, 121, 210, 211, 220, 221, 230, 231, 232];
 	RoleListTokenTranslator = [110, 111, 120, 121, 210, 220, 230, 231, 232];
 	RolePermissionDict = {}

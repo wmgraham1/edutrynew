@@ -215,9 +215,19 @@ class PaperCreate(BaseHandler):
     def get(self):
         cat=self.request.get('cat')	
         logging.info("Now in PaperCreate get.")
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        TypeList = ['Discussion Paper', 'Question/Problem', 'Experience report'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
-        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'cat': cat, 'CategoryList': CategoryList})
+        self.render_template('PaperCreate.html', {'StatusList': StatusList, 'TypeList': TypeList, 'cat': cat, 'CategoryList': CategoryList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class FeedbackCreate(BaseHandler):
 
