@@ -35,6 +35,20 @@
     </div>
   </div>
   
+    <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Type">Type</label>:
+    </div>
+    <div class="field-field">
+        <select name="Type">
+        {% for Type in TypeList %}
+            <option value="{{Type}}" 
+            >{{Type}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+  
 
   <div class="field-wrapper">
     

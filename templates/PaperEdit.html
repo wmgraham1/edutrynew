@@ -40,6 +40,23 @@
   
   <div class="field-wrapper">
     <div class="field-label">
+      <label for="id_Type">Type</label>:
+    </div>
+    <div class="field-field">
+        <select name="Type">
+        {% for Type in TypeList %}
+            <option value="{{Type}}" 
+            {% if Type == Paper.Type %}
+                selected="selected"
+            {% endif %}
+            >{{Type}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+    
+  <div class="field-wrapper">
+    <div class="field-label">
       <label for="id_Text">Text</label>:
     </div>
     <div class="field-field">

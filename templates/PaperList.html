@@ -8,6 +8,7 @@
     <tr>
       <th>Title</th>
       <th>Category</th>
+      <th>Type</th>
       <th>Status</th>
       <th>Status Date</th>
       <th>Created Date</th>
@@ -20,11 +21,12 @@
 	<tr>
 	  <td><a href ="/papers/display/{{ paper.key.id() }}"> {{ paper.Title }} </a></td>
 	  <td> {{ paper.Category }} </td>
+	  <td> {{ paper.Type }} </td>
 	  <td> {{ paper.Status }} </td>
 	  <td> {{ paper.StatusDate }} </td>
 	  <td> {{ paper.CreatedDate }} </td>
 	  <td> {{ paper.CreatedBy }} </td>
-	  <td><a href ="/papers/edit/{{paper.key.id()}}/?cat={{cat}}">edit </a></td>
+	  <td><a href ="/papers/edit/{{paper.key.id()}}?cat={{cat}}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>

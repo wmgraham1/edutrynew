@@ -204,7 +204,7 @@ class PaperCreate(BaseHandler):
         n = Papers(Title=self.request.get('Title'),
                 Category=self.request.get('Category'),
                 Text=self.request.get('Text'),
-                Type='Paper',
+                Type=self.request.get('Type'),
                 Status=self.request.get('Status'),
                 CreatedBy=CreatedBy,
                 StatusBy=CreatedBy)
@@ -224,8 +224,8 @@ class PaperCreate(BaseHandler):
         else:
               login = users.create_login_url('/tokens')
 
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        TypeList = ['Discussion Paper', 'Question/Problem', 'Experience report'];
+        StatusList = ['Published', 'Pending Review'];
+        TypeList = ['Discussion Paper', 'Question/Problem', 'Experience Report'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas'];
         self.render_template('PaperCreate.html', {'StatusList': StatusList, 'TypeList': TypeList, 'cat': cat, 'CategoryList': CategoryList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
@@ -262,8 +262,10 @@ class PaperEdit(BaseHandler):
         paper = ndb.Key('Papers', iden).get()
         currentuser = users.get_current_user()
         cat=self.request.get('cat')	
+        logging.info('QQQ: PaperEdit_cat: %s' % cat)
         paper.Title = self.request.get('Title')
         paper.Category = self.request.get('Category')
+        paper.Category = self.request.get('Type')
         paper.Text = self.request.get('Text')
         paper.UpdatedBy = currentuser
         paper.UpdatedDate = datetime.now()
@@ -273,15 +275,26 @@ class PaperEdit(BaseHandler):
             paper.StatusBy = currentuser
             paper.StatusDate = datetime.now()            
         paper.put()
+        logging.info('QQQ: PaperEdit_cat: %s' % cat)
         return self.redirect('/papers/' + cat)
 
     def get(self, paper_id):
         iden = int(paper_id)
         Paper = ndb.Key('Papers', iden).get()
         cat=self.request.get('cat')	
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+
+        TypeList = ['Discussion Paper', 'Question/Problem', 'Experience Report'];
+        StatusList = ['Published', 'Pending Review'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
-        self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
+        self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList, 'TypeList': TypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class FeedbackEdit(BaseHandler):
 
@@ -302,13 +315,13 @@ class FeedbackEdit(BaseHandler):
             paper.StatusBy = currentuser
             paper.StatusDate = datetime.now()            
         paper.put()
-        return self.redirect('feedback')
+        return self.redirect('/feedback')
 
     def get(self, paper_id):
         iden = int(paper_id)
         Paper = ndb.Key('Papers', iden).get()
         cat=self.request.get('cat')	
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        StatusList = ['Published', 'Pending Review'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
         self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
 
