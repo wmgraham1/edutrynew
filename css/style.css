@@ -319,8 +319,23 @@ a:hover {
 #rightsidebar {
     float:right;
     width:260px;
+    font-size: 10px;
+    line-height: 1.1em;
     }
 
+#rightsidebar h4 {
+    font-size: 10px;
+    line-height: 1.1em;
+    font-weight: bold;
+    }
+
+/*
+.rssFeed h4 {
+  font-size: 10px;
+  line-height: 1.1em;
+  font-weight: bold;
+  }
+*/    
 .d {
   list-style-type: lower-alpha;
   }

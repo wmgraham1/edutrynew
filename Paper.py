@@ -57,19 +57,19 @@ class PaperList(BaseHandler):
         logging.info("Now in PaperList get.")
 
         if category == 'resources':
-            q = Papers.query(Papers.Category == 'Learning Resources').order(Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Learning Resources').order(Papers.Rank, -Papers.CreatedDate)
             CatName = 'Learning Resources'
         elif category == 'platform':
-            q = Papers.query(Papers.Category == 'Learning Platform').order(Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Learning Platform').order(Papers.Rank, -Papers.CreatedDate)
             CatName = 'Learning Platform'
         elif category == 'learners':
-            q = Papers.query(Papers.Category == 'Winning Students').order(Papers.CreatedDate)
+            q = Papers.query(Papers.Category == 'Winning Students').order(Papers.Rank, -Papers.CreatedDate)
             CatName = 'Learners and Programs'
         elif category == 'misc':
-            q = Papers.query(Papers.Category != 'Feedback', Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, Papers.CreatedDate)
+            q = Papers.query(Papers.Category != 'Feedback', Papers.Category != 'Learning Resources', Papers.Category != 'Learning Platform', Papers.Category != 'Winning Students').order(Papers.Category, Papers.Rank, -Papers.CreatedDate)
             CatName = 'Miscellaneous'
         else:
-            q = Papers.query().order(Papers.Category, Papers.CreatedDate)
+            q = Papers.query().order(Papers.Category, -Papers.CreatedDate)
             CatName = 'All'
 
         papers = q.fetch(99)
@@ -113,7 +113,8 @@ class FeedbackList(BaseHandler):
         template_values = {
             'papers': papers, 
             'Havepapers': Havepapers,
-            'currentuser':currentuser, 
+            'currentuser':currentuser,
+            'cat': 'Feedback',            
             'login':login, 
             'logout': logout
             }
@@ -264,6 +265,7 @@ class PaperEdit(BaseHandler):
         cat=self.request.get('cat')	
         logging.info('QQQ: PaperEdit_cat: %s' % cat)
         paper.Title = self.request.get('Title')
+        paper.Rank = int(self.request.get('Rank'))
         paper.Category = self.request.get('Category')
         paper.Type = self.request.get('Type')
         paper.Text = self.request.get('Text')
@@ -287,14 +289,15 @@ class PaperEdit(BaseHandler):
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/tokens' )
+              logout = users.create_logout_url('/papers/' + cat )
         else:
-              login = users.create_login_url('/tokens')
+              login = users.create_login_url('/papers/' + cat)
 
         TypeList = ['Discussion Paper', 'Question/Problem', 'Experience Report'];
+        RankList = [1,5];
         StatusList = ['Published', 'Pending Review'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
-        self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList, 'TypeList': TypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('PaperEdit.html', {'Paper': Paper, 'cat': cat, 'RankList': RankList, 'StatusList': StatusList, 'CategoryList': CategoryList, 'TypeList': TypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class FeedbackEdit(BaseHandler):
 
@@ -304,9 +307,7 @@ class FeedbackEdit(BaseHandler):
         currentuser = users.get_current_user()
         cat=self.request.get('cat')	
         paper.Title = self.request.get('Title')
-        paper.Category = 'Feedback'
         paper.Text = self.request.get('Text')
-        paper.Type = 'Feedback'
         paper.UpdatedBy = currentuser
         paper.UpdatedDate = datetime.now()
         StatusPrev = paper.Status
@@ -321,9 +322,18 @@ class FeedbackEdit(BaseHandler):
         iden = int(paper_id)
         Paper = ndb.Key('Papers', iden).get()
         cat=self.request.get('cat')	
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/feedback' )
+        else:
+              login = users.create_login_url('/feedback')
+
         StatusList = ['Published', 'Pending Review'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
-        self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList})
+        self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class PaperDelete(BaseHandler):
 

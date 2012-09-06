@@ -23,7 +23,7 @@
           <td> {{ paper.CreatedDate }} </td>
           <td> {{ paper.CreatedBy }} </td>
           {% if currentuser|AccessOK(1) %} 
-            <td><a href ="/papers/edit/{{paper.key.id()}}/?cat={{cat}}">edit </a></td> 
+            <td><a href ="/feedback/edit/{{paper.key.id()}}?cat={{cat}}">edit </a></td> 
           {% endif %}
         </tr>
         {% endfor %}	

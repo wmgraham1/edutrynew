@@ -33,7 +33,7 @@ import contactpage
 from Home import DisplayHome
 from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
-from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay
+from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay, FeedbackEdit
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
 from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView, TemplateTokenCreate
@@ -66,6 +66,7 @@ app = webapp2.WSGIApplication([
     ('/feedback', FeedbackList),
     ('/feedback/display', FeedbackDisplay),
     ('/feedback/create', FeedbackCreate),
+    ('/feedback/edit/([\d]+)', FeedbackEdit),
     ('/users', UserList),
     ('/users/join', UserJoin), 
     ('/users/create', UserCreate), 

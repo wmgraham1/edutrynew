@@ -79,6 +79,26 @@ indexes:
   - name: CreatedDate
     direction: desc
 
+- kind: Papers
+  properties:
+  - name: Category
+  - name: Rank
+  - name: CreatedDate
+    direction: desc
+
+- kind: Papers
+  properties:
+  - name: Category
+    direction: desc
+  - name: CreatedDate
+
+- kind: Papers
+  properties:
+  - name: Rank
+  - name: Category
+    direction: desc
+  - name: CreatedDate
+
 - kind: TokenValues
   properties:
   - name: Status

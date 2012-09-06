@@ -31,6 +31,7 @@ class PageContents(ndb.Model):
 class Papers(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
   Title = ndb.StringProperty()
+  Rank = ndb.IntegerProperty(default=5)
   Category = ndb.StringProperty()
   Text = ndb.TextProperty()
   Type = ndb.StringProperty()

@@ -20,69 +20,8 @@
       <input type="text" name="Title" value="{{ Paper.Title }}" id="Title" />
     </div>
   </div>
-{% if currentuser|AccessOK(1) %} 
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_Rank">Rank</label>:
-    </div>
-    <div class="field-field">
-        <select name="Rank">
-        {% for Rank in RankList %}
-            <option value="{{Rank}}" 
-            {% if Rank == Paper.Rank %}
-                selected="selected"
-            {% endif %}
-            >{{Rank}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </div>
-{% else: %}
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_Rank">Rank</label>:
-    </div>
-    <div class="field-field">
-	  <input type="hidden" name="Rank" id="id_Rank" value="{{ Paper.Rank }}" />
-	  {{ Paper.Rank  }}
-    </div>
-  </div>
-    
-{% endif %}  
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_Category">Category</label>:
-    </div>
-    <div class="field-field">
-        <select name="Category">
-        {% for Category in CategoryList %}
-            <option value="{{Category}}" 
-            {% if Category == Paper.Category %}
-                selected="selected"
-            {% endif %}
-            >{{Category}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </div>
-  
-  <div class="field-wrapper">
-    <div class="field-label">
-      <label for="id_Type">Type</label>:
-    </div>
-    <div class="field-field">
-        <select name="Type">
-        {% for Type in TypeList %}
-            <option value="{{Type}}" 
-            {% if Type == Paper.Type %}
-                selected="selected"
-            {% endif %}
-            >{{Type}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </div>
-    
+
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Text">Text</label>:

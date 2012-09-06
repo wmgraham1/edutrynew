@@ -56,43 +56,44 @@
         <li>Issues related to disagreement on desired methods for math and other subjects or on content to be taught.</li>
     </ol>
     </p>
-    </div>  <!-- end of leftcontent -->
+    </div>  <!-- end of leftcontent 'http://feeds.reuters.com/reuters/greece' -->
     <script type="text/javascript">
     $(document).ready(function () {
-      $('#test').rssfeed('http://feeds.reuters.com/reuters/greece', {
+      $('#test').rssfeed('https://news.google.com/news/feeds?um=1&ned=us&hl=en&q=khan+academy&output=rss', {
         limit: 5
       });
     });
+
     </script>    
     <div id="rightsidebar"">
-    <div id="test">
-    </div>
-    <div class="rcntlist">
-    {% if Havepapers %}
-        <table width = 90% border=1 cellspacing=0 cellpadding=2>
-          <thead>
-            <tr>
-              <th style="text-align: center;">Most Recent Papers</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for paper in papers %}
-            <tr>
-              <td>
-              {% if currentuser|AccessOK(110): %} 
-                <a href ="/papers/display/{{ paper.key.id() }}"> {{ paper.Title }} </a>({{ paper.Category }})
-              {% else: %}
-                {{ paper.Title }} ({{ paper.Category }})
-              {% endif %}
-              </td>
-            </tr>
-            {% endfor %}	
-          </tbody>
-        </table>
-    {% else %}
-        <p style="text-align: center;">No papers yet.</p>
-    {% endif %}
-    </div>
+        <div class="rcntlist">
+        {% if Havepapers %}
+            <table width = 90% border=1 cellspacing=0 cellpadding=2>
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Most Recent Papers</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for paper in papers %}
+                <tr>
+                  <td>
+                  {% if currentuser|AccessOK(110): %} 
+                    <a href ="/papers/display/{{ paper.key.id() }}"> {{ paper.Title }} </a>({{ paper.Category }})
+                  {% else: %}
+                    {{ paper.Title }} ({{ paper.Category }})
+                  {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}	
+              </tbody>
+            </table>
+        {% else %}
+            <p style="text-align: center;">No papers yet.</p>
+        {% endif %}
+        </div>
+        <div id="test">
+        </div>
     </div>
     
 </div>
