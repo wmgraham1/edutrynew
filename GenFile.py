@@ -49,6 +49,13 @@ class GenFileDisplay(BaseHandler):
     def get(self, genfile_id):
         iden = int(genfile_id)
         genfile = ndb.Key('GeneratedFiles', iden).get()
+
+        if genfile:
+            TextOut = genfile.FileTxt.decode('utf-8')
+        else:
+            TextOut = 'No such file.'
+#            genfile = 'No such file.'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -56,7 +63,7 @@ class GenFileDisplay(BaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates')
-        self.render_template('GenFileDisplay.html', {'genfile': genfile, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('GenFileDisplay.html', {'genfile': genfile, 'TextOut': TextOut, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class GenFileAltDisplay(BaseHandler):
 
@@ -65,8 +72,12 @@ class GenFileAltDisplay(BaseHandler):
         LangCode=self.request.get('LangCode')
         q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
         genfile = q.get()
-        if not genfile:
-            genfile = 'No such file.'
+
+        if genfile:
+            TextOut = genfile.FileTxt.decode('utf-8')
+        else:
+            TextOut = 'No such file.'
+#            genfile = 'No such file.'
         
         logout = None
         login = None
@@ -75,7 +86,7 @@ class GenFileAltDisplay(BaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates')
-        self.render_template('GenFileDisplay.html', {'genfile': genfile, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('GenFileDisplay.html', {'genfile': genfile, 'TextOut': TextOut, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class GenFileDelete(BaseHandler):
 

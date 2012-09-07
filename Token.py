@@ -533,7 +533,7 @@ class TokenFileGen(BaseHandler):
         logging.info('QQQ: FileName: %s' % FileName)
         template = jinja_environment.get_template(FileName)     
         blobtext = template.render(tokenvals = tokendict)
-        bloboutput = (blobtext.encode('ASCII'))
+        bloboutput = (blobtext.encode('utf-8'))
 
         f = GeneratedFiles(
             TemplateName = templateName
