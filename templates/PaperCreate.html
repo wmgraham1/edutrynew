@@ -58,14 +58,13 @@
     
     <div class="field-field">
       <!-- <input type="text" name="text" id="id_text" /> -->
-      <textarea class="field-field" rows="10" cols="50" id="editor1" name="Text" ></textarea>
+      <textarea class="field-field" rows="30" cols="80" id="editor1" name="Text" ></textarea>
       <script type="text/javascript">
 			//<![CDATA[
-
-				CKEDITOR.replace( 'editor1',
-				{
-					fullPage : false
-					
+			CKEDITOR.replace( 'editor1',
+			    {   
+                    height: '300px',
+                    fullPage : false
 				});
 					
 				
