@@ -136,7 +136,7 @@ class LearnUnitCreate(BaseHandler):
                   , Status = 'Pending Review'
                   )
         n.put()
-        return self.redirect('/units')
+        return self.redirect('/units/create')
 
     def get(self):
         logout = None
