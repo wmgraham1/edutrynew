@@ -11,6 +11,7 @@ from google.appengine.api import memcache
 from SecurityUtils import AccessOK
 
 
+from models import TopicAreas
 from models import LearnAids
 from models import Languages
 
@@ -147,19 +148,28 @@ class LearnAidCreate(BaseHandler):
         else:
               login = users.create_login_url('/aids')
 
-        SubjectList = [
-            'Arithmetic and Pre-Algebra: Addition and subtraction', 
-            'Arithmetic and Pre-Algebra: Multiplication and division', 
-            'Arithmetic and Pre-Algebra: Negative numbers',
-            'Arithmetic and Pre-Algebra: Number properties',
-            'Arithmetic and Pre-Algebra: Order of operations',
-            'Arithmetic and Pre-Algebra: Factors and multiples',
-            'Arithmetic and Pre-Algebra: Fractions',
-            'Arithmetic and Pre-Algebra: Decimals',
-            'Arithmetic and Pre-Algebra: Percents',
-            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
-            'Arithmetic and Pre-Algebra: Exponents (basic)'
-            ];		  
+        q4 = TopicAreas.query(TopicAreas.Subject == 'Arithmetic and Pre-algebra')
+        subjects = q4.fetch(999)
+        SubjectList = []
+        if subjects:
+            for subject in subjects:
+                SubjectList.append(subject.Name)
+        else:
+            SubjectList.append('none')
+            
+#        SubjectList = [
+#            'Arithmetic and Pre-Algebra: Addition and subtraction', 
+#            'Arithmetic and Pre-Algebra: Multiplication and division', 
+#            'Arithmetic and Pre-Algebra: Negative numbers',
+#            'Arithmetic and Pre-Algebra: Number properties',
+#            'Arithmetic and Pre-Algebra: Order of operations',
+#            'Arithmetic and Pre-Algebra: Factors and multiples',
+#            'Arithmetic and Pre-Algebra: Fractions',
+#            'Arithmetic and Pre-Algebra: Decimals',
+#            'Arithmetic and Pre-Algebra: Percents',
+#            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
+#            'Arithmetic and Pre-Algebra: Exponents (basic)'
+#            ];		  
         self.render_template('LearnAidCreate.html', {'SubjectList': SubjectList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
@@ -198,19 +208,29 @@ class LearnAidEdit(BaseHandler):
         else:
               login = users.create_login_url('/aids')
 
-        SubjectList = [
-            'Arithmetic and Pre-Algebra: Addition and subtraction', 
-            'Arithmetic and Pre-Algebra: Multiplication and division', 
-            'Arithmetic and Pre-Algebra: Negative numbers',
-            'Arithmetic and Pre-Algebra: Number properties',
-            'Arithmetic and Pre-Algebra: Order of operations',
-            'Arithmetic and Pre-Algebra: Factors and multiples',
-            'Arithmetic and Pre-Algebra: Fractions',
-            'Arithmetic and Pre-Algebra: Decimals',
-            'Arithmetic and Pre-Algebra: Percents',
-            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
-            'Arithmetic and Pre-Algebra: Exponents (basic)'
-            ];		  
+        q4 = TopicAreas.query(TopicAreas.Subject == 'Arithmetic and Pre-algebra')
+        subjects = q4.fetch(999)
+        SubjectList = []
+        if subjects:
+            for subject in subjects:
+                SubjectList.append(subject.Name)
+        else:
+            SubjectList.append('none')
+            
+#        SubjectList = [
+#            'Arithmetic and Pre-Algebra: Addition and subtraction', 
+#            'Arithmetic and Pre-Algebra: Multiplication and division', 
+#            'Arithmetic and Pre-Algebra: Negative numbers',
+#            'Arithmetic and Pre-Algebra: Number properties',
+#            'Arithmetic and Pre-Algebra: Order of operations',
+#            'Arithmetic and Pre-Algebra: Factors and multiples',
+#            'Arithmetic and Pre-Algebra: Fractions',
+#            'Arithmetic and Pre-Algebra: Decimals',
+#            'Arithmetic and Pre-Algebra: Percents',
+#            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
+#            'Arithmetic and Pre-Algebra: Exponents (basic)'
+#            ];		  
+	  
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         VideoStatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
