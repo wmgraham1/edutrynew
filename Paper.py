@@ -238,7 +238,7 @@ class FeedbackCreate(BaseHandler):
             Title=self.request.get('Title'),
             Category='Feedback',
             Text=self.request.get('Text'),
-            Type='Feedback',
+            Type=self.request.get('Type'),
             Status='Published',
             CreatedBy=CreatedBy,
             StatusBy=CreatedBy)
@@ -253,8 +253,18 @@ class FeedbackCreate(BaseHandler):
 
     def get(self):
         cat=self.request.get('cat')	
-        logging.info("Now in PaperCreate get.")
-        self.render_template('FeedbackCreate.html', {'cat': cat})
+        logging.info("Now in FeedbackCreate get.")
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+
+        TypeList = ['Comment', 'Suggestion', 'Bug/Error Report', 'Other'];
+        self.render_template('FeedbackCreate.html', {'TypeList':TypeList, 'cat':cat, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class PaperEdit(BaseHandler):
 
@@ -307,6 +317,7 @@ class FeedbackEdit(BaseHandler):
         currentuser = users.get_current_user()
         cat=self.request.get('cat')	
         paper.Title = self.request.get('Title')
+        paper.Type=self.request.get('Type')
         paper.Text = self.request.get('Text')
         paper.UpdatedBy = currentuser
         paper.UpdatedDate = datetime.now()
@@ -332,8 +343,9 @@ class FeedbackEdit(BaseHandler):
               login = users.create_login_url('/feedback')
 
         StatusList = ['Published', 'Pending Review'];
+        TypeList = ['Bug/Error Report', 'Suggestion', 'Comment', 'Other'];
         CategoryList = ['Goals', 'Learning Resources', 'Learning Platform', 'Winning Students', 'Volunteers', 'Partnerships/Alliances', 'Wild Ideas', 'Feedback'];
-        self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('FeedbackEdit.html', {'Paper': Paper, 'cat': cat, 'StatusList': StatusList, 'CategoryList': CategoryList, 'TypeList': TypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class PaperDelete(BaseHandler):
 
