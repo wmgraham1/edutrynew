@@ -1,0 +1,84 @@
+{% extends "page_template.html" %}
+{% block content %}
+<h2 style="text-align: center;">Edit Topic Area</h2>
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitName">Topic Area Name</label>:
+    </div>
+    <div class="field-field">
+        <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" size="80" />
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <select name="Subject">
+        {% for Subject in SubjectList %}
+            <option value="{{Subject}}" 
+            {% if Subject == unit.Subject %}
+                selected="selected"
+            {% endif %}
+            >{{Subject}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" size="100" />
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == unit.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitCreatedBy">Created By</label>:
+    </div>
+    <div class="field-field">
+        {{ unit.CreatedBy }}
+    </div>
+  </div>
+<br />
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitCreatedDate">Created Date:</label>:
+    </div>
+    <div class="field-field">
+       {{ unit.CreatedDate }}
+    </div>
+  </div>
+  
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/topareas/Delete/{{ unit.key.id() }}";'>
+  <a href ="/topareas/delete/{{ unit.key.id() }}">Delete Topic Area</a>
+</form>
+
+{% endblock content %}

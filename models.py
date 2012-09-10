@@ -73,6 +73,50 @@ class ToDos(ndb.Model):
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
+class SubjectAreas(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  LearningUnitID = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
+  Name = ndb.StringProperty()
+  Description = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
+class Subjects(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  LearningUnitID = ndb.StringProperty()
+  Subject = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
+  Name = ndb.StringProperty()
+  Description = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
+class TopicAreas(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  LearningUnitID = ndb.StringProperty()
+  Subject = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
+  Name = ndb.StringProperty()
+  Description = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
 class LearningUnits(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
   LearningUnitID = ndb.StringProperty()

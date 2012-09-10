@@ -1,0 +1,46 @@
+{% extends "page_template.html" %}
+{% block content %}
+<h2 style="text-align: center;">Add New Subject Area</h2>
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitName">Subject Area Name</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Name" id="id_LearnUnitName" size="80" />
+    </div>
+  </div>
+<br />
+<!--
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <select name="Subject">
+        {% for Subject in SubjectList %}
+            <option value="{{Subject}}" 
+            >{{Subject}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+-->
+<!--
+ <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Description" id="id_Description" />
+    </div>
+  </div>
+-->
+  <br>
+  <input type="submit" value=submit />
+</form>
+
+{% endblock content %}
+

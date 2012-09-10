@@ -104,6 +104,16 @@ indexes:
     direction: desc
   - name: CreatedDate
 
+- kind: SubjectAreas
+  properties:
+  - name: LangCode
+  - name: LearningUnitID
+
+- kind: Subjects
+  properties:
+  - name: LangCode
+  - name: LearningUnitID
+
 - kind: TokenValues
   properties:
   - name: Status
@@ -150,3 +160,14 @@ indexes:
   properties:
   - name: tknID
   - name: templateName
+
+- kind: TopicAreas
+  properties:
+  - name: LangCode
+  - name: LearningUnitID
+
+- kind: TopicAreas
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: LearningUnitID

@@ -1,0 +1,82 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div>
+    <div style="float: left;">
+    <form method="GET">
+    <select name="langCode">
+        {% for language in languages %}
+                <option value="{{language.langCode}}" 
+                {% if language.langCode == langCode %}
+                selected="selected"
+                {% endif %}
+                >{{language.langName}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Select Language">
+    </form>
+    </div>
+    <div>
+    <form method="GET">
+        <select name="StatusFilter">
+            <option value="all" 
+            {% if 'all' == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >All</option>
+            {% for Status in StatusList %}
+                <option value="{{Status}}" 
+                {% if Status == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >{{Status}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="Select Status">
+    </form>
+    </div>
+</div>
+<h2 style="text-align: center;">List of Subject Areas</h2>
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/subjareas/create">Add New Subject Area</a></p> 
+{% endif %}
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Subject Areas in English and {{count_other_language}} Subject Areas in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/subjareas/clone?langCode={{langCode}}"> Clone missing Subject Areas.</a></td>
+        {% endif %}
+  {% endif %}
+  Please note that Subject Area names in other languages are initially the same as in English until you translate them.
+</p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Subj Area</th>
+      <th>Language</th>
+	  <th>Created Date</th>
+      <th>Status</th>
+      <th>Status Date</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for unit in units %}
+	<tr>
+	  <td> {{ unit.LearningUnitID }} </td>
+	  <td> {{ unit.Name }} </td>
+	  <td> {{ unit.LangCode }} </td>
+	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ unit.Status }} </td>
+	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td><a href ="/subjareas/edit/{{ unit.key.id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/subjareas/create">Add New Subject Area</a></p> 
+{% endif %}
+
+{% endblock content %}

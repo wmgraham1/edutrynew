@@ -43,6 +43,9 @@ from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
+from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
+from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone
+from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
@@ -122,6 +125,21 @@ app = webapp2.WSGIApplication([
     ('/genfiles/display/([\d]+)', GenFileDisplay),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
+    ('/subjareas', SubjAreaList), 
+    ('/subjareas/create', SubjAreaCreate), 
+    ('/subjareas/edit/([\d]+)', SubjAreaEdit),
+    ('/subjareas/clone', SubjAreaClone),
+    ('/subjareas/delete/([\d]+)', SubjAreaDelete),
+    ('/subjs', LearnSubjList), 
+    ('/subjs/create', LearnSubjCreate), 
+    ('/subjs/edit/([\d]+)', LearnSubjEdit),
+    ('/subjs/clone', LearnSubjClone),
+    ('/subjs/delete/([\d]+)', LearnSubjDelete),
+    ('/topareas', TopicAreaList), 
+    ('/topareas/create', TopicAreaCreate), 
+    ('/topareas/edit/([\d]+)', TopicAreaEdit),
+    ('/topareas/clone', TopicAreaClone),
+    ('/topareas/delete/([\d]+)', TopicAreaDelete),
     ('/units', LearnUnitList), 
     ('/units/create', LearnUnitCreate), 
     ('/units/edit/([\d]+)', LearnUnitEdit),
