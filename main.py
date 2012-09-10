@@ -44,7 +44,7 @@ from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
-from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
+from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
 
 
@@ -127,6 +127,11 @@ app = webapp2.WSGIApplication([
     ('/units/edit/([\d]+)', LearnUnitEdit),
     ('/units/clone', LearnUnitClone),
     ('/units/delete/([\d]+)', LearnUnitDelete),
+    ('/aids', LearnAidList), 
+    ('/aids/create', LearnAidCreate), 
+    ('/aids/edit/([\d]+)', LearnAidEdit),
+    ('/aids/clone', LearnAidClone),
+    ('/aids/delete/([\d]+)', LearnAidDelete),
     ('/how', HowIntro),
     ('/how/trans', HowTrans)
 	],

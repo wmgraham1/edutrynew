@@ -1,0 +1,115 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<form action="" method="post">
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnAidTitle">Learning Aid Title</label>:
+    </div>
+    <div class="field-field">
+        <input type="text" name="Name" id="id_LearnAidTitle" value="{{ aid.Name }}" size="80" />
+    </div>
+  </div>
+<br />
+<!--
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <input type="text" name="Subject" id="id_Subject" value="{{ aid.Subject }}" size="80" />
+    </div>
+  </div>
+<br />
+-->
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Subject">Subject</label>:
+    </div>
+    <div class="field-field">
+        <select name="Subject">
+        {% for Subject in SubjectList %}
+            <option value="{{Subject}}" 
+            {% if Subject == aid.Subject %}
+                selected="selected"
+            {% endif %}
+            >{{Subject}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+
+<!--
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Description">Description</label>:
+    </div>
+    <div class="field-field">
+	  <input type="text" name="Description" id="id_Description" value="{{ aid.Description }}" />
+    </div>
+  </div>
+-->
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Status">Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="Status">
+        {% for Status in StatusList %}
+            <option value="{{Status}}" 
+            {% if Status == aid.Status %}
+                selected="selected"
+            {% endif %}
+            >{{Status}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_VideoStatus">Video Status</label>:
+    </div>
+    <div class="field-field">
+        <select name="VideoStatus">
+        {% for VideoStatus in VideoStatusList %}
+            <option value="{{VideoStatus}}" 
+            {% if VideoStatus == aid.VideoStatus %}
+                selected="selected"
+            {% endif %}
+            >{{VideoStatus}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </div>
+<br />
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnAidCreatedBy">Created By</label>:
+    </div>
+    <div class="field-field">
+        {{ aid.CreatedBy }}
+    </div>
+  </div>
+<br />
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnAidCreatedDate">Created Date:</label>:
+    </div>
+    <div class="field-field">
+       {{ aid.CreatedDate }}
+    </div>
+  </div>
+  
+<br />      
+  
+  <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
+  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/aids/Delete/{{ aid.key.id() }}";'>
+  <a href ="/aids/delete/{{ aid.key.id() }}">Delete Learning Aid</a>
+</form>
+
+{% endblock content %}

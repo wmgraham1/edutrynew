@@ -88,6 +88,24 @@ class LearningUnits(ndb.Model):
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
 
+class LearnAids(ndb.Model):
+  """Models an individual pagecontent block with page name, content, createdby and createddate."""
+  LearnAidID = ndb.StringProperty()
+  Subject = ndb.StringProperty()
+  LangCode = ndb.StringProperty()
+  Name = ndb.StringProperty()
+  VideoStatus = ndb.StringProperty(default="Published")
+  VideoStatusBy = ndb.UserProperty(auto_current_user_add=True)
+  VideoStatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  Description = ndb.StringProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
+  UpdatedBy = ndb.UserProperty()
+  UpdatedDate = ndb.DateTimeProperty()
+  Status = ndb.StringProperty()
+  StatusBy = ndb.UserProperty(auto_current_user_add=True)
+  StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+
 class NewsItems(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
   Title = ndb.StringProperty()

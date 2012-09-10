@@ -1,0 +1,85 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div>
+    <div style="float: left;">
+    <form method="GET">
+    <select name="langCode">
+        {% for language in languages %}
+                <option value="{{language.langCode}}" 
+                {% if language.langCode == langCode %}
+                selected="selected"
+                {% endif %}
+                >{{language.langName}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Select Language">
+    </form>
+    </div>
+    <div>
+    <form method="GET">
+        <select name="StatusFilter">
+            <option value="all" 
+            {% if 'all' == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >All</option>
+            {% for Status in StatusList %}
+                <option value="{{Status}}" 
+                {% if Status == StatusFilter %}
+                    selected="selected"
+                {% endif %}
+                >{{Status}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="Select Status">
+    </form>
+    </div>
+</div>
+<h2 style="text-align: center;">List of Learning Aids (Videos)</h2>
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/aids/create">Add New Learning Aid</a></p> 
+{% endif %}
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Learning Aids in English and {{count_other_language}} Learning Aids in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/aids/clone?langCode={{langCode}}"> Clone missing Learning Aids.</a></td>
+        {% endif %}
+  {% endif %}
+  Please note that Learning Aid titles in other languages are initially the same as in English until you translate them.
+</p>
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Subject</th>
+      <th>Lang.</th>
+	  <th>Created Date</th>
+      <th>Status</th>
+      <th>Video Status</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for aid in aids %}
+	<tr>
+	  <td> {{ aid.LearnAidID }} </td>
+	  <td> {{ aid.Name }} </td>
+	  <td> {{ aid.Subject }} </td>
+	  <td> {{ aid.LangCode }} </td>
+	  <td> {{ aid.CreatedDate.strftime('%Y-%m-%d') }} </td>
+	  <td> {{ aid.Status }} </td>
+	  <td> {{ aid.VideoStatus }} </td>
+<!--	  <td> {{ aid.StatusDate.strftime('%Y-%m-%d') }} </td> -->
+	  <td><a href ="/aids/edit/{{ aid.key.id() }}">edit </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+<p><a href="/aids/create">Add New Learning Aid</a></p> 
+{% endif %}
+
+{% endblock content %}

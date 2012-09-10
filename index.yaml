@@ -47,6 +47,11 @@ indexes:
   - name: langCode
   - name: langName
 
+- kind: LearnAids
+  properties:
+  - name: LangCode
+  - name: LearnAidID
+
 - kind: LearningUnits
   properties:
   - name: LangCode
