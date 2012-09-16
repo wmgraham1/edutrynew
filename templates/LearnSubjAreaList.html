@@ -63,7 +63,7 @@
   <tbody>
     {% for unit in units %}
 	<tr>
-	  <td> {{ unit.LearningUnitID }} </td>
+	  <td><a href ="/subjs?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>

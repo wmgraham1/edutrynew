@@ -12,6 +12,22 @@
     </div>
   </div>
 <br />
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitSeq">Sequence</label>:
+    </div>
+    <div class="field-field">
+        {% if unit.LangCode == 'en': %}
+            <input type="text" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+        {% else: %}
+            <input type="hidden" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+            {{unit.Seq}}
+        {% endif %}
+    </div>
+  </div>
+<br />
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Subject">Subject</label>:

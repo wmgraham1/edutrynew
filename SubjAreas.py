@@ -131,6 +131,7 @@ class SubjAreaCreate(BaseHandler):
         n = SubjectAreas(LearningUnitID = self.request.get('Name')
 #                  , Subject=self.request.get('Subject')
                   , Name = self.request.get('Name')
+                  , Seq = 256
                   , LangCode = 'en'
                   , Description=self.request.get('Description')
                   , Status = 'Pending Review'

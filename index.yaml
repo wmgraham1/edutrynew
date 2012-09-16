@@ -114,6 +114,25 @@ indexes:
   - name: LangCode
   - name: LearningUnitID
 
+- kind: Subjects
+  properties:
+  - name: LangCode
+  - name: Seq
+  - name: LearningUnitID
+
+- kind: Subjects
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: LearningUnitID
+
+- kind: Subjects
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
+  - name: LearningUnitID
+
 - kind: TokenValues
   properties:
   - name: Status
@@ -170,4 +189,11 @@ indexes:
   properties:
   - name: LangCode
   - name: Subject
+  - name: LearningUnitID
+
+- kind: TopicAreas
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
   - name: LearningUnitID

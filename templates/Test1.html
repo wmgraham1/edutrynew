@@ -1,0 +1,24 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div>
+    <div style="float: left;">
+    <form method="GET">
+    <select name="langCode">
+        {% for language in languages %}
+                <option value="{{language.langCode}}" 
+                {% if language.langCode == langCode %}
+                selected="selected"
+                {% endif %}
+                >{{language.langName}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Select Language">
+    </form>
+    </div>
+</div>
+<br />
+<h2 style="text-align: center;">Test Results</h2>
+
+<p>Test 1 Value: {{ TestVal1 }}</p> 
+
+{% endblock content %}

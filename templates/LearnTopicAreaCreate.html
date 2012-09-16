@@ -1,7 +1,7 @@
 {% extends "page_template.html" %}
 {% block content %}
 <h2 style="text-align: center;">Add New Topic Area</h2>
-
+<p><a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Topic Area List</a></p>
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
@@ -20,7 +20,10 @@
     <div class="field-field">
         <select name="Subject">
         {% for Subject in SubjectList %}
-            <option value="{{Subject}}" 
+            <option value="{{Subject}}"
+            {% if Subject == SubjFilter %}
+                selected="selected"
+            {% endif %}            
             >{{Subject}}</option>
         {% endfor %}
         </select>

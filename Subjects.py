@@ -9,8 +9,10 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
+from DButils import TopicSeqRecalc
 
 
+from models import SubjectAreas
 from models import Subjects
 from models import Languages
 
@@ -53,6 +55,8 @@ class BaseHandler(webapp2.RequestHandler):
 class LearnSubjList(BaseHandler):
 
     def get(self):
+        TopicSeqRecalc()
+        
         languages = memcache.get("languages")
         if languages is not None:
             logging.info("get languages from memcache.")
@@ -60,7 +64,7 @@ class LearnSubjList(BaseHandler):
             q = Languages.query().order(Languages.langName)
             languages = q.fetch(99)
             logging.info("Can not get languages from memcache.")
-            if not memcache.add("languages", languages, 10):
+            if not memcache.add("languages", languages, 99):
                 logging.info("Memcache set failed.")
 
         if self.request.get('langCode'):
@@ -86,6 +90,32 @@ class LearnSubjList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
+        if self.request.get('SubjAreaFilter'):
+            SubjAreaFilter=self.request.get('SubjAreaFilter')
+            self.session['SubjAreaFilter'] = SubjAreaFilter
+        else:
+            SubjAreaFilter = self.session.get('SubjAreaFilter')
+        if not SubjAreaFilter:
+            self.session['SubjAreaFilter'] = 'Math'
+            SubjAreaFilter = 'Math'
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/units' )
+        else:
+              login = users.create_login_url('/units')
+
+        SubjAreaList = []
+        q = SubjectAreas.query(SubjectAreas.LangCode == langCode)
+        SubjAreaResponseSet = q.fetch(999)
+        for SubjArea in SubjAreaResponseSet:
+            SubjAreaList.append(SubjArea.Name)
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+#        SubjAreaList = ['Math', 'Science'];	
+        logging.info('QQQ: rq rq rq: %s' % self.request.get('rq'))
+#        if self.request.get('rq') == '2':
         count_en = 0
         langCode_en = 'en'
         q = Subjects.query(Subjects.LangCode == langCode_en)
@@ -105,23 +135,39 @@ class LearnSubjList(BaseHandler):
         logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
         logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
-        if StatusFilter == 'all':
-            q = Subjects.query(Subjects.LangCode == langCode).order(Subjects.LearningUnitID)
+        logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+        if SubjAreaFilter == 'all':
+            if StatusFilter == 'all':
+                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and all')
+                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+                q = Subjects.query(Subjects.LangCode == langCode).order(Subjects.Seq, Subjects.LearningUnitID)
+            else:
+                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and StatusFilter')
+                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+                q = Subjects.query(Subjects.LangCode == langCode, Subjects.Status == StatusFilter).order(Subjects.Seq, Subjects.LearningUnitID)
         else:
-            q = Subjects.query(Subjects.LangCode == langCode, Subjects.Status == StatusFilter).order(Subjects.LearningUnitID)
+            if StatusFilter == 'all':
+                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and all')
+                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+                q = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == SubjAreaFilter).order(Subjects.Seq, Subjects.LearningUnitID)
+            else:
+                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and StatusFilter')
+                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+                q = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == SubjAreaFilter, Subjects.Status == StatusFilter).order(Subjects.Seq, Subjects.LearningUnitID)
+
         units = q.fetch(999)
+    #    self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
-        logout = None
-        login = None
-        currentuser = users.get_current_user()
-        if currentuser:
-              logout = users.create_logout_url('/units' )
-        else:
-              login = users.create_login_url('/units')
+#        else:
+#            units = []
+#            count_en = 0
+#            count_other_language = 0
+        self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-        SubjectList = ['Math', 'Science'];	
-        self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnSubjCreate(BaseHandler):
@@ -131,6 +177,7 @@ class LearnSubjCreate(BaseHandler):
         n = Subjects(LearningUnitID = self.request.get('Name')
                   , Subject=self.request.get('Subject')
                   , Name = self.request.get('Name')
+                  , Seq = 256
                   , LangCode = 'en'
                   , Description=self.request.get('Description')
                   , Status = 'Pending Review'
@@ -139,6 +186,36 @@ class LearnSubjCreate(BaseHandler):
         return self.redirect('/subjs/create')
 
     def get(self):
+        languages = memcache.get("languages")
+        if languages is not None:
+            logging.info("get languages from memcache.")
+        else:
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 10):
+                logging.info("Memcache set failed.")
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+
+        SubjAreaFilter = self.session.get('SubjAreaFilter')
+        if not SubjAreaFilter:
+            self.session['SubjAreaFilter'] = 'Math'
+            SubjAreaFilter = 'Math'
+
+        SubjAreaList = []
+        q = SubjectAreas.query(SubjectAreas.LangCode == langCode)
+        SubjAreaResponseSet = q.fetch(999)
+        for SubjArea in SubjAreaResponseSet:
+            SubjAreaList.append(SubjArea.Name)
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -147,8 +224,8 @@ class LearnSubjCreate(BaseHandler):
         else:
               login = users.create_login_url('/subjs')
 
-        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
-        self.render_template('LearnSubjCreate.html', {'SubjectList': SubjectList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+#        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
+        self.render_template('LearnSubjCreate.html', {'SubjectList': SubjAreaList, 'SubjAreaFilter': SubjAreaFilter, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnSubjEdit(BaseHandler):
@@ -159,6 +236,7 @@ class LearnSubjEdit(BaseHandler):
 
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
+        unit.Seq = int(self.request.get('Seq'))
         unit.Subject = self.request.get('Subject')
         unit.Description = self.request.get('Description')
         StatusPrev = unit.Status
@@ -173,6 +251,13 @@ class LearnSubjEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
 
+        SubjAreaList = []
+        if SubjectAreas.LangCode == 'en':
+            q = SubjectAreas.query(SubjectAreas.LangCode == 'en')
+            SubjAreaResponseSet = q.fetch(999)
+            for SubjArea in SubjAreaResponseSet:
+                SubjAreaList.append(SubjArea.Name)
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -183,7 +268,7 @@ class LearnSubjEdit(BaseHandler):
 
         SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnSubjEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjEdit.html', {'unit': unit, 'SubjectList': SubjAreaList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnSubjDelete(BaseHandler):

@@ -1,8 +1,11 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div>
-    <div style="float: left;">
-    <form method="GET">
+<table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+<tr>
+<td>
+<!--    <div style="float: left;"> -->
+    <form method="GET" style="margin-right: 20px;">
     <select name="langCode">
         {% for language in languages %}
                 <option value="{{language.langCode}}" 
@@ -14,30 +17,63 @@
     </select>
     <input type="submit" value="Select Language">
     </form>
-    </div>
-    <div>
+</td><td>
+<!--    </div>
+    <div> -->
     <form method="GET">
-        <select name="StatusFilter">
-            <option value="all" 
-            {% if 'all' == StatusFilter %}
-                    selected="selected"
-                {% endif %}
-                >All</option>
-            {% for Status in StatusList %}
-                <option value="{{Status}}" 
-                {% if Status == StatusFilter %}
-                    selected="selected"
-                {% endif %}
-                >{{Status}}</option>
-            {% endfor %}
-        </select>
-    <input type="submit" value="Select Status">
+      <div class="field-wrapper" style="float: left; margin-left: 20px;">
+        <div class="field-label">
+          <label for="id_SubjAreaFilter">Subject Area</label>:
+        </div>
+        <div class="field-field">
+            <select name="SubjAreaFilter">
+                <option value="all" 
+                {% if 'all' == SubjAreaFilter %}
+                        selected="selected"
+                    {% endif %}
+                    >All</option>
+                {% for SubjArea in SubjAreaList %}
+                    <option value="{{SubjArea}}" 
+                    {% if SubjArea == SubjAreaFilter %}
+                        selected="selected"
+                    {% endif %}
+                    >{{SubjArea}}</option>
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+
+      <div class="field-wrapper" style="float: left; margin-left: 20px;">
+        <div class="field-label">
+          <label for="id_StatusFilter">Status</label>:
+        </div>
+        <div class="field-field">
+            <select name="StatusFilter">
+                <option value="all" 
+                {% if 'all' == StatusFilter %}
+                        selected="selected"
+                    {% endif %}
+                    >All</option>
+                {% for Status in StatusList %}
+                    <option value="{{Status}}" 
+                    {% if Status == StatusFilter %}
+                        selected="selected"
+                    {% endif %}
+                    >{{Status}}</option>
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+      <input type="hidden" name="rq" id="id_rq" value="2" />
+      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Go">
     </form>
-    </div>
-</div>
-<h2 style="text-align: center;">List of Subjects</h2>
-{% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/subjs/create">Add New Subject</a></p> 
+</td></tr></table>
+<!--    </div>
+</div> -->
+{% if SubjAreaFilter: %}
+    <h2 style="text-align: center;">List of Subjects for Subject-Area: {{SubjAreaFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">List of Subjects</h2>
 {% endif %}
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
@@ -47,12 +83,19 @@
   {% endif %}
   Please note that Subjects names in other languages are initially the same as in English until you translate them.
 </p>
-
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+    {% if SubjAreaFilter: %}
+        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% else: %}
+        <p><a href="/subjs/create">Add New Subject</a></p> 
+    {% endif %}
+{% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>ID</th>
       <th>Subject</th>
+      <th>Seq</th>
       <th>Subject Area</th>
       <th>Language</th>
 	  <th>Created Date</th>
@@ -64,8 +107,9 @@
   <tbody>
     {% for unit in units %}
 	<tr>
-	  <td> {{ unit.LearningUnitID }} </td>
+	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td> {{ unit.Name }} </td>
+	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
@@ -78,7 +122,11 @@
  </table>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/subjs/create">Add New Topic</a></p> 
+    {% if SubjAreaFilter: %}
+        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% else: %}
+        <p><a href="/subjs/create">Add New Subject</a></p> 
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

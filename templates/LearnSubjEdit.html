@@ -12,23 +12,46 @@
     </div>
   </div>
 <br />
+
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitSeq">Sequence</label>:
+    </div>
+    <div class="field-field">
+        {% if unit.LangCode == 'en': %}
+            <input type="text" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+        {% else: %}
+            <input type="hidden" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+            {{unit.Seq}}
+        {% endif %}
+    </div>
+  </div>
+<br />
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Subject">Subject Area</label>:
     </div>
     <div class="field-field">
-        <select name="Subject">
-        {% for Subject in SubjectList %}
-            <option value="{{Subject}}" 
-            {% if Subject == unit.Subject %}
-                selected="selected"
-            {% endif %}
-            >{{Subject}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </div>
-<br />
+        {% if unit.LangCode == 'en': %}
+            <select name="Subject">
+            {% for Subject in SubjectList %}
+                <option value="{{Subject}}" 
+                {% if Subject == unit.Subject %}
+                    selected="selected"
+                {% endif %}
+                >{{Subject}}</option>
+            {% endfor %}
+            </select>
+        {% else: %}
+            <input type="hidden" name="Subject" id="id_LearnUnitSubject" value="{{ unit.Subject }}" />
+            {{ unit.Subject }}
+        {% endif %}
+        </div>
+      </div>
+    <br />
+
 <!--
   <div class="field-wrapper">
     <div class="field-label">
@@ -56,6 +79,7 @@
     </div>
   </div>
 <br />
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_LearnUnitCreatedBy">Created By</label>:

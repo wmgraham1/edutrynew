@@ -54,9 +54,18 @@
     </form>
     </div>
 </div>
-<h2 style="text-align: center;">List of Topic Areas</h2>
+{% if SubjFilter: %}
+    <h2 style="text-align: center;">List of Topic Areas for Subject: {{SubjFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">List of Topic Areas</h2>
+{% endif %}
+<p><a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a></p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/topareas/create">Add New Topic Area</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topareas/create?SubjFilter={{SubjFilter}}">Add New Topic Area</a></p> 
+    {% else: %}
+        <p><a href="/topareas/create">Add New Topic Area</a></p> 
+    {% endif %}
 {% endif %}
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Topic Areas in English and {{count_other_language}} Topic Areas in {{langName}}.
@@ -71,6 +80,7 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Seq</th>
       <th>Topic Areas</th>
       <th>Subject</th>
       <th>Language</th>
@@ -84,6 +94,7 @@
     {% for unit in units %}
 	<tr>
 	  <td> {{ unit.LearningUnitID }} </td>
+	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
@@ -97,7 +108,11 @@
  </table>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/topareas/create">Add New Topic Area</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topareas/create?SubjFilter={{SubjFilter}}">Add New Topic Area</a></p> 
+    {% else: %}
+        <p><a href="/topareas/create">Add New Topic Area</a></p> 
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

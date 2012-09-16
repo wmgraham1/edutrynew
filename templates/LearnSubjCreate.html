@@ -1,6 +1,8 @@
 {% extends "page_template.html" %}
 {% block content %}
 <h2 style="text-align: center;">Add New Subject</h2>
+<p><a href ="/subjs?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a></p>
+<br /><br />
 
 <form action="" method="post">
   <div class="field-wrapper">
@@ -20,6 +22,9 @@
         <select name="Subject">
         {% for Subject in SubjectList %}
             <option value="{{Subject}}" 
+            {% if Subject == SubjAreaFilter %}
+                selected="selected"
+            {% endif %}
             >{{Subject}}</option>
         {% endfor %}
         </select>

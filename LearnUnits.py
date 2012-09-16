@@ -9,10 +9,9 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
+from DButils import TopicSeqRecalc, Test1
 
-
-from models import Subjects
-from models import TopicAreas
+from models import SubjectAreas
 from models import Languages
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -51,9 +50,9 @@ class BaseHandler(webapp2.RequestHandler):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
 
-class TopicAreaList(BaseHandler):
+class SLearnUnitList(BaseHandler):
 
-    def get(self):
+      def get(self):  
         languages = memcache.get("languages")
         if languages is not None:
             logging.info("get languages from memcache.")
@@ -87,18 +86,9 @@ class TopicAreaList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
-        if self.request.get('SubjFilter'):
-            SubjFilter=self.request.get('SubjFilter')
-            self.session['SubjFilter'] = SubjFilter
-        else:
-            SubjFilter = self.session.get('SubjFilter')
-        if not SubjFilter:
-            self.session['SubjFilter'] = 'all'
-            SubjFilter = 'all'
-
         count_en = 0
         langCode_en = 'en'
-        q = TopicAreas.query(TopicAreas.LangCode == langCode_en)
+        q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
         units = q.fetch(999)
         for unit in units:
             logging.info('QQQ: count_en: %d' % count_en)
@@ -107,106 +97,70 @@ class TopicAreaList(BaseHandler):
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
-        q2 = TopicAreas.query(TopicAreas.LangCode == langCode)
+        q2 = SubjectAreas.query(SubjectAreas.LangCode == langCode)
         unitsx = q2.fetch(999)
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
         logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
-        logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+        logging.info('GGG: StatusFilter in SubjAreasList: %s' % StatusFilter)
         if StatusFilter == 'all':
-            if SubjFilter == 'all':
-                q = TopicAreas.query(TopicAreas.LangCode == langCode).order(TopicAreas.Seq, TopicAreas.LearningUnitID)
-            else:
-                q = TopicAreas.query(TopicAreas.LangCode == langCode, TopicAreas.Subject == SubjFilter).order(TopicAreas.Seq, TopicAreas.LearningUnitID)
+            q = SubjectAreas.query(SubjectAreas.LangCode == langCode).order(SubjectAreas.LearningUnitID)
         else:
-            if SubjFilter == 'all':
-                q = TopicAreas.query(TopicAreas.LangCode == langCode, TopicAreas.Status == StatusFilter).order(TopicAreas.Seq, TopicAreas.LearningUnitID)
-            else:
-                q = TopicAreas.query(TopicAreas.LangCode == langCode, TopicAreas.Status == StatusFilter, TopicAreas.Subject == SubjFilter).order(TopicAreas.Seq, TopicAreas.LearningUnitID)
-
+            q = SubjectAreas.query(SubjectAreas.LangCode == langCode, SubjectAreas.Status == StatusFilter).order(SubjectAreas.LearningUnitID)
         units = q.fetch(999)
 
-        q4 = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == 'Math')
-        subjects = q4.fetch(999)
-        SubjectList = []
-        if subjects:
-            for subject in subjects:
-                SubjectList.append(subject.Name)
-        else:
-            SubjectList.append('none')
-            
         logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/topareas' )
+              logout = users.create_logout_url('/subjareas' )
         else:
-              login = users.create_login_url('/topareas')
+              login = users.create_login_url('/subjareas')
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
-#        SubjectList = ['Math', 'Science'];	
-        self.render_template('LearnTopicAreaList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'SubjectList':SubjectList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+        self.render_template('LearnSubjAreaList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TopicAreaCreate(BaseHandler):
+class SubjAreaCreate(BaseHandler):
 
     def post(self):
         #logging.error('QQQ: templatecreate POST')
-        Subject=self.request.get('Subject')
-        n = TopicAreas(LearningUnitID = self.request.get('Name')
-                  , Subject=Subject
+        n = SubjectAreas(LearningUnitID = self.request.get('Name')
+#                  , Subject=self.request.get('Subject')
                   , Name = self.request.get('Name')
-                  , Seq = 999
+                  , Seq = 256
                   , LangCode = 'en'
                   , Description=self.request.get('Description')
                   , Status = 'Pending Review'
                   )
         n.put()
-        return self.redirect('/topareas/create?SubjFilter=' + Subject)
+        return self.redirect('/subjareas/create')
 
     def get(self):
-        if self.request.get('SubjFilter'):
-            SubjFilter=self.request.get('SubjFilter')
-            self.session['SubjFilter'] = SubjFilter
-        else:
-            SubjFilter = self.session.get('SubjFilter')
-        if not SubjFilter:
-            self.session['SubjFilter'] = 'all'
-            SubjFilter = 'all'
-
         logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/subjs' )
+              logout = users.create_logout_url('/subjareas' )
         else:
-              login = users.create_login_url('/subjs')
+              login = users.create_login_url('/subjareas')
 
-        q3 = Subjects.query(Subjects.Subject == 'Math', Subjects.LangCode == 'en').order(Subjects.LearningUnitID)
-        subjects = q3.fetch(999)
-        SubjectList = []
-        if subjects:
-            for subject in subjects:
-                SubjectList.append(subject.Name)
-        else:
-            SubjectList.append('none')
-            
-#        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
-        self.render_template('LearnTopicAreaCreate.html', {'SubjectList':SubjectList, 'SubjFilter':SubjFilter, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
+        self.render_template('LearnSubjAreaCreate.html', {'SubjectList': SubjectList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TopicAreaEdit(BaseHandler):
+class SubjAreaEdit(BaseHandler):
 
     def post(self, unit_id):
         iden = int(unit_id)
-        unit = ndb.Key('TopicAreas', iden).get()
+        unit = ndb.Key('SubjectAreas', iden).get()
 
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
-        unit.Seq = int(self.request.get('Seq'))
-        unit.Subject = self.request.get('Subject')
+#        unit.Subject = self.request.get('Subject')
         unit.Description = self.request.get('Description')
         StatusPrev = unit.Status
         unit.Status = self.request.get('Status')
@@ -214,53 +168,44 @@ class TopicAreaEdit(BaseHandler):
             unit.StatusBy = currentuser
             unit.StatusDate = datetime.now()    
         unit.put()
-        return self.redirect('/topareas')
+        return self.redirect('/subjareas')
 
     def get(self, unit_id):
         iden = int(unit_id)
-        unit = ndb.Key('TopicAreas', iden).get()
+        unit = ndb.Key('SubjectAreas', iden).get()
 
-        q3 = Subjects.query(Subjects.Subject == 'Math')
-        subjects = q3.fetch(999)
-        SubjectList = []
-        if subjects:
-            for subject in subjects:
-                SubjectList.append(subject.Name)
-        else:
-            SubjectList.append('none')
-        
         logout = None
         login = None
         currentuser = users.get_current_user()
         if currentuser:
-              logout = users.create_logout_url('/topareas' )
+              logout = users.create_logout_url('/subjareas' )
         else:
-              login = users.create_login_url('/topareas')
+              login = users.create_login_url('/subjareas')
 
-#        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
+        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnTopicAreaEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjAreaEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
-class TopicAreaDelete(BaseHandler):
+class SubjAreaDelete(BaseHandler):
 
     def get(self, unit_id):
         iden = int(unit_id)
-        unit = ndb.Key('TopicAreas', iden).get()
+        unit = ndb.Key('SubjectAreas', iden).get()
         currentuser = users.get_current_user()
 #        if currentuser != template.CreatedBy and not users.is_current_user_admin():
 #            self.abort(403)
 #            return
         unit.key.delete()
-        return self.redirect('/topareas')
+        return self.redirect('/subjareas')
 
-class TopicAreaClone(BaseHandler):
+class SubjAreaClone(BaseHandler):
 
     def get(self):
         if self.request.get('langCode'):
             langCode = self.request.get('langCode')
 
-            q = TopicAreas.query(TopicAreas.LangCode == langCode)
+            q = SubjectAreas.query(SubjectAreas.LangCode == langCode)
             units = q.fetch(999)
 
             countmap_other_language={}
@@ -270,22 +215,21 @@ class TopicAreaClone(BaseHandler):
                     logging.info('QQQ: LearningUnitID in clone: %s' % unit.LearningUnitID)
                     countmap_other_language[unit.LearningUnitID] = 1
 
-            q = TopicAreas.query(TopicAreas.LangCode == 'en')
+            q = SubjectAreas.query(SubjectAreas.LangCode == 'en')
             units_en = q.fetch(999)
 
             for unit2 in units_en:
                 if unit2.LearningUnitID not in countmap_other_language:
                     logging.info('QQQ: LearningUnitID to add in clone: %s' % unit2.LearningUnitID)
                     logging.info('QQQ: LangCode to add in clone: %s' % langCode)
-                    n = TopicAreas(LearningUnitID = unit2.LearningUnitID
-                        , Subject = unit2.Subject
+                    n = SubjectAreas(LearningUnitID = unit2.LearningUnitID
                         , Name = unit2.Name
                         , LangCode = langCode
                         , Description = unit2.Description
                         , Status = 'Pending Translation'
                         )
                     n.put()
-            return self.redirect('/topareas')        
+            return self.redirect('/subjareas')        
 
         else:
-            return self.redirect('/topareas')  
+            return self.redirect('/subjareas')  
