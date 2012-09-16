@@ -34,26 +34,8 @@
     <input type="submit" value="Select Status">
     </form>
     </div>
-    <div>
-    <form method="GET">
-        <select name="SubjFilter">
-            <option value="all" 
-            {% if 'all' == SubjFilter %}
-                    selected="selected"
-                {% endif %}
-                >All</option>
-            {% for Subject in SubjectList %}
-                <option value="{{Subject}}" 
-                {% if Subject == SubjFilter %}
-                    selected="selected"
-                {% endif %}
-                >{{Subject}}</option>
-            {% endfor %}
-        </select>
-    <input type="submit" value="Select Subject">
-    </form>
-    </div>
 </div>
+<br />
 {% if SubjFilter: %}
     <h2 style="text-align: center;">List of Topic Areas for Subject: {{SubjFilter}}</h2>
 {% else: %}

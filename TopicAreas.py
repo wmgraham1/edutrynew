@@ -176,6 +176,15 @@ class TopicAreaCreate(BaseHandler):
             self.session['SubjFilter'] = 'all'
             SubjFilter = 'all'
 
+        if self.request.get('SubjAreaFilter'):
+            SubjAreaFilter=self.request.get('SubjAreaFilter')
+            self.session['SubjAreaFilter'] = SubjAreaFilter
+        else:
+            SubjAreaFilter = self.session.get('SubjAreaFilter')
+        if not SubjAreaFilter:
+            self.session['SubjAreaFilter'] = 'Math'
+            SubjAreaFilter = 'Math'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -184,7 +193,7 @@ class TopicAreaCreate(BaseHandler):
         else:
               login = users.create_login_url('/subjs')
 
-        q3 = Subjects.query(Subjects.Subject == 'Math', Subjects.LangCode == 'en').order(Subjects.LearningUnitID)
+        q3 = Subjects.query(Subjects.Subject == SubjAreaFilter, Subjects.LangCode == 'en').order(Subjects.LearningUnitID)
         subjects = q3.fetch(999)
         SubjectList = []
         if subjects:

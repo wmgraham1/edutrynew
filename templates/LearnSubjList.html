@@ -19,8 +19,9 @@
     </form>
 </td><td>
 <!--    </div>
-    <div> -->
+    <div>-->
     <form method="GET">
+<!--
       <div class="field-wrapper" style="float: left; margin-left: 20px;">
         <div class="field-label">
           <label for="id_SubjAreaFilter">Subject Area</label>:
@@ -42,11 +43,12 @@
             </select>
         </div>
       </div>
-
+ -->
       <div class="field-wrapper" style="float: left; margin-left: 20px;">
+<!--
         <div class="field-label">
           <label for="id_StatusFilter">Status</label>:
-        </div>
+        </div> -->
         <div class="field-field">
             <select name="StatusFilter">
                 <option value="all" 
@@ -65,7 +67,7 @@
         </div>
       </div>
       <input type="hidden" name="rq" id="id_rq" value="2" />
-      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Go">
+      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Select Status">
     </form>
 </td></tr></table>
 <!--    </div>
@@ -75,6 +77,7 @@
 {% else: %}
     <h2 style="text-align: center;">List of Subjects</h2>
 {% endif %}
+<p><a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a></p>
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
   {% if count_en > count_other_language: %}
