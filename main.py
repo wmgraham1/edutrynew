@@ -44,7 +44,7 @@ from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
-from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone
+from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList
 from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
@@ -132,6 +132,7 @@ app = webapp2.WSGIApplication([
     ('/subjareas/clone', SubjAreaClone),
     ('/subjareas/delete/([\d]+)', SubjAreaDelete),
     ('/subjs', LearnSubjList), 
+    ('/subjsedit', LearnSubjEditList), 
     ('/subjs/create', LearnSubjCreate), 
     ('/subjs/edit/([\d]+)', LearnSubjEdit),
     ('/subjs/clone', LearnSubjClone),

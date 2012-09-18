@@ -106,9 +106,9 @@ class SubjAreaList(BaseHandler):
 
         logging.info('GGG: StatusFilter in SubjAreasList: %s' % StatusFilter)
         if StatusFilter == 'all':
-            q = SubjectAreas.query(SubjectAreas.LangCode == langCode).order(SubjectAreas.LearningUnitID)
+            q = SubjectAreas.query(SubjectAreas.LangCode == langCode).order(SubjectAreas.Seq, SubjectAreas.LearningUnitID)
         else:
-            q = SubjectAreas.query(SubjectAreas.LangCode == langCode, SubjectAreas.Status == StatusFilter).order(SubjectAreas.LearningUnitID)
+            q = SubjectAreas.query(SubjectAreas.LangCode == langCode, SubjectAreas.Status == StatusFilter).order(SubjectAreas.Seq, SubjectAreas.LearningUnitID)
         units = q.fetch(999)
 
         logout = None
@@ -131,7 +131,7 @@ class SubjAreaCreate(BaseHandler):
         n = SubjectAreas(LearningUnitID = self.request.get('Name')
 #                  , Subject=self.request.get('Subject')
                   , Name = self.request.get('Name')
-                  , Seq = 256
+                  , Seq = 999
                   , LangCode = 'en'
                   , Description=self.request.get('Description')
                   , Status = 'Pending Review'
@@ -148,8 +148,8 @@ class SubjAreaCreate(BaseHandler):
         else:
               login = users.create_login_url('/subjareas')
 
-        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
-        self.render_template('LearnSubjAreaCreate.html', {'SubjectList': SubjectList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+#        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
+        self.render_template('LearnSubjAreaCreate.html', {'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class SubjAreaEdit(BaseHandler):
@@ -160,6 +160,8 @@ class SubjAreaEdit(BaseHandler):
 
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
+        if self.request.get('Seq') != 'None':
+            unit.Seq = int(self.request.get('Seq'))
 #        unit.Subject = self.request.get('Subject')
         unit.Description = self.request.get('Description')
         StatusPrev = unit.Status
@@ -182,9 +184,10 @@ class SubjAreaEdit(BaseHandler):
         else:
               login = users.create_login_url('/subjareas')
 
-        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
+#        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnSubjAreaEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+#        self.render_template('LearnSubjAreaEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjAreaEdit.html', {'unit': unit, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class SubjAreaDelete(BaseHandler):

@@ -97,7 +97,7 @@ class SubjectAreas(ndb.Model):
   LearningUnitID = ndb.StringProperty()
   LangCode = ndb.StringProperty()
   Name = ndb.StringProperty()
-  Seq = ndb.IntegerProperty()
+  Seq = ndb.IntegerProperty(default=99)
   Description = ndb.StringProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)

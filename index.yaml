@@ -109,6 +109,23 @@ indexes:
   - name: LangCode
   - name: LearningUnitID
 
+- kind: SubjectAreas
+  properties:
+  - name: LangCode
+  - name: LearningUnitID
+  - name: Seq
+
+- kind: SubjectAreas
+  properties:
+  - name: LangCode
+  - name: Seq
+
+- kind: SubjectAreas
+  properties:
+  - name: LangCode
+  - name: Seq
+  - name: LearningUnitID
+
 - kind: Subjects
   properties:
   - name: LangCode

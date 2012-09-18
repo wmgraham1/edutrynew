@@ -52,6 +52,8 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Editable Subj List</th>
+      <th>Seq</th>
       <th>Subj Area</th>
       <th>Language</th>
 	  <th>Created Date</th>
@@ -64,6 +66,8 @@
     {% for unit in units %}
 	<tr>
 	  <td><a href ="/subjs?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+	  <td><a href ="/subjsedit?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>

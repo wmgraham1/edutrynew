@@ -193,7 +193,7 @@ class TopicAreaCreate(BaseHandler):
         else:
               login = users.create_login_url('/subjs')
 
-        q3 = Subjects.query(Subjects.Subject == SubjAreaFilter, Subjects.LangCode == 'en').order(Subjects.LearningUnitID)
+        q3 = Subjects.query(Subjects.Subject == SubjAreaFilter, Subjects.LangCode == 'en').order(Subjects.Seq, Subjects.LearningUnitID)
         subjects = q3.fetch(999)
         SubjectList = []
         if subjects:
@@ -214,7 +214,8 @@ class TopicAreaEdit(BaseHandler):
 
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
-        unit.Seq = int(self.request.get('Seq'))
+        if self.request.get('Seq') != 'None':
+            unit.Seq = int(self.request.get('Seq'))
         unit.Subject = self.request.get('Subject')
         unit.Description = self.request.get('Description')
         StatusPrev = unit.Status
@@ -229,7 +230,7 @@ class TopicAreaEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('TopicAreas', iden).get()
 
-        q3 = Subjects.query(Subjects.Subject == 'Math')
+        q3 = Subjects.query(Subjects.Subject == 'Math').order(Subjects.Seq)
         subjects = q3.fetch(999)
         SubjectList = []
         if subjects:
@@ -288,6 +289,7 @@ class TopicAreaClone(BaseHandler):
                     logging.info('QQQ: LangCode to add in clone: %s' % langCode)
                     n = TopicAreas(LearningUnitID = unit2.LearningUnitID
                         , Subject = unit2.Subject
+                        , Seq = unit2.Seq
                         , Name = unit2.Name
                         , LangCode = langCode
                         , Description = unit2.Description
