@@ -168,7 +168,7 @@ class LearnSubjList(BaseHandler):
 #            count_other_language = 0
         self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
-class LearnSubjEditList(BaseHandler):
+class LearnSubjEditListpost(BaseHandler):
     def post(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
@@ -187,6 +187,7 @@ class LearnSubjEditList(BaseHandler):
         unit.put()
         return 'ok'
 
+class LearnSubjEditList(BaseHandler):
     def get(self):
         TopicSeqRecalc()
         
