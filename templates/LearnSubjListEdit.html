@@ -108,7 +108,7 @@
   </thead>
   <tbody>
     {% for unit in units %}
-	<tr><form action="" method="post">
+	<tr><form action="/subjseditpost/{{ unit.key.id() }}" method="post">
 	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td>
         <div class="field-field">
