@@ -108,19 +108,19 @@
   </thead>
   <tbody>
     {% for unit in units %}
-	<tr><form action="/subjseditpost/{{ unit.key.id() }}" method="post">
+	<tr><form name="edit" action="/subjseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
 	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td>
         <div class="field-field">
-            <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" size="80" />
+            <input type="text" name="Name" id="id_LearnUnitName{{ unit.key.id()}}" value="{{ unit.Name }}" size="80" />
         </div>
       </td>
 	  <td>
         <div class="field-field">
         {% if unit.LangCode == 'en': %}
-            <input type="text" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}"  size="6" />
+            <input type="text" name="Seq" id="id_LearnUnitSeq{{ unit.key.id()}}" value="{{ unit.Seq }}"  size="6" />
         {% else: %}
-            <input type="hidden" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+            <input type="hidden" name="Seq" id="id_LearnUnitSeq{{ unit.key.id()}}" value="{{ unit.Seq }}" />
             {{unit.Seq}}
         {% endif %}
         </div>
@@ -128,7 +128,7 @@
       <td>
         <div class="field-field">
         {% if unit.LangCode == 'en': %}
-            <select name="Subject">
+            <select name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}">
             {% for Subject in SubjAreaList %}
                 <option value="{{Subject}}" 
                 {% if Subject == unit.Subject %}
@@ -138,7 +138,7 @@
             {% endfor %}
             </select>
         {% else: %}
-            <input type="hidden" name="Subject" id="id_LearnUnitSubject" value="{{ unit.Subject }}" />
+            <input type="hidden" name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}" value="{{ unit.Subject }}" />
             {{ unit.Subject }}
         {% endif %}
         </div>
@@ -154,17 +154,48 @@
           <label for="id_Description">Description</label>:
         </div>
         <div class="field-field">
-            <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" size="120" />
+            <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="120" />
         </div>
       </td>
       <td>
-        <input type="submit" value="Update" />
+        <input type="button" value="Update" class="listUpdate" id="{{ unit.key.id() }}"/>
         </form>
       </td>
     </tr>
     {% endfor %}	
   </tbody>
  </table>
+ 
+  <script> 
+        // wait for the DOM to be loaded 
+        $(document).ready(function() { 
+            // bind 'myForm' and provide a simple callback function 
+             $(".listUpdate").click(function() {
+            var id = $(this).attr("id");
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Description=' + $('#id_Description'+id).val();
+			//alert (string);
+			//id = '';
+            //alert (id);
+			 $.ajax({
+               type: "POST",
+               url: "/subjseditpost/"+id,
+               data: string,
+               cache: false,
+               success: showResponse
+            });
+            
+          }); 
+        }); 
+		
+		
+       function showResponse(responseText, statusText, xhr, $form) {
+        alert(statusText);
+		//return false;
+        //$("span").text('' + responseText + '').show();
+       }
+    </script> 
+
+
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
     {% if SubjAreaFilter: %}

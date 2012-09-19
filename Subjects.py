@@ -177,15 +177,18 @@ class LearnSubjEditListPost(BaseHandler):
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
             unit.Seq = int(self.request.get('Seq'))
-        unit.Subject = self.request.get('Subject')
+        #unit.Subject = self.request.get('Subject')
         unit.Description = self.request.get('Description')
         StatusPrev = unit.Status
         unit.Status = self.request.get('Status')
         if not unit.Status == StatusPrev:
             unit.StatusBy = currentuser
-            unit.StatusDate = datetime.now()    
+            unit.StatusDate = datetime.now()
+        logging.info("XXXXXXXXXXxxxx id: %s" % iden)
+        logging.info("XXXXXXXXXXxxxxSeq: %s" % self.request.get('Seq'))
+       
         unit.put()
-        return 'ok'
+        
 
 class LearnSubjEditList(BaseHandler):
     def get(self):
