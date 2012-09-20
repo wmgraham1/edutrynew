@@ -189,7 +189,7 @@
             // bind 'myForm' and provide a simple callback function 
              $(".listUpdate").click(function() {
             var id = $(this).attr("id");
-			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val();
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Description=' + $('#id_Description'+id).val();
 			//alert (string);
 			//id = '';
             //alert (id);
@@ -198,7 +198,7 @@
                url: "/subjseditpost/"+id,
                data: string,
                cache: false,
-               error: showResponse
+               success: showResponse
             });
             
           }); 
