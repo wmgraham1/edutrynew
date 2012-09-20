@@ -49,7 +49,7 @@ from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaD
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
-from Test1 import Test1Get
+from Test1 import Test1Get, TextFileRender
 
 
 # Below code is what the original exercise included
@@ -155,7 +155,8 @@ app = webapp2.WSGIApplication([
     ('/aids/delete/([\d]+)', LearnAidDelete),
     ('/how', HowIntro),
     ('/how/trans', HowTrans),
-    ('/test1', Test1Get)
+    ('/test1', Test1Get),
+    ('/textfilerender', TextFileRender)
 	],
                 config=config,
                 debug=True)

@@ -230,6 +230,7 @@ class GeneratedFiles(ndb.Model):
   TemplateName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
   LangCode = ndb.StringProperty()
+  FileTxt2 = ndb.TextProperty()
   FileTxt = ndb.BlobProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
@@ -238,6 +239,12 @@ class GeneratedFiles(ndb.Model):
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
   UpdatedDate = ndb.DateTimeProperty()
   UpdatedBy = ndb.UserProperty()
+
+class TemplateFiles(ndb.Model):
+  TemplateName = ndb.StringProperty()
+  FileTxt = ndb.TextProperty()
+  CreatedBy = ndb.UserProperty(auto_current_user_add=True)
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
 
 class UserSuppl(ndb.Model):
   UserID = ndb.UserProperty(auto_current_user_add=True)

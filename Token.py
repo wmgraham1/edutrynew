@@ -540,6 +540,7 @@ class TokenFileGen(BaseHandler):
             , FolderName = FolderName
             , LangCode = langCode
             , FileTxt = bloboutput
+            , FileTxt2 = bloboutput
             , Status = 'Published'
             )
         f.put()

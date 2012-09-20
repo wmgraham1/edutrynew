@@ -9,11 +9,12 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
-from DButils import TopicSeqRecalc, Test1
+from DButils import TopicSeqRecalc, Test1, loader
 
 
 from models import KnowUnits
 from models import Languages
+from models import TemplateFiles
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -50,6 +51,7 @@ class BaseHandler(webapp2.RequestHandler):
     def session(self):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
+    
 
 class Test1Get(BaseHandler):
 
@@ -135,3 +137,10 @@ class LearnSubjClone(BaseHandler):
 
         else:
             return self.redirect('/subjs')  
+
+class TextFileRender(BaseHandler):
+    def get(self):
+        val1 = 'H value 1 H'
+        val2 = 'H second value H'
+        env = jinja2.Environment(loader=jinja2.FunctionLoader(loader))
+        self.render_template(env.get_template('test1.html'), {'val1': val1, 'val2': val2})
