@@ -37,6 +37,11 @@ indexes:
 
 - kind: GeneratedFiles
   properties:
+  - name: BlobKey
+  - name: TemplateName
+
+- kind: GeneratedFiles
+  properties:
   - name: LangCode
   - name: TemplateName
   - name: CreatedDate

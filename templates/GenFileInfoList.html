@@ -1,0 +1,28 @@
+{% extends "page_template.html" %}
+{% block content %}
+<h2 style="text-align: center;">List of Generated Files</h2>
+
+<br />
+
+<table width = 100% border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Filename</th>
+      <th>Size</th>
+	  <th>Content Type</th>
+	  <th>Download </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for genfile in genfiles %}
+	<tr>
+	  <td> {{ genfile.blob.filename }} </td>
+	  <td> {{ genfile.blob.size }} </td>
+	  <td> {{ genfile.blob.content_type }} </td>
+	  <td><a href ="/genfiles/genfilesinfo/{{ genfile.key.id() }}">Download </a></td>
+    </tr>
+    {% endfor %}	
+  </tbody>
+ </table>
+
+{% endblock content %}

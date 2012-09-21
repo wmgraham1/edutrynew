@@ -1,3 +1,4 @@
+import os
 import cgi
 import datetime
 import urllib
@@ -5,6 +6,8 @@ import webapp2
 
 from google.appengine.ext import db
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
 
 class Languages(ndb.Model):
@@ -230,6 +233,7 @@ class GeneratedFiles(ndb.Model):
   TemplateName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
   LangCode = ndb.StringProperty()
+  BlobKey = ndb.BlobKeyProperty()
   FileTxt2 = ndb.TextProperty()
   FileTxt = ndb.BlobProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)

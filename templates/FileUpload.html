@@ -1,0 +1,13 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<!-- <p style="float: right"><a href="{{logout_url}}">Log Out</a></p> -->
+<h2>Upload a file to App Engine File Hangar</h2>
+
+<form method="POST" action="{{form_url}}" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <br />
+    <input type="submit" value="Upload" />
+</form>
+
+{% endblock content %}

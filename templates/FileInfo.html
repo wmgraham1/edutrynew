@@ -1,0 +1,17 @@
+{% extends "page_template.html" %}
+{% block content %}
+<br/>
+<!-- <p style="float: right"><a href="{{logout_url}}">Log Out</a></p> -->
+<h2>File information</h2>
+
+<table>
+    <tr><th>Filename</th><td>{{file_info.blob.filename}}</td></tr>
+    <tr><th>Size</th><td>{{file_info.blob.size}} bytes</td></tr>
+    <tr><th>Uploaded</th><td>{{file_info.uploaded_at}}</td></tr>
+    <tr><th>Uploaded by</th><td>{{file_info.uploaded_by}}</td></tr>
+    <tr><th>Content Type</th><td>{{file_info.blob.content_type}}</td></tr>
+</table>
+
+<p><a href="/files/download/{{file_info.key.id()}}">Download this file</a></p>
+
+{% endblock content %}

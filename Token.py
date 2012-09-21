@@ -1,3 +1,4 @@
+from __future__ import with_statement
 import jinja2
 import os
 import webapp2
@@ -5,10 +6,13 @@ import logging
 from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
+from google.appengine.api import files
 
 from models import TokenValues
 from models import Languages
@@ -534,7 +538,17 @@ class TokenFileGen(BaseHandler):
         template = jinja_environment.get_template(FileName)     
         blobtext = template.render(tokenvals = tokendict)
         bloboutput = (blobtext.encode('utf-8'))
-
+        
+        # Create the file
+        file_name = files.blobstore.create(mime_type='application/octet-stream')
+        # Open the file and write to it
+        with files.open(file_name, 'a') as fl:
+            fl.write(bloboutput)
+        # Finalize the file. Do this before attempting to read it.
+        files.finalize(file_name)
+        # Get the file's blob key
+        blob_key = files.blobstore.get_blob_key(file_name)
+        logging.info('QQQ: blob_key: %s' % blob_key)
         f = GeneratedFiles(
             TemplateName = templateName
             , FolderName = FolderName
@@ -542,9 +556,10 @@ class TokenFileGen(BaseHandler):
             , FileTxt = bloboutput
             , FileTxt2 = bloboutput
             , Status = 'Published'
+            , BlobKey = blob_key                       
             )
         f.put()
-
+        
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
         
 class TokenFileView(BaseHandler):

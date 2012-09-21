@@ -63,7 +63,9 @@ def Test1(LangCode):
     
 def loader(x):
     if x == 'test1.html':
-        r = '{% extends "page_template.html" %}{% block content %}<br /><br /><p>The first test value starts here {{val1}}.  And {{val2}} is the 2nd test value.</p>{% endblock content %}'
-    else:
-        r = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><body><div id="contentColumn"><div class="wrapper"> {% block content %} {% endblock content %}</div></div></body></html>'
+        r = '{% extends "section.html" %}{% block content %}<br /><br /><p>The first test value starts here {{val1}}.  And {{val2}} is the 2nd test value.</p>{% endblock content %}'
+    elif x == 'section.html':
+        r = '{% extends "page_template1.html" %}{% block content %}<p>some more</p>{% endblock content %}'
+    elif x == 'page_template1.html':
+        r = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><body><p>the internal content will follow</p> <div id="contentColumn"><div class="wrapper">{% block content %} {% endblock content %}</div></div><p>the internal content preceeds here.</p> </body></html>'
     return r

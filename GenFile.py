@@ -1,9 +1,12 @@
 import jinja2
 import os
 import webapp2
+import logging
 from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
 from SecurityUtils import AccessOK
 
@@ -43,6 +46,22 @@ class GenFileList(BaseHandler):
         else:
               login = users.create_login_url('/genfiles')
         self.render_template('GenFileList.html', {'genfiles': genfiles, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+class GenFileInfoList(BaseHandler):
+
+    def get(self):
+        genfiles = GeneratedFiles.query(GeneratedFiles.BlobKey != None).order(GeneratedFiles.BlobKey, GeneratedFiles.TemplateName)
+
+#        genfiles = GeneratedFiles.get()
+        
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/genfiles' )
+        else:
+              login = users.create_login_url('/genfiles')
+        self.render_template('GenFileInfoList.html', {'genfiles': genfiles, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class GenFileDisplay(BaseHandler):
 
@@ -99,3 +118,16 @@ class GenFileDelete(BaseHandler):
 #            return
         genfile.key.delete()
         return self.redirect('/genfiles')
+
+class FileDownloadHandler(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, genfile_id):
+        iden = int(genfile_id)
+        file_info = ndb.Key('GeneratedFiles', iden).get()
+        if not file_info or not file_info.BlobKey:
+            self.error(404)
+            return
+        else:
+            blob_key = file_info.BlobKey
+#            blob_info = blobstore.BlobInfo.get(blob_key)
+        logging.info('QQQ: FileDownloadHandler/blob_key: %s' % blob_key)
+        self.send_blob(blob_key, save_as=True)
