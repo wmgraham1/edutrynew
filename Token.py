@@ -292,12 +292,8 @@ class TemplateTokenCreate(BaseHandler):
                     , tknID = tknID
                     , tknValue=self.request.get('tknValue')
                     , Status = 'Pending Translation'
-    #                , whichuser=users.get_current_user()
                     )
             n.put()
-            #xyz = '/tokens?templateName=' + templateName + '&langCode=' + langCode
-            #logging.info(xyz)
-            #return webapp2.redirect('/tokens')
             return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 		
 		
@@ -305,10 +301,9 @@ class TemplateTokenCreate(BaseHandler):
         Dup = False
         if self.request.get('msg') == 'dup':
             Dup = True
-        
         tknID = self.request.get('tknID')
-
         templateName = self.request.get('tName')
+
         languages = memcache.get("languages")
         if languages is not None:
             logging.info("get languages from memcache.")
@@ -340,7 +335,6 @@ class TemplateTokenCreate(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
-#        templates = Templates.query()
         q = Templates.query().order(Templates.Name)
         templates = q.fetch(99)
 				
@@ -361,7 +355,6 @@ class TokenEdit(BaseHandler):
     def post(self, token_id):
         iden = int(token_id)
         token = ndb.Key('TokenValues', iden).get()
-#        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
 #        if currentuser != token.whichuser and not users.is_current_user_admin():
 #            self.abort(403)
@@ -372,14 +365,11 @@ class TokenEdit(BaseHandler):
         token.langCode = langCode
         token.tknID = self.request.get('tknID')
         token.tknValue = self.request.get('tknValue')
-#        token.status = self.request.get('status')
-#        token.date = datetime.now()
         StatusPrev = token.Status
         token.Status = self.request.get('Status')
         if not token.Status == StatusPrev:
             token.StatusBy = currentuser
             token.StatusDate = datetime.now()    
-
         token.put()
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 

@@ -61,6 +61,15 @@ def Test1(LangCode):
         LangCode = 'en'
     return LangCode
     
+def FileBlobKeyGet(LangCode, TemplateName):
+    q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.TemplateName)
+    genfile = q.get()
+#    if genfile:
+    return genfile.blob
+#    else:
+#        return ???
+    
+    
 def loader(x):
     if x == 'test1.html':
         r = '{% extends "section.html" %}{% block content %}<br /><br /><p>The first test value starts here {{val1}}.  And {{val2}} is the 2nd test value.</p>{% endblock content %}'
