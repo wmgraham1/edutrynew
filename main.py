@@ -41,7 +41,7 @@ from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
-from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete, GenFileInfoList, FileDownloadHandler
+from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete, GenFileInfoList, FileDownloadHandler, FileTryHandler
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
@@ -50,7 +50,7 @@ from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
 from Test1 import Test1Get, TextFileRender
-from MyFileHandlers import FileUploadFormHandler, FileUploadHandler, FileInfoHandler, FileDownloadHandler
+#from MyFileHandlers import FileDownloadHandler, FileUploadFormHandler, FileUploadHandler, FileInfoHandler
 
 
 # Below code is what the original exercise included
@@ -72,10 +72,10 @@ app = webapp2.WSGIApplication([
     ('/feedback/display', FeedbackDisplay),
     ('/feedback/create', FeedbackCreate),
     ('/feedback/edit/([\d]+)', FeedbackEdit),
-    ('/files', FileUploadFormHandler),
-    ('/files/upload', FileUploadHandler),
-    ('/files/fileinfo/([\d]+)', FileInfoHandler),
-    ('/files/dowload/([\d]+)', FileDownloadHandler),
+#    ('/files', FileUploadFormHandler),
+#    ('/files/upload', FileUploadHandler),
+#    ('/files/fileinfo/([\d]+)', FileInfoHandler),
+#    ('/files/dowload/([\d]+)', FileDownloadHandler),
     ('/users', UserList),
     ('/users/join', UserJoin), 
     ('/users/create', UserCreate), 
@@ -131,6 +131,7 @@ app = webapp2.WSGIApplication([
     ('/genfilesinfolist', GenFileInfoList), 
     ('/genfiles/display/([\d]+)', GenFileDisplay),
     ('/genfiles/genfiledownload/([\d]+)', FileDownloadHandler),
+    ('/genfiles/genfiletry/([\d]+)', FileTryHandler),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
     ('/subjareas', SubjAreaList), 

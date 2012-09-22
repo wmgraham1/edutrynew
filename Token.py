@@ -535,7 +535,9 @@ class TokenFileGen(BaseHandler):
                 genfile.key.delete()
 
         logging.info('QQQ: FileName: %s' % FileName)
-        template = jinja_environment.get_template(FileName)     
+        template = jinja_environment.get_template(FileName)
+#        self.response.out.write(template.render(tokenvals = tokendict)) 
+        
         blobtext = template.render(tokenvals = tokendict)
         bloboutput = (blobtext.encode('utf-8'))
         
@@ -556,7 +558,7 @@ class TokenFileGen(BaseHandler):
             , FileTxt = bloboutput
             , FileTxt2 = bloboutput
             , Status = 'Published'
-            , BlobKey = blob_key                       
+            , blob = blob_key                       
             )
         f.put()
         

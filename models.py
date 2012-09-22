@@ -233,7 +233,7 @@ class GeneratedFiles(ndb.Model):
   TemplateName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
   LangCode = ndb.StringProperty()
-  BlobKey = ndb.BlobKeyProperty()
+  blob = ndb.BlobKeyProperty()
   FileTxt2 = ndb.TextProperty()
   FileTxt = ndb.BlobProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
