@@ -1,5 +1,6 @@
 application: edutry1
-version: 0-philipp
+version: 1
+# version: 0-philipp
 # version: 3-ralph-with-languagecount-support
 runtime: python27
 api_version: 1
