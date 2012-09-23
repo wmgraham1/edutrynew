@@ -22,7 +22,7 @@ from models import GeneratedFiles
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
-    jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
+    jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 jinja_environment.filters['AccessOK'] = AccessOK
 
 
@@ -535,7 +535,7 @@ class TokenFileGen(BaseHandler):
         file_name = files.blobstore.create(mime_type='application/octet-stream')
         # Open the file and write to it
         with files.open(file_name, 'a') as fl:
-            fl.write(bloboutput)
+            fl.write(blobtext)
         # Finalize the file. Do this before attempting to read it.
         files.finalize(file_name)
         # Get the file's blob key
