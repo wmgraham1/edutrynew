@@ -241,7 +241,7 @@ var Khan = (function() {
     // pending in the middle of a load.
     loadingExercises = {},
 
-	urlBaseOverride = "/try-it/",
+	urlBaseOverride = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1),
 
     urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
         testMode ? "../" : "/khan-exercises/",
