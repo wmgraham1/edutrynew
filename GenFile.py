@@ -145,6 +145,19 @@ class FileTryHandler(blobstore_handlers.BlobstoreDownloadHandler):
         blob_info = blobstore.BlobInfo.get(file_info.blob)
         self.send_blob(blob_info, content_type='text/html')
 
+class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, LangCode, TemplateName):
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+        genfile = q.get()
+        if not genfile:
+            q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+            genfile = q2.get()
+            if not genfile:
+                self.redirect("/try-it/" + TemplateName)
+                return
+        blob_info = blobstore.BlobInfo.get(genfile.blob)
+        self.send_blob(blob_info, content_type='text/html')
+
 class GenFileRedirect(BaseHandler):
     def get(self):
         self.redirect("/try-it/khan-exercise.js")
