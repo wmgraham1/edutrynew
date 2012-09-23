@@ -6,7 +6,6 @@
 <a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>
 {% endif %}
 {% if GenFileReady: %}
-    &nbsp;&nbsp;&nbsp;&nbsp;<a href="/genfiles/display/{{GenFileReady}}?TemplateName={{templateName}}&LangCode={{langCode}}"> View Translated File </a>
     &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiledownload/{{ GenFileReady }}"> Download Translated File</a>
     &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiletry/{{ GenFileReady }}"> Try File</a>
 {% endif %}
