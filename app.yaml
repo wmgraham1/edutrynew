@@ -1,5 +1,5 @@
 application: edutry1
-version: 1
+version: 0-philipp
 # version: 3-ralph-with-languagecount-support
 runtime: python27
 api_version: 1
@@ -21,6 +21,8 @@ handlers:
   static_dir: js
 - url: /images
   static_dir: images
+- url: /try-it
+  static_dir: try-it
   
 - url: /favicon.ico
   static_files: static/favicon.ico

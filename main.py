@@ -41,7 +41,7 @@ from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
-from GenFile import GenFileList, GenFileDisplay, GenFileAltDisplay, GenFileDelete, GenFileInfoList, FileDownloadHandler, FileTryHandler
+from GenFile import *
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
@@ -134,6 +134,7 @@ app = webapp2.WSGIApplication([
     ('/genfiles/genfiletry/([\d]+)', FileTryHandler),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
+    ('/genfiles/khan-exercise.js', GenFileRedirect),
     ('/subjareas', SubjAreaList), 
     ('/subjareas/create', SubjAreaCreate), 
     ('/subjareas/edit/([\d]+)', SubjAreaEdit),

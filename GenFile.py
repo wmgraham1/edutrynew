@@ -142,11 +142,9 @@ class FileTryHandler(blobstore_handlers.BlobstoreDownloadHandler):
         if not file_info or not file_info.blob:
             self.error(404)
             return
-        else:
-            blob_info = blobstore.BlobInfo.get(file_info.blob) 
-            #blob_info = blobstore.BlobInfo.get(blob_key)
-#        logging.info('QQQ: FileDownloadHandler/blob: %s' % blob)
-#        self.send_blob(blob_info, save_as=True)
-#        self.send_blob(blobstore.BlobInfo(file_info.blob), save_as=True)
-#        self.send_blob(BlobInfo(blob), save_as=True)
-        self.response.out.write('<br /><br /><span style="text-align: center; font-weight: bold; color: red;"><h1>Coming Soon!</h1></span><br /><h3 style="text-align: center; font-weight: bold;">This page will eventually provide a working copy of the exercise or content being tested in the applicable language.</h3><br /><h3 style="text-align: center; font-weight: bold; color: red;">Use Browser Back Button to return to site.</h3>')
+        blob_info = blobstore.BlobInfo.get(file_info.blob)
+        self.send_blob(blob_info, content_type='text/html')
+
+class GenFileRedirect(BaseHandler):
+    def get(self):
+        self.redirect("/try-it/khan-exercise.js")
