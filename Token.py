@@ -506,6 +506,19 @@ class TokenFileGen(BaseHandler):
 #        template = ndb.Key('Templates', iden).get()
         FolderName = template.FolderName
         FileName = template.FileName
+        logging.info('RRR: template.TemplateType: %s' % template.TemplateType)
+        logging.info('RRR: template.Name: %s' % template.Name)
+        logging.info('RRR: template.FileName: %s' % template.FileName)
+        logging.info('RRR: template.FolderName: %s' % template.FolderName)
+        
+        SearchName = ''
+        if template.TemplateType == 'exercise':
+            logging.info('RRR: INSIDE IF - template.TemplateType: %s' % template.TemplateType)
+            SearchName = template.Name
+        else:
+            logging.info('RRR: INSIDE FAILED IF - template.TemplateType: %s' % template.TemplateType)
+            SearchName = template.FolderName + '/' + template.FileName
+        logging.info('RRR: template.SearchName: %s' % SearchName)
 
         q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
         tokenvals = q.fetch(999)
@@ -541,9 +554,11 @@ class TokenFileGen(BaseHandler):
         # Get the file's blob key
         blob_key = files.blobstore.get_blob_key(file_name)
         logging.info('QQQ: blob_key: %s' % blob_key)
+
         f = GeneratedFiles(
             TemplateName = templateName
             , FolderName = FolderName
+            , SearchName = SearchName
             , LangCode = langCode
             , FileTxt = bloboutput
             , FileTxt2 = bloboutput

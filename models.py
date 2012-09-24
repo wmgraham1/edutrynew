@@ -231,6 +231,7 @@ class TokenValues(ndb.Model):
 
 class GeneratedFiles(ndb.Model):
   TemplateName = ndb.StringProperty()
+  SearchName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
   LangCode = ndb.StringProperty()
   blob = ndb.BlobKeyProperty()

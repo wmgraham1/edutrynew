@@ -7,28 +7,30 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Search Name</th>
       <th>Folder</th>
       <th>Language</th>
       <th>BlobKey</th>
 <!--      <th>File Text</th> -->
 	  <th>Created Date</th>
+<!--
       <th>Display</th> 
       <th>Delete</th> 
       <th>Download</th> 
+-->
     </tr>
   </thead>
   <tbody>
     {% for genfile in genfiles %}
 	<tr>
 	  <td> {{ genfile.TemplateName }} </td>
+	  <td> {{ genfile.SearchName }} </td>
 	  <td> {{ genfile.FolderName }} </td>
 	  <td> {{ genfile.LangCode }} </td>
-	  <td> {{ genfile.BlobKey }} </td>
+	  <td> {{ genfile.blob }} </td>
 <!--	  <td> {{ genfile.FileTxt }} </td> -->
 	  <td> {{ genfile.CreatedDate }} </td>
-	  <td><a href ="/genfiles/display/{{ genfile.key.id() }}"> Display </a></td> 
-	  <td><a href ="/genfiles/delete/{{ genfile.key.id() }}"> Delete </a></td>
-      <td><a href ="/genfiles/genfiledownload/{{ genfile.key.id() }}"> Download </a></td>      
+
     </tr>
     {% endfor %}	
   </tbody>

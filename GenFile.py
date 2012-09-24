@@ -45,6 +45,8 @@ class GenFileList(BaseHandler):
               logout = users.create_logout_url('/genfiles' )
         else:
               login = users.create_login_url('/genfiles')
+        jinja_environment = \
+            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
         self.render_template('GenFileList.html', {'genfiles': genfiles, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class GenFileInfoList(BaseHandler):

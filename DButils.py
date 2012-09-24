@@ -61,8 +61,8 @@ def Test1(LangCode):
         LangCode = 'en'
     return LangCode
     
-def FileBlobKeyGet(LangCode, TemplateName):
-    q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.TemplateName)
+def FileBlobKeyGet(LangCode, SearchName):
+    q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.SearchName == SearchName)
     genfile = q.get()
 #    if genfile:
     return genfile.blob
