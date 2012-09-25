@@ -43,6 +43,14 @@ indexes:
 - kind: GeneratedFiles
   properties:
   - name: LangCode
+  - name: SearchName
+  - name: TemplateName
+  - name: CreatedDate
+    direction: desc
+
+- kind: GeneratedFiles
+  properties:
+  - name: LangCode
   - name: TemplateName
   - name: CreatedDate
     direction: desc
@@ -55,6 +63,13 @@ indexes:
 - kind: LearnAids
   properties:
   - name: LangCode
+  - name: LearnAidID
+
+- kind: LearnAids
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
   - name: LearnAidID
 
 - kind: LearningUnits

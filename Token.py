@@ -170,6 +170,7 @@ class TokenList(BaseHandler):
 
         if GenFile:
             GenFileReady = GenFile.key.id()
+            SearchName = GenFile.SearchName
         else:        
             GenFileReady = None
 
@@ -190,7 +191,7 @@ class TokenList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'templateName':templateName, 'langCode':langCode, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'templateName':templateName, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 

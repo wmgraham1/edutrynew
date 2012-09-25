@@ -35,10 +35,22 @@
     </form>
     </div>
 </div>
-<h2 style="text-align: center;">List of Learning Aids (Videos)</h2>
-{% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/aids/create">Add New Learning Aid</a></p> 
+<br />
+{% if TopAreaFilter: %}
+    <h2 style="text-align: center;">List of Learning Aids (Videos) for Playlist: {{TopAreaFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">List of Learning Aids (Videos)</h2>
 {% endif %}
+<p><a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Playlist List</a></p>
+
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+    {% if TopAreaFilter: %}
+        <p><a href="/aids/create?TopAreaFilter={{TopAreaFilter}}">Add New Learning Aid</a></p> 
+    {% else: %}
+        <p><a href="/aids/create">Add New Learning Aid</a></p> 
+    {% endif %}
+{% endif %}
+
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Learning Aids in English and {{count_other_language}} Learning Aids in {{langName}}.
   {% if count_en > count_other_language: %}
@@ -52,6 +64,7 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Seq</th>
       <th>Title</th>
       <th>Subject</th>
       <th>Lang.</th>
@@ -65,6 +78,7 @@
     {% for aid in aids %}
 	<tr>
 	  <td> {{ aid.LearnAidID }} </td>
+	  <td> {{ aid.Seq }} </td>
 	  <td> {{ aid.Name }} </td>
 	  <td> {{ aid.Subject }} </td>
 	  <td> {{ aid.LangCode }} </td>
@@ -79,7 +93,11 @@
  </table>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/aids/create">Add New Learning Aid</a></p> 
+    {% if TopAreaFilter: %}
+        <p><a href="/aids/create?TopAreaFilter={{TopAreaFilter}}">Add New Learning Aid</a></p> 
+    {% else: %}
+        <p><a href="/aids/create">Add New Learning Aid</a></p> 
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

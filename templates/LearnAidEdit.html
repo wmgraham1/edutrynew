@@ -1,5 +1,6 @@
 {% extends "page_template.html" %}
 {% block content %}
+<h2 style="text-align: center;">Edit Learning Aid</h2>
 
 <form action="" method="post">
   <div class="field-wrapper">
@@ -11,17 +12,22 @@
     </div>
   </div>
 <br />
-<!--
+
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Subject">Subject</label>:
+      <label for="id_LearnUnitSeq">Sequence</label>:
     </div>
     <div class="field-field">
-        <input type="text" name="Subject" id="id_Subject" value="{{ aid.Subject }}" size="80" />
+        {% if aid.LangCode == 'en': %}
+            <input type="text" name="Seq" id="id_LearnUnitSeq" value="{{ aid.Seq }}" />
+        {% else: %}
+            <input type="hidden" name="Seq" id="id_LearnUnitSeq" value="{{ aid.Seq }}" />
+            {{aid.Seq}}
+        {% endif %}
     </div>
   </div>
 <br />
--->
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Subject">Subject</label>:

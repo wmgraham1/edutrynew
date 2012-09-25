@@ -1,13 +1,14 @@
 {% extends "page_template.html" %}
 {% block content %}
 <h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
+<p><a href ="/tokens-step1?langCode={{ langCode }}"> Return to Exercise List</a></p>
 <p>
 {% if TemplateGenReady: %}
 <a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>
 {% endif %}
 {% if GenFileReady: %}
     &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiledownload/{{ GenFileReady }}"> Download Translated File</a>
-    &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiletry/{{ GenFileReady }}"> Try File</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/try/{{langCode}}/{{ SearchName }}"> Try Exercise</a>
 {% endif %}
 </p>
 <form method="GET">

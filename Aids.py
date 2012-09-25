@@ -87,6 +87,24 @@ class LearnAidList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
+        if self.request.get('SubjFilter'):
+            SubjFilter=self.request.get('SubjFilter')
+            self.session['SubjFilter'] = SubjFilter
+        else:
+            SubjFilter = self.session.get('SubjFilter')
+        if not SubjFilter:
+            self.session['SubjFilter'] = 'all'
+            SubjFilter = 'all'
+
+        if self.request.get('TopAreaFilter'):
+            TopAreaFilter=self.request.get('TopAreaFilter')
+            self.session['TopAreaFilter'] = TopAreaFilter
+        else:
+            TopAreaFilter = self.session.get('TopAreaFilter')
+        if not TopAreaFilter:
+            self.session['TopAreaFilter'] = 'all'
+            TopAreaFilter = 'all'
+
         count_en = 0
         langCode_en = 'en'
         q = LearnAids.query(LearnAids.LangCode == langCode_en)
@@ -107,9 +125,16 @@ class LearnAidList(BaseHandler):
 
         logging.info('GGG: StatusFilter in LearnAidList: %s' % StatusFilter)
         if StatusFilter == 'all':
-            q = LearnAids.query(LearnAids.LangCode == langCode).order(LearnAids.LearnAidID)
+            if TopAreaFilter == 'all':
+                q = LearnAids.query(LearnAids.LangCode == langCode).order(LearnAids.Seq, LearnAids.LearnAidID)
+            else:
+                q = LearnAids.query(LearnAids.LangCode == langCode, LearnAids.Subject == TopAreaFilter).order(LearnAids.Seq, LearnAids.LearnAidID)
         else:
-            q = LearnAids.query(LearnAids.LangCode == langCode, LearnAids.Status == StatusFilter).order(LearnAids.LearnAidID)
+            if TopAreaFilter == 'all':
+                q = LearnAids.query(LearnAids.LangCode == langCode, LearnAids.Status == StatusFilter).order(LearnAids.Seq, LearnAids.LearnAidID)
+            else:
+                q = LearnAids.query(LearnAids.LangCode == langCode, LearnAids.Status == StatusFilter, LearnAids.Subject == TopAreaFilter).order(LearnAids.Seq, LearnAids.LearnAidID)
+
         aids = q.fetch(999)
 
         logout = None
@@ -122,7 +147,7 @@ class LearnAidList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnAidList.html', {'aids': aids, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnAidList.html', {'aids': aids, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopAreaFilter':TopAreaFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnAidCreate(BaseHandler):
@@ -132,6 +157,7 @@ class LearnAidCreate(BaseHandler):
         n = LearnAids(LearnAidID = self.request.get('Name')
                   , Subject=self.request.get('Subject')
                   , Name = self.request.get('Name')
+                  , Seq = 999
                   , LangCode = 'en'
                   , Description=self.request.get('Description')
                   , Status = 'Pending Review'
@@ -140,6 +166,25 @@ class LearnAidCreate(BaseHandler):
         return self.redirect('/aids/create')
 
     def get(self):
+
+        if self.request.get('SubjFilter'):
+            SubjFilter=self.request.get('SubjFilter')
+            self.session['SubjFilter'] = SubjFilter
+        else:
+            SubjFilter = self.session.get('SubjFilter')
+        if not SubjFilter:
+            self.session['SubjFilter'] = 'all'
+            SubjFilter = 'all'
+
+        if self.request.get('TopAreaFilter'):
+            TopAreaFilter=self.request.get('TopAreaFilter')
+            self.session['TopAreaFilter'] = TopAreaFilter
+        else:
+            TopAreaFilter = self.session.get('TopAreaFilter')
+        if not TopAreaFilter:
+            self.session['TopAreaFilter'] = 'all'
+            TopAreaFilter = 'all'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -148,7 +193,7 @@ class LearnAidCreate(BaseHandler):
         else:
               login = users.create_login_url('/aids')
 
-        q4 = TopicAreas.query(TopicAreas.Subject == 'Arithmetic and Pre-algebra')
+        q4 = TopicAreas.query(TopicAreas.Subject == SubjFilter)
         subjects = q4.fetch(999)
         SubjectList = []
         if subjects:
@@ -170,7 +215,7 @@ class LearnAidCreate(BaseHandler):
 #            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
 #            'Arithmetic and Pre-Algebra: Exponents (basic)'
 #            ];		  
-        self.render_template('LearnAidCreate.html', {'SubjectList': SubjectList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnAidCreate.html', {'SubjectList': SubjectList, 'TopAreaFilter': TopAreaFilter, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnAidEdit(BaseHandler):
@@ -181,6 +226,8 @@ class LearnAidEdit(BaseHandler):
 
         currentuser = users.get_current_user()
         aid.Name = self.request.get('Name')
+        if self.request.get('Seq') != 'None':
+            aid.Seq = int(self.request.get('Seq'))
         aid.Subject = self.request.get('Subject')
         aid.Description = self.request.get('Description')
         VidStatusPrev = aid.VideoStatus

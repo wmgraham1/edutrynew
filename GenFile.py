@@ -144,12 +144,15 @@ class FileTryHandler(blobstore_handlers.BlobstoreDownloadHandler):
         if not file_info or not file_info.blob:
             self.error(404)
             return
-        blob_info = blobstore.BlobInfo.get(file_info.blob)
-        self.send_blob(blob_info, content_type='text/html')
+        redirect_target = "/genfiles/try/" + file_info.LangCode + "/" + file_info.SearchName
+        logging.info('QQQ: redirect_target: %s' % redirect_target)
+        self.redirect(redirect_target)
+#        blob_info = blobstore.BlobInfo.get(file_info.blob)
+#        self.send_blob(blob_info, content_type='text/html')
 
 class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, LangCode, TemplateName):
-        q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.SearchName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
         genfile = q.get()
         if not genfile:
             q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
