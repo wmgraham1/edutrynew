@@ -1,12 +1,12 @@
 {% extends "page_template.html" %}
 {% block content %}
-<h2 style="text-align: center;">Edit Topic Area</h2>
-<p><a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Topic Area List</a></p>
+<h2 style="text-align: center;">Edit Exercise Topic Group</h2>
+<p><a href ="/topgrps?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
 
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_LearnUnitName">Topic Area Name</label>:
+      <label for="id_LearnUnitName">Exercise Topic Group Name</label>:
     </div>
     <div class="field-field">
         <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" size="80" />
@@ -94,8 +94,8 @@
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-<!--  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/topareas/Delete/{{ unit.key.id() }}";'> -->
-  <a href ="/topareas/delete/{{ unit.key.id() }}">Delete Topic Area</a>
+<!--  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/topgrps/Delete/{{ unit.key.id() }}";'> -->
+  <a href ="/topgrps/delete/{{ unit.key.id() }}">Delete Exercise Topic Group</a>
 </form>
 
 {% endblock content %}

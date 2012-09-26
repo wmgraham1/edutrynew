@@ -255,7 +255,17 @@ class LearnAidEdit(BaseHandler):
         else:
               login = users.create_login_url('/aids')
 
-        q4 = TopicAreas.query(TopicAreas.Subject == 'Arithmetic and Pre-algebra')
+        if self.request.get('SubjFilter'):
+            SubjFilter=self.request.get('SubjFilter')
+            self.session['SubjFilter'] = SubjFilter
+        else:
+            SubjFilter = self.session.get('SubjFilter')
+        if not SubjFilter:
+            self.session['SubjFilter'] = 'all'
+            SubjFilter = 'all'
+        logging.info('QQQ: SubjFilter in Topic Grp Edit: %s' % SubjFilter)
+
+        q4 = TopicAreas.query(TopicAreas.Subject == SubjFilter)
         subjects = q4.fetch(999)
         SubjectList = []
         if subjects:
@@ -263,21 +273,6 @@ class LearnAidEdit(BaseHandler):
                 SubjectList.append(subject.Name)
         else:
             SubjectList.append('none')
-            
-#        SubjectList = [
-#            'Arithmetic and Pre-Algebra: Addition and subtraction', 
-#            'Arithmetic and Pre-Algebra: Multiplication and division', 
-#            'Arithmetic and Pre-Algebra: Negative numbers',
-#            'Arithmetic and Pre-Algebra: Number properties',
-#            'Arithmetic and Pre-Algebra: Order of operations',
-#            'Arithmetic and Pre-Algebra: Factors and multiples',
-#            'Arithmetic and Pre-Algebra: Fractions',
-#            'Arithmetic and Pre-Algebra: Decimals',
-#            'Arithmetic and Pre-Algebra: Percents',
-#            'Arithmetic and Pre-Algebra: Ratios and proportions (basic)',
-#            'Arithmetic and Pre-Algebra: Exponents (basic)'
-#            ];		  
-	  
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         VideoStatusList = ['Pending Translation', 'Pending Review', 'Published'];		  

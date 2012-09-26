@@ -122,6 +122,71 @@ class TokenStep1Page(BaseHandler):
 
         self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 
+class TokenStep1NonEx(BaseHandler):
+
+    def get(self):
+        #languages = Languages.all()
+        languages = memcache.get("languages")
+        if languages is not None:
+            logging.info("get languages from memcache.")
+        else:
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 10):
+                logging.info("Memcache set failed.")
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en'
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+        PageCnt = self.session.get('PageCnt', 0)
+        self.session['PageCnt'] = PageCnt + 1
+
+        countmap_en={}
+        langCode_en = 'en'
+        q = TokenValues.query(TokenValues.langCode == langCode_en).order(TokenValues.langCode, TokenValues.tknID)
+        tokens = q.fetch(99)
+#        tokens = TokenValues.all().filter('langCode =', langCode_en)
+        for token in tokens:
+            logging.info('QQQ: token_en: %s' % token.langCode)
+            if token.templateName in countmap_en:
+                    countmap_en[token.templateName]=countmap_en[token.templateName]+1
+            else:
+                    countmap_en[token.templateName]=1
+
+        countmap_other_language={}
+        if langCode != 'en':    
+            q = TokenValues.query(TokenValues.langCode == langCode).order(TokenValues.langCode, TokenValues.tknID)
+            tokens = q.fetch(99)
+#		tokens = TokenValues().all().filter('langCode =', langCode)
+            for token in tokens:
+                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+                if token.templateName in countmap_other_language:
+                        countmap_other_language[token.templateName]=countmap_other_language[token.templateName]+1
+                else:
+                        countmap_other_language[token.templateName]=1
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+
+        self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
+
+
 class TokenList(BaseHandler):
 
     def get(self):
@@ -173,6 +238,7 @@ class TokenList(BaseHandler):
             SearchName = GenFile.SearchName
         else:        
             GenFileReady = None
+            SearchName = None
 
         logging.info('GGG: StatusFilter in TokenList: %s' % StatusFilter)
         if StatusFilter == 'all':

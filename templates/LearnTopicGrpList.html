@@ -15,7 +15,7 @@
     <input type="submit" value="Select Language">
     </form>
     </div>
-    <div>
+    <div style="float: left;">
     <form method="GET">
         <select name="StatusFilter">
             <option value="all" 
@@ -35,26 +35,36 @@
     </form>
     </div>
 </div>
-<h2 style="text-align: center;">List of Subject Areas</h2>
+<br />
+{% if SubjFilter: %}
+    <h2 style="text-align: center;">List of Exercise Topic Groups for Subject: {{SubjFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">List of Exercise Topic Groups </h2>
+{% endif %}
+<p><a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a></p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/subjareas/create">Add New Subject Area</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topgrps/create?SubjFilter={{SubjFilter}}">Add New Exercise Topic Group</a></p> 
+    {% else: %}
+        <p><a href="/topgrps/create">Add New Exercise Topic Group</a></p> 
+    {% endif %}
 {% endif %}
 {% if langCode != 'en': %}
-<p>There are {{count_en}} Subject Areas in English and {{count_other_language}} Subject Areas in {{langName}}.
+<p>There are {{count_en}} Exercise Topic Groups in English and {{count_other_language}} Exercise Topic Groups in {{langName}}.
   {% if count_en > count_other_language: %}
-    	  <td style="text-align: center;"><a href ="/subjareas/clone?langCode={{langCode}}"> Clone missing Subject Areas.</a></td>
+    	  <td style="text-align: center;"><a href ="/topgrps/clone?langCode={{langCode}}"> Clone missing Exercise Topic Groups.</a></td>
         {% endif %}
   {% endif %}
-  Please note that Subject Area names in other languages are initially the same as in English until you translate them.
+  Please note that Exercise Topic Groups names in other languages are initially the same as in English until you translate them.
 </p>
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Editable Subj List</th>
       <th>Seq</th>
-      <th>Subj Area</th>
+      <th>Topic Grp</th>
+      <th>Subject</th>
       <th>Language</th>
 	  <th>Created Date</th>
       <th>Status</th>
@@ -65,22 +75,26 @@
   <tbody>
     {% for unit in units %}
 	<tr>
-	  <td><a href ="/subjs?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
-	  <td><a href ="/subjsedit?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+	  <td><a href ="/units?TopGrpFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}"> {{ unit.LearningUnitID }} </a></td>
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Name }} </td>
+	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
-	  <td><a href ="/subjareas/edit/{{ unit.key.id() }}">edit </a></td>
+	  <td><a href ="/topgrps/edit/{{ unit.key.id() }}">edit </a></td>
     </tr>
     {% endfor %}	
   </tbody>
  </table>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/subjareas/create">Add New Subject Area</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topgrps/create?SubjFilter={{SubjFilter}}">Add New Exercise Topic Group</a></p> 
+    {% else: %}
+        <p><a href="/topgrps/create">Add New Exercise Topic Group</a></p> 
+    {% endif %}
 {% endif %}
 
 {% endblock content %}

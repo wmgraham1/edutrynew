@@ -110,7 +110,11 @@
   <tbody>
     {% for unit in units %}
 	<tr>
-	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+      {% if Typ == 'ex': %}
+        <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+      {% else: %}
+        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+      {% endif %}
 	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Subject }} </td>

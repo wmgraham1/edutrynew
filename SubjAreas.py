@@ -86,6 +86,15 @@ class SubjAreaList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
+        if self.request.get('Typ'):
+            Typ=self.request.get('Typ')
+            self.session['Typ'] = Typ
+        else:
+            Typ = self.session.get('Typ')
+        if not Typ:
+            self.session['Typ'] = 'ex'
+            Typ = 'ex'
+
         count_en = 0
         langCode_en = 'en'
         q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
@@ -121,7 +130,7 @@ class SubjAreaList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnSubjAreaList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjAreaList.html', {'units': units, 'Typ': Typ, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class SubjAreaCreate(BaseHandler):

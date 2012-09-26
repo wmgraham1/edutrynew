@@ -99,6 +99,15 @@ class LearnSubjList(BaseHandler):
             self.session['SubjAreaFilter'] = 'Math'
             SubjAreaFilter = 'Math'
 
+        if self.request.get('Typ'):
+            Typ=self.request.get('Typ')
+            self.session['Typ'] = Typ
+        else:
+            Typ = self.session.get('Typ')
+        if not Typ:
+            self.session['Typ'] = 'ex'
+            Typ = 'ex'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -166,7 +175,7 @@ class LearnSubjList(BaseHandler):
 #            units = []
 #            count_en = 0
 #            count_other_language = 0
-        self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'Typ':Typ, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class LearnSubjEditListPost(BaseHandler):
     def post(self, unit_id):
@@ -236,6 +245,15 @@ class LearnSubjEditList(BaseHandler):
             self.session['SubjAreaFilter'] = 'Math'
             SubjAreaFilter = 'Math'
 
+        if self.request.get('Typ'):
+            Typ=self.request.get('Typ')
+            self.session['Typ'] = Typ
+        else:
+            Typ = self.session.get('Typ')
+        if not Typ:
+            self.session['Typ'] = 'ex'
+            Typ = 'ex'
+
         SubjAreaList = []
         q = SubjectAreas.query(SubjectAreas.LangCode == 'en').order(SubjectAreas.Seq)
         SubjAreaResponseSet = q.fetch(999)
@@ -304,7 +322,7 @@ class LearnSubjEditList(BaseHandler):
 #            units = []
 #            count_en = 0
 #            count_other_language = 0
-        self.render_template('LearnSubjListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'Typ':Typ, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 

@@ -83,6 +83,13 @@ indexes:
   - name: Status
   - name: LearningUnitID
 
+- kind: LearningUnits
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
+  - name: LearningUnitID
+
 - kind: PageContents
   properties:
   - name: LangCode
@@ -168,7 +175,18 @@ indexes:
   - name: LangCode
   - name: Subject
   - name: Seq
+
+- kind: Subjects
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
   - name: LearningUnitID
+
+- kind: Subjects
+  properties:
+  - name: Subject
+  - name: Seq
 
 - kind: TokenValues
   properties:
@@ -234,3 +252,15 @@ indexes:
   - name: Subject
   - name: Seq
   - name: LearningUnitID
+
+- kind: TopicGrps
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
+  - name: LearningUnitID
+
+- kind: TopicGrps
+  properties:
+  - name: Subject
+  - name: Seq

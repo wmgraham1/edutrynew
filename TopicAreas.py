@@ -230,7 +230,26 @@ class TopicAreaEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('TopicAreas', iden).get()
 
-        q3 = Subjects.query(Subjects.Subject == 'Math').order(Subjects.Seq)
+        if self.request.get('SubjFilter'):
+            SubjFilter=self.request.get('SubjFilter')
+            self.session['SubjFilter'] = SubjFilter
+        else:
+            SubjFilter = self.session.get('SubjFilter')
+        if not SubjFilter:
+            self.session['SubjFilter'] = 'all'
+            SubjFilter = 'all'
+        logging.info('QQQ: SubjFilter in Topic Grp Edit: %s' % SubjFilter)
+
+        if self.request.get('SubjAreaFilter'):
+            SubjAreaFilter=self.request.get('SubjAreaFilter')
+            self.session['SubjAreaFilter'] = SubjAreaFilter
+        else:
+            SubjAreaFilter = self.session.get('SubjAreaFilter')
+        if not SubjAreaFilter:
+            self.session['SubjAreaFilter'] = 'Math'
+            SubjAreaFilter = 'Math'
+
+        q3 = Subjects.query(Subjects.Subject == SubjAreaFilter).order(Subjects.Seq)
         subjects = q3.fetch(999)
         SubjectList = []
         if subjects:

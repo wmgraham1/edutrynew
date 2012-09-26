@@ -108,7 +108,7 @@
   <tbody>
     {% for unit in units %}
 	<tr><form name="edit" action="/subjseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
-	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td>
         <div class="field-field">
             <input type="text" name="Name" id="id_LearnUnitName{{ unit.key.id()}}" value="{{ unit.Name }}" size="50" />
