@@ -35,9 +35,10 @@
     </form>
     </div>
 </div>
+<!--
 <h2 style="text-align: center;">List of Learning Units (Topics)</h2>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/units/create">Add New Topic</a></p> 
+<p><a href="/units/create">Add New Exercise Topic</a></p> 
 {% endif %}
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Learning Units in English and {{count_other_language}} Units in {{langName}}.
@@ -47,7 +48,29 @@
   {% endif %}
   Please note that Learning Unit names in other languages are initially the same as in English until you translate them.
 </p>
-
+-->
+{% if TopGrpFilter: %}
+    <h2 style="text-align: center;">List of Exercise Topics for Topic Group: {{TopGrpFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">List of Exercise Topics</h2>
+{% endif %}
+<p><a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&SubjAreaFilter={{SubjAreaFilter}}&rq=2"> Return to Exercise Topic Group List</a></p>
+<p><a href ="/unitsedit?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a></p>
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/units/clone?langCode={{langCode}}"> Clone missing Topics.</a></td>
+        {% endif %}
+  {% endif %}
+  Please note that Topics names in other languages are initially the same as in English until you translate them.
+</p>
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+    {% if TopGrpFilter: %}
+        <p><a href="/units/create?TopGrpFilter={{TopGrpFilter}}">Add New Exercise Topic</a></p> 
+    {% else: %}
+        <<p><a href="/units/create">Add New Exercise Topic</a></p> 
+    {% endif %}
+{% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
@@ -62,7 +85,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for unit in units %}
+    {% for unit in units: %}
 	<tr>
 	  <td> {{ unit.LearningUnitID }} </td>
 	  <td> {{ unit.Name }} </td>
@@ -78,7 +101,7 @@
  </table>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-<p><a href="/units/create">Add New Topic</a></p> 
+<p><a href="/units/create">Add New Exercise Topic</a></p> 
 {% endif %}
 
 {% endblock content %}

@@ -47,7 +47,7 @@ from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
 from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone
 from TopicGrps import TopicGrpList, TopicGrpCreate, TopicGrpEdit, TopicGrpDelete, TopicGrpClone
-from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone
+from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone, LearnUnitEditList, LearnUnitEditListPost
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
 from Test1 import Test1Get, TextFileRender
@@ -161,6 +161,8 @@ app = webapp2.WSGIApplication([
     ('/topgrps/clone', TopicGrpClone),
     ('/topgrps/delete/([\d]+)', TopicGrpDelete),
     ('/units', LearnUnitList), 
+    ('/unitsedit', LearnUnitEditList), 
+    ('/unitseditpost/([\d]+)', LearnUnitEditListPost), 
     ('/units/create', LearnUnitCreate), 
     ('/units/edit/([\d]+)', LearnUnitEdit),
     ('/units/clone', LearnUnitClone),

@@ -360,6 +360,15 @@ a:hover {
 .addlmargin {
   margin-left: 60px;
   }
+
+.odd1 {
+  background-color: pink;
+  }
+
+.even1 {
+  background-color: lightgrey;
+  }
+
 /*	
 .divider {
 	background-image:url(divider.jpg);

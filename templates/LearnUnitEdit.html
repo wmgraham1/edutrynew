@@ -4,7 +4,7 @@
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_LearnUnitName">Learning Unit Name</label>:
+      <label for="id_LearnUnitName">Topic Name</label>:
     </div>
     <div class="field-field">
         <input type="text" name="Name" id="id_LearnUnitName" value="{{ unit.Name }}" size="80" />
@@ -13,7 +13,7 @@
 <br />
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Subject">Subject</label>:
+      <label for="id_Subject">Topic Group</label>:
     </div>
     <div class="field-field">
         <select name="Subject">
@@ -28,16 +28,31 @@
     </div>
   </div>
 <br />
-<!--
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_LearnUnitSeq">Sequence</label>:
+    </div>
+    <div class="field-field">
+        {% if unit.LangCode == 'en': %}
+            <input type="text" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+        {% else: %}
+            <input type="hidden" name="Seq" id="id_LearnUnitSeq" value="{{ unit.Seq }}" />
+            {{unit.Seq}}
+        {% endif %}
+    </div>
+  </div>
+<br />
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Description">Description</label>:
     </div>
     <div class="field-field">
-	  <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" />
+	  <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" size="120" />
     </div>
   </div>
--->
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Status">Status</label>:
@@ -76,8 +91,8 @@
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/units/Delete/{{ unit.key.id() }}";'>
-  <a href ="/units/delete/{{ unit.key.id() }}">Delete Learning Unit</a>
+<!--  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/units/Delete/{{ unit.key.id() }}";'> -->
+  <a href ="/units/delete/{{ unit.key.id() }}">Delete Topic</a>
 </form>
 
 {% endblock content %}

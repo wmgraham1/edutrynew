@@ -78,6 +78,7 @@
     <h2 style="text-align: center;">List of Subjects</h2>
 {% endif %}
 <p><a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a></p>
+<p><a href ="/subjsedit?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a></p>
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
   {% if count_en > count_other_language: %}
@@ -97,7 +98,7 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Subject</th>
+      <th>Subject Name</th>
       <th>Seq</th>
       <th>Subject Area</th>
       <th>Language</th>

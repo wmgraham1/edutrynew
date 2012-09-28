@@ -1,10 +1,16 @@
 {% extends "page_template.html" %}
 {% block content %}
+{% if TopGrpFilter: %}
+    <h2 style="text-align: center;">Add New Exercise Topic for Topic Group: {{TopGrpFilter}}</h2>
+{% else: %}
+    <h2 style="text-align: center;">Add New Exercise Topic</h2>
+{% endif %}
+<p><a href ="/units?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic List</a></p>
 
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_LearnUnitName">Learning Unit Name</label>:
+      <label for="id_LearnUnitName">Exercise Topic Name</label>:
     </div>
     <div class="field-field">
       <input type="text" name="Name" id="id_LearnUnitName" size="80" />
@@ -13,28 +19,31 @@
 <br />
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_Subject">Subject</label>:
+      <label for="id_Subject">Topic Group</label>:
     </div>
     <div class="field-field">
         <select name="Subject">
         {% for Subject in SubjectList %}
             <option value="{{Subject}}" 
+            {% if Subject == TopGrpFilter %}
+                selected="selected"
+            {% endif %}            
             >{{Subject}}</option>
         {% endfor %}
         </select>
     </div>
   </div>
 <br />
-<!--
+
  <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Description">Description</label>:
     </div>
     <div class="field-field">
-      <input type="text" name="Description" id="id_Description" />
+      <input type="text" name="Description" id="id_Description" size="120" />
     </div>
   </div>
--->
+
   <br>
   <input type="submit" value=submit />
 </form>

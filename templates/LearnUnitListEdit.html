@@ -21,34 +21,7 @@
 <!--    </div>
     <div>-->
     <form method="GET">
-<!--
       <div class="field-wrapper" style="float: left; margin-left: 20px;">
-        <div class="field-label">
-          <label for="id_SubjAreaFilter">Subject Area</label>:
-        </div>
-        <div class="field-field">
-            <select name="SubjAreaFilter">
-                <option value="all" 
-                {% if 'all' == SubjAreaFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >All</option>
-                {% for SubjArea in SubjAreaList %}
-                    <option value="{{SubjArea}}" 
-                    {% if SubjArea == SubjAreaFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >{{SubjArea}}</option>
-                {% endfor %}
-            </select>
-        </div>
-      </div>
- -->
-      <div class="field-wrapper" style="float: left; margin-left: 20px;">
-<!--
-        <div class="field-label">
-          <label for="id_StatusFilter">Status</label>:
-        </div> -->
         <div class="field-field">
             <select name="StatusFilter">
                 <option value="all" 
@@ -72,43 +45,48 @@
 </td></tr></table>
 <!--    </div>
 </div> -->
-{% if SubjAreaFilter: %}
-    <h2 style="text-align: center;">List of Subjects for Subject-Area: {{SubjAreaFilter}}</h2>
+{% if TopGrpFilter: %}
+    <h2 style="text-align: center;">List of Topics for Topic Group: {{TopGrpFilter}}</h2>
+    <p><a href ="/topgrps?TopGrpFilter={{TopGrpFilter}}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
 {% else: %}
-    <h2 style="text-align: center;">List of Subjects</h2>
+    <h2 style="text-align: center;">List of Topics</h2>
+    <p><a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
 {% endif %}
-<p><a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a></p>
+<p><a href ="/units?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a></p>
 {% if langCode != 'en': %}
-<p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
+<p>There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
   {% if count_en > count_other_language: %}
-    	  <td style="text-align: center;"><a href ="/subjs/clone?langCode={{langCode}}"> Clone missing Subjects.</a></td>
+    	  <td style="text-align: center;"><a href ="/topgrps/clone?langCode={{langCode}}"> Clone missing Subjects.</a></td>
         {% endif %}
   {% endif %}
   Please note that Subjects names in other languages are initially the same as in English until you translate them.
 </p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% if TopGrpFilter: %}
+        <p><a href="/units/create?TopGrpFilter={{TopGrpFilter}}">Create New Exercise Topic</a></p> 
     {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
+        <p><a href="/units/create">Create New Exercise Topic</a></p> 
     {% endif %}
 {% endif %}
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Subject</th>
+      <th>Topic</th>
       <th>Seq</th>
-      <th>Subject Area</th>
       <th>Lang.</th>
+      <th>Topic Grp</th>
 	  <th>Created/Status Date</th>
       <th>Update</th>
     </tr>
   </thead>
   <tbody>
-    {% for unit in units %}
-	<tr><form name="edit" action="/subjseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
-	  <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+    {% for unit in units: %} 
+	<tr class="{{ loop.cycle('odd1', 'even1') }}">
+    <form name="edit" action="/unitseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
+        <td><a href ="/units?TokensFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+
+<!--    <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td> -->
 	  <td>
         <div class="field-field">
             <input type="text" name="Name" id="id_LearnUnitName{{ unit.key.id()}}" value="{{ unit.Name }}" size="50" />
@@ -129,7 +107,7 @@
         <div class="field-field">
         {% if unit.LangCode == 'en': %}
             <select name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}">
-            {% for Subject in SubjAreaList %}
+            {% for Subject in TopGrpList %}
                 <option value="{{Subject}}" 
                 {% if Subject == unit.Subject %}
                     selected="selected"
@@ -146,7 +124,7 @@
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
       <td>&nbsp;</td>
       </tr>
-      <tr>
+      <tr class="{{ loop.cycle('odd1', 'even1') }}">
       <td colspan="4">
         <div class="field-label" style="float: left;>
           <label for="id_Description">Description</label>:
@@ -161,7 +139,7 @@
               <label for="id_Status">Status</label>:
             </div>
             <div class="field-field">
-                <select name="Status">
+                <select name="Status" id="id_Status{{ unit.key.id()}}">
                 {% for Status in StatusList %}
                     <option value="{{Status}}" 
                     {% if Status == unit.Status %}
@@ -189,16 +167,16 @@
             // bind 'myForm' and provide a simple callback function 
              $(".listUpdate").click(function() {
             var id = $(this).attr("id");
-			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Description=' + $('#id_Description'+id).val();
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val();
 			//alert (string);
 			//id = '';
             //alert (id);
 			 $.ajax({
                type: "POST",
-               url: "/subjseditpost/"+id,
+               url: "/unitseditpost/"+id,
                data: string,
                cache: false,
-               success: showResponse
+               error: showResponse
             });
             
           }); 
@@ -215,10 +193,10 @@
 
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% if TopGrpFilter: %}
+        <p><a href="/units/create?TopGrpFilter={{TopGrpFilter}}">Create New Exercise Topic</a></p> 
     {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
+        <p><a href="/units/create">Create New Exercise Topic</a></p> 
     {% endif %}
 {% endif %}
 
