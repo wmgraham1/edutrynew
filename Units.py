@@ -131,17 +131,17 @@ class LearnUnitList(BaseHandler):
         if StatusFilter == 'all':
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in all/all')
-                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in all/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
         else:
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/all')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
 #        q = LearningUnits.query(LearningUnits.LangCode == langCode_en, LearningUnits.Subject == 'Math').order(LearningUnits.LearningUnitID)
         logging.info('LLL: q in LearnUnitList: %s' % q)
 
@@ -250,17 +250,17 @@ class LearnUnitEditList(BaseHandler):
         if StatusFilter == 'all':
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in all/all')
-                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.LearningUnitID) #LearningUnits.Seq, 
             else:
                 logging.info('LLL: in LearnUnitList: now in all/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
         else:
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/all')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
 #        q = LearningUnits.query(LearningUnits.LangCode == langCode_en, LearningUnits.Subject == 'Math').order(LearningUnits.LearningUnitID)
         logging.info('LLL: q in LearnUnitList: %s' % q)
 
@@ -350,6 +350,7 @@ class LearnUnitEditListPost(BaseHandler):
         unit = ndb.Key('LearningUnits', iden).get()
 
         currentuser = users.get_current_user()
+        unit.TemplateName = self.request.get('TemplateName')
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
             unit.Seq = int(self.request.get('Seq'))

@@ -35,6 +35,29 @@ def TopicSeqRecalc():
 
     return  
 
+def UnitSeqRecalc():
+    dic_en = {}
+    q2 = LearningUnits.query(LearningUnits.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        logging.info('GGG: TopicSeqRecalc / Seq before: %d' % uniten.Seq)
+        seq = uniten.Seq
+        if seq == None:
+            seq = 999
+        logging.info('GGG: TopicSeqRecalc / Adding Subjects to Dic: %s' % uniten.LearningUnitID)
+        logging.info('GGG: TopicSeqRecalc / Adding Seq to Dic: %d' % seq)
+        dic_en[uniten.LearningUnitID] = seq
+
+    q = LearningUnits.query(LearningUnits.LangCode != 'en')
+    units = q.fetch(999)
+    for unit in units:
+        logging.info('GGG: TopicSeqRecalc / Updating Subjects %s' % unit.LearningUnitID)
+        logging.info('GGG: TopicSeqRecalc / Updating Subjects Seq: %d' % dic_en[unit.LearningUnitID])
+        unit.Seq = dic_en[unit.LearningUnitID]
+        unit.put()
+
+    return  
+
 def dispatch(self):
     # Get a session store for this request.
     self.session_store = sessions.get_store(request=self.request)

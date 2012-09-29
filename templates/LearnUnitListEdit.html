@@ -130,7 +130,7 @@
           <label for="id_Description">Description</label>:
         </div>
         <div class="field-field">
-            <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="96" />
+            <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="80" />
         </div>
       </td>
 	  <td>
@@ -151,7 +151,16 @@
             </div>
           </div>
       </td>
-	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td>
+        <div class="field-label" style="float: left;>
+          <label for="id_TemplateName">TemplateName</label>:
+        </div>
+        <div class="field-field">
+            <input type="text" name="TemplateName" id="id_TemplateName{{ unit.key.id()}}" value="{{ unit.TemplateName }}" size="24" />
+        </div>
+      </td>
+
+<!--	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td> -->
       <td>
         <input type="button" value="Update" class="listUpdate" id="{{ unit.key.id() }}"/>
         </form>
@@ -167,7 +176,7 @@
             // bind 'myForm' and provide a simple callback function 
              $(".listUpdate").click(function() {
             var id = $(this).attr("id");
-			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val();
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val()+ '&Status='+ $('#id_Status'+id).val()+ '&Description=' + $('#id_Description'+id).val() + '&Subject='+ $('#id_LearnUnitSubject'+id).val() + '&TemplateName='+ $('#id_TemplateName'+id).val();
 			//alert (string);
 			//id = '';
             //alert (id);
