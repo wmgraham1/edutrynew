@@ -11,6 +11,7 @@ from google.appengine.api import memcache
 from SecurityUtils import AccessOK
 
 from models import Subjects
+from models import LearningUnits
 
 def TopicSeqRecalc():
     dic_en = {}
@@ -55,7 +56,50 @@ def UnitSeqRecalc():
         logging.info('GGG: TopicSeqRecalc / Updating Subjects Seq: %d' % dic_en[unit.LearningUnitID])
         unit.Seq = dic_en[unit.LearningUnitID]
         unit.put()
+    return  
 
+def UnitSubjRecalc():
+    dic_en = {}
+    q2 = LearningUnits.query(LearningUnits.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        logging.info('GGG: UnitSubjRecalc / Subj before: %s' % uniten.Subject)
+        Subj = uniten.Subject
+        if Subj == None:
+            Subj = 'Math2'
+        logging.info('GGG: UnitSubjRecalc / Adding Units to Dic: %s' % uniten.LearningUnitID)
+        logging.info('GGG: UnitSubjRecalc / Adding Subj to Dic: %s' % Subj)
+        dic_en[uniten.LearningUnitID] = Subj
+
+    q = LearningUnits.query(LearningUnits.LangCode != 'en')
+    units = q.fetch(999)
+    for unit in units:
+        logging.info('GGG: UnitSubjRecalc / Updating Units %s' % unit.LearningUnitID)
+        logging.info('GGG: UnitSubjRecalc / Updating Units Subj: %s' % dic_en[unit.LearningUnitID])
+        unit.Subject = dic_en[unit.LearningUnitID]
+        unit.put()
+    return  
+
+def UnitTemplateSync():
+    dic_en = {}
+    q2 = LearningUnits.query(LearningUnits.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        logging.info('GGG: UnitTemplateSync / Template before: %s' % uniten.TemplateName)
+        TemplateName = uniten.TemplateName
+#        if TemplateName == None:
+#            TemplateName = ''
+        logging.info('GGG: UnitTemplateSync / Adding Units to Dic: %s' % uniten.LearningUnitID)
+        logging.info('GGG: UnitTemplateSync / Adding TemplateName to Dic: %s' % TemplateName)
+        dic_en[uniten.LearningUnitID] = TemplateName
+
+    q = LearningUnits.query(LearningUnits.LangCode != 'en')
+    units = q.fetch(999)
+    for unit in units:
+        logging.info('GGG: UnitTemplateSync / Updating Units %s' % unit.LearningUnitID)
+        logging.info('GGG: UnitTemplateSync / Updating Units TemplateName: %s' % dic_en[unit.LearningUnitID])
+        unit.TemplateName = dic_en[unit.LearningUnitID]
+        unit.put()
     return  
 
 def dispatch(self):

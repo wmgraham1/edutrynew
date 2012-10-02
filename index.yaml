@@ -273,6 +273,12 @@ indexes:
 - kind: TopicGrps
   properties:
   - name: LangCode
+  - name: Seq
+  - name: Name
+
+- kind: TopicGrps
+  properties:
+  - name: LangCode
   - name: Subject
   - name: Seq
   - name: LearningUnitID

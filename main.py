@@ -36,7 +36,7 @@ from PageContent import PageContentList, PageContentCreate, PageContentEdit, Pag
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay, FeedbackEdit
 from Comment import CommentList, CommentCreate, CommentSubCreate, CommentEdit, CommentDelete
 from User import UserList, UserCreate, UserJoin, UserEdit, UserDelete, UserRightsCalc, SingleUserRightsCalc, PermissionTest, UserApplicationThanks
-from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView, TemplateTokenCreate, TokenStep1NonEx
+from Token import TokenStep1Page, TokenList, TokenCreate, TokenEdit, TokenDelete, TokenClone, TokenFileGen, TokenFileView, TemplateTokenCreate, TokenStep1PageEx
 from Language import LangList, LangCreate, LangEdit, LangDelete
 from Template import TemplateList, TemplateCreate, TemplateEdit, TemplateDelete
 from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
@@ -46,7 +46,7 @@ from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
 from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
 from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone
-from TopicGrps import TopicGrpList, TopicGrpCreate, TopicGrpEdit, TopicGrpDelete, TopicGrpClone
+from TopicGrps import TopicGrpList, TopicGrpCreate, TopicGrpEdit, TopicGrpDelete, TopicGrpClone, TopicGrpEditList, TopicGrpEditListPost
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone, LearnUnitEditList, LearnUnitEditListPost
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
 from How import HowIntro, HowTrans
@@ -108,7 +108,7 @@ app = webapp2.WSGIApplication([
     ('/notes/edit/([\d]+)', EditNote),
     ('/notes/delete/([\d]+)', DeleteNote),
     ('/tokens-step1', TokenStep1Page),
-    ('/tokens-step1nonex', TokenStep1NonEx),
+    ('/tokens-step1ex', TokenStep1PageEx),
     ('/tokens', TokenList),
     ('/tokens/create', TokenCreate), 
     ('/tokens/createt', TemplateTokenCreate), 
@@ -156,6 +156,8 @@ app = webapp2.WSGIApplication([
     ('/topareas/clone', TopicAreaClone),
     ('/topareas/delete/([\d]+)', TopicAreaDelete),
     ('/topgrps', TopicGrpList), 
+    ('/topgrpsedit', TopicGrpEditList), 
+    ('/topgrpseditpost/([\d]+)', TopicGrpEditListPost), 
     ('/topgrps/create', TopicGrpCreate), 
     ('/topgrps/edit/([\d]+)', TopicGrpEdit),
     ('/topgrps/clone', TopicGrpClone),

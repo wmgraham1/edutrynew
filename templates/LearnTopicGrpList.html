@@ -42,6 +42,7 @@
     <h2 style="text-align: center;">List of Exercise Topic Groups </h2>
 {% endif %}
 <p><a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a></p>
+<p><a href ="/topgrpsedit?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to Edit Mode</a></p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
     {% if SubjFilter: %}
         <p><a href="/topgrps/create?SubjFilter={{SubjFilter}}">Add New Exercise Topic Group</a></p> 

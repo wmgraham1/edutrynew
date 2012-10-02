@@ -9,6 +9,7 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
+from DButils import UnitSeqRecalc, UnitSubjRecalc, UnitTemplateSync
 
 
 from models import LearningUnits
@@ -54,6 +55,9 @@ class BaseHandler(webapp2.RequestHandler):
 class LearnUnitList(BaseHandler):
 
     def get(self):
+#        UnitSeqRecalc()
+#        UnitSubjRecalc()
+#        UnitTemplateSync()
         languages = memcache.get("languages")
         if languages is not None:
             logging.info("get languages from memcache.")
@@ -131,17 +135,17 @@ class LearnUnitList(BaseHandler):
         if StatusFilter == 'all':
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in all/all')
-                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.Seq, LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in all/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
         else:
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/all')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
 #        q = LearningUnits.query(LearningUnits.LangCode == langCode_en, LearningUnits.Subject == 'Math').order(LearningUnits.LearningUnitID)
         logging.info('LLL: q in LearnUnitList: %s' % q)
 
@@ -219,7 +223,7 @@ class LearnUnitEditList(BaseHandler):
             TopGrpFilter = 'all'
 
         TopGrpList = []
-        q = TopicGrps.query(TopicGrps.LangCode == 'en').order(TopicGrps.Seq)
+        q = TopicGrps.query(TopicGrps.LangCode == 'en').order(TopicGrps.Seq, TopicGrps.Name)
         SubjAreaResponseSet = q.fetch(999)
         for SubjArea in SubjAreaResponseSet:
             TopGrpList.append(SubjArea.Name)
@@ -250,17 +254,17 @@ class LearnUnitEditList(BaseHandler):
         if StatusFilter == 'all':
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in all/all')
-                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.LearningUnitID) #LearningUnits.Seq, 
+                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.Seq, LearningUnits.LearningUnitID) 
             else:
                 logging.info('LLL: in LearnUnitList: now in all/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
         else:
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/all')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
             else:
                 logging.info('LLL: in LearnUnitList: now in StatusFilter/TopGrpFilter')
-                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.LearningUnitID)
+                q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
 #        q = LearningUnits.query(LearningUnits.LangCode == langCode_en, LearningUnits.Subject == 'Math').order(LearningUnits.LearningUnitID)
         logging.info('LLL: q in LearnUnitList: %s' % q)
 
@@ -460,7 +464,9 @@ class LearnUnitClone(BaseHandler):
                         , Subject = unit2.Subject
                         , Name = unit2.Name
                         , LangCode = langCode
+                        , Seq = unit2.Seq
                         , Description = unit2.Description
+                        , TemplateName = unit2.TemplateName
                         , Status = 'Pending Translation'
                         )
                     n.put()

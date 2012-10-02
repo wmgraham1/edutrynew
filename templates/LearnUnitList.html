@@ -79,6 +79,7 @@
       <th>Name</th>
       <th>Subject</th>
       <th>Language</th>
+      <th>Template</th>
 	  <th>Created Date</th>
       <th>Status</th>
       <th>Status Date</th>
@@ -93,6 +94,7 @@
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
+      <td><big> <a href="/tokens?templateName={{unit.TemplateName}}&langCode={{langCode}}">{{unit.TemplateName}}</a> </big></td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>

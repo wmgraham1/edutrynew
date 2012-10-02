@@ -237,6 +237,7 @@ class SubjAreaClone(BaseHandler):
                     n = SubjectAreas(LearningUnitID = unit2.LearningUnitID
                         , Name = unit2.Name
                         , LangCode = langCode
+                        , Seq = unit2.Seq
                         , Description = unit2.Description
                         , Status = 'Pending Translation'
                         )
