@@ -43,12 +43,12 @@ from ListType import ListTypeList, ListTypeCreate, ListTypeEdit, ListTypeDelete
 from Security import PermissionList, RoleList, RoleDisplay
 from GenFile import *
 from About import DisplayAboutSite, DisplayAboutUs, DisplayAboutKA
-from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone
+from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete, SubjAreaClone, SubjAreaEditList, SubjAreaEditListPost
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
-from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone
+from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone, TopicAreaEditList, TopicAreaEditListPost
 from TopicGrps import TopicGrpList, TopicGrpCreate, TopicGrpEdit, TopicGrpDelete, TopicGrpClone, TopicGrpEditList, TopicGrpEditListPost
 from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone, LearnUnitEditList, LearnUnitEditListPost
-from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone
+from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone, LearnAidEditList, LearnAidEditListPost
 from How import HowIntro, HowTrans
 from Test1 import Test1Get, TextFileRender
 #from MyFileHandlers import FileDownloadHandler, FileUploadFormHandler, FileUploadHandler, FileInfoHandler
@@ -138,6 +138,8 @@ app = webapp2.WSGIApplication([
     ('/genfiles/try/khan-exercise.js', GenFileRedirect),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
+    ('/subjareasedit', SubjAreaEditList), 
+    ('/subjareaseditpost/([\d]+)', SubjAreaEditListPost),
     ('/subjareas', SubjAreaList), 
     ('/subjareas/create', SubjAreaCreate), 
     ('/subjareas/edit/([\d]+)', SubjAreaEdit),
@@ -151,6 +153,8 @@ app = webapp2.WSGIApplication([
     ('/subjs/clone', LearnSubjClone),
     ('/subjs/delete/([\d]+)', LearnSubjDelete),
     ('/topareas', TopicAreaList), 
+    ('/topareasedit', TopicAreaEditList), 
+    ('/topareaseditpost/([\d]+)', TopicAreaEditListPost), 
     ('/topareas/create', TopicAreaCreate), 
     ('/topareas/edit/([\d]+)', TopicAreaEdit),
     ('/topareas/clone', TopicAreaClone),
@@ -170,6 +174,8 @@ app = webapp2.WSGIApplication([
     ('/units/clone', LearnUnitClone),
     ('/units/delete/([\d]+)', LearnUnitDelete),
     ('/aids', LearnAidList), 
+    ('/aidsedit', LearnAidEditList), 
+    ('/aidseditpost/([\d]+)', LearnAidEditListPost), 
     ('/aids/create', LearnAidCreate), 
     ('/aids/edit/([\d]+)', LearnAidEdit),
     ('/aids/clone', LearnAidClone),

@@ -136,6 +136,14 @@ class TokenStep1Page(BaseHandler):
             if not memcache.add("languages", languages, 10):
                 logging.info("Memcache set failed.")
 
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
         if self.request.get('langCode'):
             langCode=self.request.get('langCode')
             self.session['langCode'] = langCode
@@ -192,8 +200,7 @@ class TokenStep1Page(BaseHandler):
         else:
               login = users.create_login_url('/tokens')
 
-        self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'ExerciseList': ExerciseList, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
-
+        self.render_template('TokenStep1.html', {'PageCnt':PageCnt, 'extyp':extyp, 'languages':languages, 'langCode':langCode, 'langName':langName, 'countmap_en':countmap_en, 'countmap_other_language':countmap_other_language, 'ExerciseList': ExerciseList, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenList(BaseHandler):
 
@@ -212,6 +219,14 @@ class TokenList(BaseHandler):
         else:
             templateName = self.session.get('templateName')
 
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
         if self.request.get('StatusFilter'):
             StatusFilter=self.request.get('StatusFilter')
             self.session['StatusFilter'] = StatusFilter
@@ -220,6 +235,33 @@ class TokenList(BaseHandler):
         if not StatusFilter:
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
+
+        if self.request.get('TopGrpFilter'):
+            TopGrpFilter=self.request.get('TopGrpFilter')
+            self.session['TopGrpFilter'] = TopGrpFilter
+        else:
+            TopGrpFilter = self.session.get('TopGrpFilter')
+        if not TopGrpFilter:
+            self.session['TopGrpFilter'] = 'all'
+            TopGrpFilter = 'all'
+
+        countmap_en=0
+        langCode_en = 'en'
+        q = TokenValues.query(TokenValues.langCode == langCode_en, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
+        tokens = q.fetch(99)
+#        tokens = TokenValues.all().filter('langCode =', langCode_en)
+        for token in tokens:
+            logging.info('QQQ: token_en: %s' % token.langCode)
+            countmap_en=countmap_en+1
+
+        countmap_other_language=0
+        if langCode != 'en':    
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
+            tokens = q.fetch(99)
+#		tokens = TokenValues().all().filter('langCode =', langCode)
+            for token in tokens:
+                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+                countmap_other_language=countmap_other_language+1
 
 #        languages = Languages.all().filter('langCode =', langCode)
         q = Languages.query(Languages.langCode == langCode).order(Languages.langCode, Languages.langName)
@@ -265,7 +307,7 @@ class TokenList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'templateName':templateName, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 
@@ -333,6 +375,14 @@ class TokenCreate(BaseHandler):
             if language.langCode == langCode:
                 langName = language.langName
 
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
 #        templates = Templates.query()
         q = Templates.query().order(Templates.Name)
         templates = q.fetch(99)
@@ -346,7 +396,7 @@ class TokenCreate(BaseHandler):
               login = users.create_login_url('/tokens/create')
         Src = 'top'	  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'extyp':extyp, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TemplateTokenCreate(BaseHandler):
 
@@ -354,6 +404,14 @@ class TemplateTokenCreate(BaseHandler):
         templateName = self.request.get('templateName')
         langCode = self.request.get('langCode')
         tknID = self.request.get('tknID')
+
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
 
         q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.tknID == tknID).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
         tokens = q.get()
@@ -412,7 +470,15 @@ class TemplateTokenCreate(BaseHandler):
 
         q = Templates.query().order(Templates.Name)
         templates = q.fetch(99)
-				
+
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -422,7 +488,7 @@ class TemplateTokenCreate(BaseHandler):
               login = users.create_login_url('/tokens/create')
         Src = 'template'	  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'extyp':extyp, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 		
 class TokenEdit(BaseHandler):
@@ -545,6 +611,14 @@ class TokenClone(BaseHandler):
         tokens = q.fetch(999)
 #        tokens = TokenValues.all().filter('langCode =', langCode)
 
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -554,7 +628,10 @@ class TokenClone(BaseHandler):
               login = users.create_login_url('/tokens/create')
 
         if langCode2 == 'xx':
-            return self.redirect('/tokens-step1')
+            if extyp == 'exercise':
+                return self.redirect('/tokens')
+            else:
+                return self.redirect('/tokens-step1')
 
 #        self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
         else:		
@@ -566,7 +643,10 @@ class TokenClone(BaseHandler):
                         , tknValue=token.tknValue
                         )
                     n.put()
-            return self.redirect('/tokens-step1')
+            if extyp == 'exercise':
+                return self.redirect('/tokens')
+            else:
+                return self.redirect('/tokens-step1')
 #            return self.redirect('/tokens?templateName=' + templateName2 + '&langCode=' + langCode)
 #            self.render_template('TokenStep1.html', {'languages':languages, 'langCode':langCode, 'countmap_other_language':countmap_other_language, 'tokens': tokens,'currentuser':currentuser, 'login':login, 'logout': logout})
 		
@@ -575,6 +655,14 @@ class TokenFileGen(BaseHandler):
     def get(self):
         templateName=self.request.get('templateName')
         langCode=self.request.get('langCode')
+
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
 
         q = Templates.query(Templates.Name == templateName)
         template = q.get()
@@ -643,7 +731,7 @@ class TokenFileGen(BaseHandler):
         f.put()
         
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
-        
+
 class TokenFileView(BaseHandler):
 
     def get(self):

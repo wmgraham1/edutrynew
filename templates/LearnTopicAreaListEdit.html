@@ -2,12 +2,12 @@
 {% block content %}
 <div>
 <table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
-    <tr><td>
-        <table border="1" bordercolor="red" cellpadding="8" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
             <tr><td>
-                <a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a>
+                <a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a>
             </td><td>
-                <a href ="/subjs?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
+                <a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
             </td></tr>
         </table>
     </td><td style="float: left;">
@@ -15,6 +15,7 @@
             <tr><td style="vertical-align:middle; text-align: right;">
                 Filter List:
             </td><td>
+            <!--    <div style="float: left;"> -->
                 <form method="GET" style="margin-right: 10px;">
                 <select name="langCode">
                     {% for language in languages %}
@@ -47,45 +48,41 @@
                         </select>
                     </div>
                   </div>
-                  <input type="hidden" name="rq" id="id_rq" value="2" />
-                  <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Select Status">
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
                 </form>
             </td></tr>
         </table>
     </td></tr>
 </table>
-
-{% if SubjAreaFilter: %}
-    <h2 style="text-align: center;">List of Subjects for Subject-Area: {{SubjAreaFilter}}</h2>
+{% if SubjFilter: %}
+    <h2 style="text-align: center;">Playlists for Subject: {{SubjFilter}}</h2>
 {% else: %}
-    <h2 style="text-align: center;">List of Subjects</h2>
+    <h2 style="text-align: center;">List of Playlists</h2>
 {% endif %}
-
-{% if langCode != 'en': %}
-<p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
-  {% if count_en > count_other_language: %}
-    	  <td style="text-align: center;"><a href ="/subjs/clone?langCode={{langCode}}"> Clone missing Subjects.</a></td>
-        {% endif %}
-  {% endif %}
-  Please note that Subjects names in other languages are initially the same as in English until you translate them.
-</p>
-
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topareas/create?SubjFilter={{SubjFilter}}">Add New Playlist</a></p> 
     {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
+        <p><a href="/topareas/create">Add New Playlist</a></p> 
     {% endif %}
 {% endif %}
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Playlists in English and {{count_other_language}} Playlists in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/topareas/clone?langCode={{langCode}}"> Clone missing Playlists.</a></td>
+        {% endif %}
+  {% endif %}
+  Please note that Playlist names in other languages are initially the same as in English until you translate them.
+</p>
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Subject</th>
+      <th>Playlist</th>
       <th>Seq</th>
       <th>Lang.</th>
-      <th>Subject Area</th>
+      <th>Subject</th>
 	  <th>Created/Status Date</th>
       <th>Update</th>
     </tr>
@@ -93,12 +90,14 @@
   <tbody>
     {% for unit in units: %} 
 	<tr class="{{ loop.cycle('odd1', 'even1') }}">
-    <form name="edit" action="/subjseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
+    <form name="edit" action="/topareaseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
       {% if Typ == 'ex': %}
-        <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
       {% else: %}
-        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
       {% endif %}
+
+<!--    <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td> -->
 	  <td>
         <div class="field-field">
             <input type="text" name="Name" id="id_LearnUnitName{{ unit.key.id()}}" value="{{ unit.Name }}" size="50" />
@@ -119,7 +118,7 @@
         <div class="field-field">
         {% if unit.LangCode == 'en': %}
             <select name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}">
-            {% for Subject in SubjAreaList %}
+            {% for Subject in SubjectList %}
                 <option value="{{Subject}}" 
                 {% if Subject == unit.Subject %}
                     selected="selected"
@@ -188,7 +187,7 @@
             //alert (id);
 			 $.ajax({
                type: "POST",
-               url: "/subjseditpost/"+id,
+               url: "/topareaseditpost/"+id,
                data: string,
                cache: false,
                error: showResponse
@@ -205,12 +204,12 @@
        }
     </script> 
 
+
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
+    {% if SubjFilter: %}
+        <p><a href="/topareas/create?SubjFilter={{SubjFilter}}">Add New Playlist</a></p> 
     {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
+        <p><a href="/topareas/create">Add New Playlist</a></p> 
     {% endif %}
 {% endif %}
-
 {% endblock content %}

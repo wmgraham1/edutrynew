@@ -222,8 +222,26 @@ class TopicGrpEditList(BaseHandler):
                 q = TopicGrps.query(TopicGrps.LangCode == langCode, TopicGrps.Status == StatusFilter).order(TopicGrps.Seq, TopicGrps.LearningUnitID)
             else:
                 q = TopicGrps.query(TopicGrps.LangCode == langCode, TopicGrps.Status == StatusFilter, TopicGrps.Subject == SubjFilter).order(TopicGrps.Seq, TopicGrps.LearningUnitID)
-
         units = q.fetch(999)
+
+        if StatusFilter == 'all':
+            if SubjFilter == 'all':
+                f = TopicGrps.query(TopicGrps.LangCode == 'en')
+            else:
+                f = TopicGrps.query(TopicGrps.LangCode == 'en', TopicGrps.Subject == SubjFilter)
+        else:
+            if SubjFilter == 'all':
+                f = TopicGrps.query(TopicGrps.LangCode == 'en', TopicGrps.Status == StatusFilter)
+            else:
+                f = TopicGrps.query(TopicGrps.LangCode == 'en', TopicGrps.Status == StatusFilter, TopicGrps.Subject == SubjFilter)
+        units_en = f.fetch(999)
+        
+        dict_units_en = {}
+        for unit_en in units_en:
+#            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+#            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+            dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+
 
         q4 = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == SubjFilter).order(Subjects.Seq)
         subjects = q4.fetch(999)
@@ -244,7 +262,7 @@ class TopicGrpEditList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 #        SubjectList = ['Math', 'Science'];	
-        self.render_template('LearnTopicGrpListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'SubjectList':SubjectList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnTopicGrpListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'SubjectList':SubjectList, 'StatusFilter':StatusFilter, 'dict_units_en':dict_units_en, 'SubjFilter':SubjFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TopicGrpCreate(BaseHandler):

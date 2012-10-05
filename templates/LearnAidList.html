@@ -1,47 +1,64 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div>
-    <div style="float: left;">
-    <form method="GET">
-    <select name="langCode">
-        {% for language in languages %}
-                <option value="{{language.langCode}}" 
-                {% if language.langCode == langCode %}
-                selected="selected"
-                {% endif %}
-                >{{language.langName}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Select Language">
-    </form>
-    </div>
-    <div>
-    <form method="GET">
-        <select name="StatusFilter">
-            <option value="all" 
-            {% if 'all' == StatusFilter %}
-                    selected="selected"
-                {% endif %}
-                >All</option>
-            {% for Status in StatusList %}
-                <option value="{{Status}}" 
-                {% if Status == StatusFilter %}
-                    selected="selected"
-                {% endif %}
-                >{{Status}}</option>
-            {% endfor %}
-        </select>
-    <input type="submit" value="Select Status">
-    </form>
-    </div>
-</div>
-<br />
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+            <tr><td>
+                <a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Playlists</a>
+            </td><td>
+                <a href ="/aidsedit?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to Edit Mode</a>
+            </td></tr>
+        </table>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td><td>
+                <form method="GET">
+                  <div class="field-wrapper" style="float: left; margin-left: 10px;">
+                    <div class="field-field">
+                        <select name="StatusFilter">
+                            <option value="all" 
+                            {% if 'all' == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >All</option>
+                            {% for Status in StatusList %}
+                                <option value="{{Status}}" 
+                                {% if Status == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >{{Status}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
 {% if TopAreaFilter: %}
     <h2 style="text-align: center;">List of Learning Aids (Videos) for Playlist: {{TopAreaFilter}}</h2>
 {% else: %}
     <h2 style="text-align: center;">List of Learning Aids (Videos)</h2>
 {% endif %}
-<p><a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Playlist List</a></p>
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
     {% if TopAreaFilter: %}
@@ -65,8 +82,8 @@
     <tr>
       <th>ID</th>
       <th>Seq</th>
-      <th>Title</th>
-      <th>Subject</th>
+      <th>Video Title</th>
+      <th>Playlist</th>
       <th>Lang.</th>
 	  <th>Created Date</th>
       <th>Status</th>

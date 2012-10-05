@@ -288,41 +288,59 @@ class LearnSubjEditList(BaseHandler):
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
-        logging.info('QQQ: Total count_other_language: %d' % count_other_language)
+#        logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
-        logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
-        logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+#        logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+#        logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
         if SubjAreaFilter == 'all':
             if StatusFilter == 'all':
-                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and all')
-                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+#                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and all')
+#                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
                 q = Subjects.query(Subjects.LangCode == langCode).order(Subjects.Seq, Subjects.LearningUnitID)
             else:
-                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and StatusFilter')
-                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
-                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+#                logging.info('GGG: Which Query in LearnUnitList: %s' % 'all and StatusFilter')
+#                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+#                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
                 q = Subjects.query(Subjects.LangCode == langCode, Subjects.Status == StatusFilter).order(Subjects.Seq, Subjects.LearningUnitID)
         else:
             if StatusFilter == 'all':
-                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and all')
-                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
-                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+#                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and all')
+#                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+#                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
                 q = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == SubjAreaFilter).order(Subjects.Seq, Subjects.LearningUnitID)
             else:
-                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and StatusFilter')
-                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
-                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
-                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
+#                logging.info('GGG: Which Query in LearnUnitList: %s' % 'SubjAreaFilter and StatusFilter')
+#                logging.info('GGG: LangCode in LearnUnitList: %s' % langCode)
+#                logging.info('GGG: SubjAreaFilter in LearnUnitList: %s' % SubjAreaFilter)
+#                logging.info('GGG: StatusFilter in LearnUnitList: %s' % StatusFilter)
                 q = Subjects.query(Subjects.LangCode == langCode, Subjects.Subject == SubjAreaFilter, Subjects.Status == StatusFilter).order(Subjects.Seq, Subjects.LearningUnitID)
-
         units = q.fetch(999)
-    #    self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
+        if SubjAreaFilter == 'all':
+            if StatusFilter == 'all':
+                f = Subjects.query(Subjects.LangCode == 'en')
+            else:
+                f = Subjects.query(Subjects.LangCode == 'en', Subjects.Status == StatusFilter)
+        else:
+            if StatusFilter == 'all':
+                f = Subjects.query(Subjects.LangCode == 'en', Subjects.Subject == SubjAreaFilter)
+            else:
+                f = Subjects.query(Subjects.LangCode == 'en', Subjects.Subject == SubjAreaFilter, Subjects.Status == StatusFilter)
+        units_en = f.fetch(999)
+        
+        dict_units_en = {}
+        for unit_en in units_en:
+#            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+#            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+            dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+
+#        self.render_template('LearnSubjList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'SubjAreaList':SubjAreaList, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 #        else:
 #            units = []
 #            count_en = 0
 #            count_other_language = 0
-        self.render_template('LearnSubjListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'Typ':Typ, 'SubjAreaList':SubjAreaList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjAreaFilter':SubjAreaFilter, 'Typ':Typ, 'SubjAreaList':SubjAreaList, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 

@@ -12,6 +12,8 @@ from SecurityUtils import AccessOK
 
 from models import Subjects
 from models import LearningUnits
+from models import LearnAids
+from models import TokenValues
 
 def TopicSeqRecalc():
     dic_en = {}
@@ -77,6 +79,77 @@ def UnitSubjRecalc():
         logging.info('GGG: UnitSubjRecalc / Updating Units %s' % unit.LearningUnitID)
         logging.info('GGG: UnitSubjRecalc / Updating Units Subj: %s' % dic_en[unit.LearningUnitID])
         unit.Subject = dic_en[unit.LearningUnitID]
+        unit.put()
+    return  
+
+def AidSeqPop():
+    q2 = LearnAids.query(LearnAids.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        Seq = uniten.Seq
+        if Seq == None:
+            Seq = 999
+        uniten.Seq = Seq
+        uniten.put()
+    return
+
+def TemplateClone():
+    q2 = TokenValues.query(TokenValues.langCode == 'en', TokenValues.templateName == 'khan-exercise')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        #logging.error('QQQ: tokencreate POST')
+        logging.info('QQQ: In CreateToken putting content tknID=: %s' % uniten.tknID)
+        n = TokenValues(templateName='ExerciseTemplate'
+                , TypeCode=uniten.TypeCode
+                , langCode=uniten.langCode
+                , tknID = uniten.tknID
+                , tknValue=uniten.tknValue
+                , Status = uniten.Status
+                )
+        n.put()
+    return
+
+def AidSeqRecalc():
+    dic_en = {}
+    q2 = LearnAids.query(LearnAids.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        logging.info('GGG: AidSeqRecalc / Seq before: %s' % uniten.Seq)
+        Seq = uniten.Seq
+        if Seq == None:
+            Seq = 999
+        logging.info('GGG: AidSeqRecalc / Adding Aids to Dic: %s' % uniten.LearnAidID)
+        logging.info('GGG: aidSeqRecalc / Adding Seq to Dic: %s' % Seq)
+        dic_en[uniten.LearnAidID] = Seq
+
+    q = LearnAids.query(LearningUnits.LangCode != 'en')
+    units = q.fetch(999)
+    for unit in units:
+        logging.info('GGG: AidsSubjRecalc / Updating Aids %s' % unit.LearnAidID)
+        logging.info('GGG: AidsSubjRecalc / Updating Aids Seq: %s' % dic_en[unit.LearnAidID])
+        unit.Seq = dic_en[unit.LearnAidID]
+        unit.put()
+    return  
+
+def AidSubjRecalc():
+    dic_en = {}
+    q2 = LearnAids.query(LearnAids.LangCode == 'en')
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        logging.info('GGG: AidSubjRecalc / Subj before: %s' % uniten.Subject)
+        Subj = uniten.Subject
+        if Subj == None:
+            Subj = 'Math2'
+        logging.info('GGG: AidSubjRecalc / Adding Aids to Dic: %s' % uniten.LearnAidID)
+        logging.info('GGG: aidSubjRecalc / Adding Subj to Dic: %s' % Subj)
+        dic_en[uniten.LearnAidID] = Subj
+
+    q = LearnAids.query(LearningUnits.LangCode != 'en')
+    units = q.fetch(999)
+    for unit in units:
+        logging.info('GGG: AidsSubjRecalc / Updating Aids %s' % unit.LearnAidID)
+        logging.info('GGG: AidsSubjRecalc / Updating Aids Subj: %s' % dic_en[unit.LearnAidID])
+        unit.Subject = dic_en[unit.LearnAidID]
         unit.put()
     return  
 

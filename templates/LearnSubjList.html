@@ -1,75 +1,60 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div>
-<table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
-<tr>
-<td>
-<!--    <div style="float: left;"> -->
-    <form method="GET" style="margin-right: 20px;">
-    <select name="langCode">
-        {% for language in languages %}
-                <option value="{{language.langCode}}" 
-                {% if language.langCode == langCode %}
-                selected="selected"
-                {% endif %}
-                >{{language.langName}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Select Language">
-    </form>
-</td><td>
-<!--    </div>
-    <div>-->
-    <form method="GET">
-<!--
-      <div class="field-wrapper" style="float: left; margin-left: 20px;">
-        <div class="field-label">
-          <label for="id_SubjAreaFilter">Subject Area</label>:
-        </div>
-        <div class="field-field">
-            <select name="SubjAreaFilter">
-                <option value="all" 
-                {% if 'all' == SubjAreaFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >All</option>
-                {% for SubjArea in SubjAreaList %}
-                    <option value="{{SubjArea}}" 
-                    {% if SubjArea == SubjAreaFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >{{SubjArea}}</option>
-                {% endfor %}
-            </select>
-        </div>
-      </div>
- -->
-      <div class="field-wrapper" style="float: left; margin-left: 20px;">
-<!--
-        <div class="field-label">
-          <label for="id_StatusFilter">Status</label>:
-        </div> -->
-        <div class="field-field">
-            <select name="StatusFilter">
-                <option value="all" 
-                {% if 'all' == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >All</option>
-                {% for Status in StatusList %}
-                    <option value="{{Status}}" 
-                    {% if Status == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >{{Status}}</option>
-                {% endfor %}
-            </select>
-        </div>
-      </div>
-      <input type="hidden" name="rq" id="id_rq" value="2" />
-      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Select Status">
-    </form>
-</td></tr></table>
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+            <tr><td>
+                <a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a>
+            </td><td>
+                <a href ="/subjsedit?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a>
+            </td></tr>
+        </table>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td><td>
+                <form method="GET">
+                  <div class="field-wrapper" style="float: left; margin-left: 10px;">
+                    <div class="field-field">
+                        <select name="StatusFilter">
+                            <option value="all" 
+                            {% if 'all' == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >All</option>
+                            {% for Status in StatusList %}
+                                <option value="{{Status}}" 
+                                {% if Status == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >{{Status}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                  <input type="hidden" name="rq" id="id_rq" value="2" />
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
 <!--    </div>
 </div> -->
 {% if SubjAreaFilter: %}
@@ -77,8 +62,7 @@
 {% else: %}
     <h2 style="text-align: center;">List of Subjects</h2>
 {% endif %}
-<p><a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a></p>
-<p><a href ="/subjsedit?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a></p>
+
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
   {% if count_en > count_other_language: %}

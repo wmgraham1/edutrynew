@@ -1,6 +1,7 @@
 {% extends "page_template.html" %}
 {% block content %}
-
+<h2 style="text-align: center;">Edit Template</h2>
+<p><a href="/templates?extyp=all">Return to Template List</a></p>
 <form action="" method="post">
   <div class="field-wrapper">
     <div class="field-label">
@@ -83,7 +84,7 @@
 <br />      
   
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
-  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/templates/Delete/{{ template.key.id() }}";'>
+<!--  <input type='button' name='Delete' value="Delete" onClick='locaton.href="/templates/Delete/{{ template.key.id() }}";'> -->
   <a href ="/templates/delete/{{ template.key.id() }}">Delete Template</a>
 </form>
 

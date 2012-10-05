@@ -254,7 +254,7 @@ class LearnUnitEditList(BaseHandler):
         if StatusFilter == 'all':
             if TopGrpFilter == 'all':
                 logging.info('LLL: in LearnUnitList: now in all/all')
-                q = LearningUnits.query(LearningUnits.LangCode == 'en').order(LearningUnits.Seq, LearningUnits.LearningUnitID) 
+                q = LearningUnits.query(LearningUnits.LangCode == langCode).order(LearningUnits.Seq, LearningUnits.LearningUnitID) 
             else:
                 logging.info('LLL: in LearnUnitList: now in all/TopGrpFilter')
                 q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
@@ -267,8 +267,26 @@ class LearnUnitEditList(BaseHandler):
                 q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter).order(LearningUnits.Seq, LearningUnits.LearningUnitID)
 #        q = LearningUnits.query(LearningUnits.LangCode == langCode_en, LearningUnits.Subject == 'Math').order(LearningUnits.LearningUnitID)
         logging.info('LLL: q in LearnUnitList: %s' % q)
-
         units = q.fetch(999)
+
+        if StatusFilter == 'all':
+            if TopGrpFilter == 'all':
+                f = LearningUnits.query(LearningUnits.LangCode == 'en') 
+            else:
+                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Subject == TopGrpFilter)
+        else:
+            if TopGrpFilter == 'all':
+                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter)
+            else:
+                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter)
+        units_en = f.fetch(999)
+        
+        dict_units_en = {}
+        for unit_en in units_en:
+#            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+#            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+            dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+
         unitcnt = 0
         for uni in units:
             logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
@@ -285,7 +303,7 @@ class LearnUnitEditList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnUnitListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'TopGrpList':TopGrpList, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnUnitListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'TopGrpList':TopGrpList, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnUnitCreate(BaseHandler):

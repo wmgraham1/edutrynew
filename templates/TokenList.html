@@ -1,8 +1,20 @@
 {% extends "page_template.html" %}
 {% block content %}
 <h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
-<p><a href ="/tokens-step1?langCode={{ langCode }}"> Return to Exercise List</a></p>
+{% if extyp == 'exercise': %}
+    <p><a href ="/units?TopGrpFilter={{TopGrpFilter}}&langCode={{ langCode }}"> Return to Exercise List</a></p>
+{% else: %}
+    <p><a href ="/tokens-step1?extyp=other&langCode={{ langCode }}"> Return to Template List</a></p>
+{% endif %}
 <p>
+{% if langCode != 'en': %}
+<p>There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
+  {% if count_en > count_other_language: %}
+    	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{templateName}}&langCode={{langCode}}"> Clone missing Tokens.</a></td>
+        {% endif %}
+  {% endif %}
+  Please note that Token Values in other languages are initially the same as in English until you translate them.
+</p>
 {% if TemplateGenReady: %}
 <a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>
 {% endif %}

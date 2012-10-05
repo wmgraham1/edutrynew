@@ -1,61 +1,64 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div>
-<table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
-<tr>
-<td>
-<!--    <div style="float: left;"> -->
-    <form method="GET" style="margin-right: 20px;">
-    <select name="langCode">
-        {% for language in languages %}
-                <option value="{{language.langCode}}" 
-                {% if language.langCode == langCode %}
-                selected="selected"
-                {% endif %}
-                >{{language.langName}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Select Language">
-    </form>
-</td><td>
-<!--    </div>
-    <div>-->
-    <form method="GET">
-      <div class="field-wrapper" style="float: left; margin-left: 20px;">
-<!--
-        <div class="field-label">
-          <label for="id_StatusFilter">Status</label>:
-        </div> -->
-        <div class="field-field">
-            <select name="StatusFilter">
-                <option value="all" 
-                {% if 'all' == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >All</option>
-                {% for Status in StatusList %}
-                    <option value="{{Status}}" 
-                    {% if Status == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >{{Status}}</option>
-                {% endfor %}
-            </select>
-        </div>
-      </div>
-      <input type="hidden" name="rq" id="id_rq" value="2" />
-      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Select Status">
-    </form>
-</td></tr></table>
-<!--    </div>
-</div> -->
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+            <tr><td>
+                <a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a>
+            </td><td>
+                <a href ="/topgrps?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
+            </td></tr>
+        </table>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td><td>
+                <form method="GET">
+                  <div class="field-wrapper" style="float: left; margin-left: 10px;">
+                    <div class="field-field">
+                        <select name="StatusFilter">
+                            <option value="all" 
+                            {% if 'all' == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >All</option>
+                            {% for Status in StatusList %}
+                                <option value="{{Status}}" 
+                                {% if Status == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >{{Status}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
 {% if SubjFilter: %}
     <h2 style="text-align: center;">List of Topic Groups for Subject: {{SubjFilter}}</h2>
 {% else: %}
     <h2 style="text-align: center;">List of Topic Groups </h2>
 {% endif %}
-<p><a href ="/subjs?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject List</a></p>
-<p><a href ="/topgrps?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a></p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
     {% if SubjFilter: %}
         <p><a href="/topgrps/create?SubjFilter={{SubjFilter}}">Add New Exercise Topic Group</a></p> 
@@ -76,7 +79,7 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Subject</th>
+      <th>Topic Grp</th>
       <th>Seq</th>
       <th>Lang.</th>
       <th>Subject</th>
@@ -89,9 +92,9 @@
 	<tr class="{{ loop.cycle('odd1', 'even1') }}">
     <form name="edit" action="/topgrpseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
       {% if Typ == 'ex': %}
-        <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+        <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
       {% else: %}
-        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
+        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
       {% endif %}
 
 <!--    <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td> -->
@@ -136,6 +139,9 @@
       <td colspan="4">
         <div class="field-label" style="float: left;>
           <label for="id_Description">Description</label>:
+          {% if unit.LangCode != 'en': %}
+            (English version: {{ dict_units_en[unit.LearningUnitID] }})
+          {% endif %}
         </div>
         <div class="field-field">
             <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="96" />

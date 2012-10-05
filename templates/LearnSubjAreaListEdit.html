@@ -2,12 +2,10 @@
 {% block content %}
 <div>
 <table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
-    <tr><td>
-        <table border="1" bordercolor="red" cellpadding="8" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
             <tr><td>
-                <a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Subject Area List</a>
-            </td><td>
-                <a href ="/subjs?SubjAreaFilter={{ SubjAreaFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
+                <a href ="/subjareas?StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to List Mode</a>
             </td></tr>
         </table>
     </td><td style="float: left;">
@@ -15,6 +13,7 @@
             <tr><td style="vertical-align:middle; text-align: right;">
                 Filter List:
             </td><td>
+    <!--    <div style="float: left;"> -->
                 <form method="GET" style="margin-right: 10px;">
                 <select name="langCode">
                     {% for language in languages %}
@@ -54,38 +53,25 @@
         </table>
     </td></tr>
 </table>
-
-{% if SubjAreaFilter: %}
-    <h2 style="text-align: center;">List of Subjects for Subject-Area: {{SubjAreaFilter}}</h2>
-{% else: %}
-    <h2 style="text-align: center;">List of Subjects</h2>
-{% endif %}
-
+<h2 style="text-align: center;">List of Subject Areas</h2>
 {% if langCode != 'en': %}
-<p>There are {{count_en}} Subjects in English and {{count_other_language}} Subjects in {{langName}}.
+<p>There are {{count_en}} Subject Areas in English and {{count_other_language}} Subject Areas in {{langName}}.
   {% if count_en > count_other_language: %}
-    	  <td style="text-align: center;"><a href ="/subjs/clone?langCode={{langCode}}"> Clone missing Subjects.</a></td>
+    	  <td style="text-align: center;"><a href ="/subjareas/clone?langCode={{langCode}}"> Clone missing Subject Areas.</a></td>
         {% endif %}
   {% endif %}
-  Please note that Subjects names in other languages are initially the same as in English until you translate them.
+  Please note that Subject Area names in other languages are initially the same as in English until you translate them.
 </p>
-
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
-    {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
-    {% endif %}
+    <p><a href="/subjareas/create">Add New Subject area</a></p> 
 {% endif %}
-
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Subject</th>
+      <th>Subject Area</th>
       <th>Seq</th>
       <th>Lang.</th>
-      <th>Subject Area</th>
 	  <th>Created/Status Date</th>
       <th>Update</th>
     </tr>
@@ -93,12 +79,8 @@
   <tbody>
     {% for unit in units: %} 
 	<tr class="{{ loop.cycle('odd1', 'even1') }}">
-    <form name="edit" action="/subjseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
-      {% if Typ == 'ex': %}
-        <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
-      {% else: %}
-        <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
-      {% endif %}
+    <form name="edit" action="/subjareaseditpost/{{ unit.key.id() }}" method="POST" id="myForm">
+      <td><a href ="/subjs?SubjAreaFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
 	  <td>
         <div class="field-field">
             <input type="text" name="Name" id="id_LearnUnitName{{ unit.key.id()}}" value="{{ unit.Name }}" size="50" />
@@ -115,34 +97,13 @@
         </div>
       </td>
 	  <td> {{ unit.LangCode }} </td>
-      <td>
-        <div class="field-field">
-        {% if unit.LangCode == 'en': %}
-            <select name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}">
-            {% for Subject in SubjAreaList %}
-                <option value="{{Subject}}" 
-                {% if Subject == unit.Subject %}
-                    selected="selected"
-                {% endif %}
-                >{{Subject}}</option>
-            {% endfor %}
-            </select>
-        {% else: %}
-            <input type="hidden" name="Subject" id="id_LearnUnitSubject{{ unit.key.id()}}" value="{{ unit.Subject }}" />
-            {{ unit.Subject }}
-        {% endif %}
-        </div>
-      </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
       <td>&nbsp;</td>
       </tr>
       <tr class="{{ loop.cycle('odd1', 'even1') }}">
-      <td colspan="4">
+      <td colspan="3">
         <div class="field-label" style="float: left;>
           <label for="id_Description">Description</label>:
-          {% if unit.LangCode != 'en': %}
-            (English version: {{ dict_units_en[unit.LearningUnitID] }})
-          {% endif %}
         </div>
         <div class="field-field">
             <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="96" />
@@ -182,13 +143,13 @@
             // bind 'myForm' and provide a simple callback function 
              $(".listUpdate").click(function() {
             var id = $(this).attr("id");
-			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val();
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val();
 			//alert (string);
 			//id = '';
             //alert (id);
 			 $.ajax({
                type: "POST",
-               url: "/subjseditpost/"+id,
+               url: "/subjareaseditpost/"+id,
                data: string,
                cache: false,
                error: showResponse
@@ -196,7 +157,6 @@
             
           }); 
         }); 
-		
 		
        function showResponse(responseText, statusText, xhr, $form) {
         alert(statusText);
@@ -206,11 +166,7 @@
     </script> 
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
-    {% if SubjAreaFilter: %}
-        <p><a href="/subjs/create?SubjAreaFilter={{SubjAreaFilter}}">Add New Subject</a></p> 
-    {% else: %}
-        <p><a href="/subjs/create">Add New Subject</a></p> 
-    {% endif %}
+    <p><a href="/subjareas/create">Add New Subject area</a></p> 
 {% endif %}
 
 {% endblock content %}

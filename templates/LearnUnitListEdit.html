@@ -1,58 +1,72 @@
 {% extends "page_template.html" %}
 {% block content %}
 <div>
-<table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
-<tr>
-<td>
-<!--    <div style="float: left;"> -->
-    <form method="GET" style="margin-right: 20px;">
-    <select name="langCode">
-        {% for language in languages %}
-                <option value="{{language.langCode}}" 
-                {% if language.langCode == langCode %}
-                selected="selected"
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+            <tr><td>
+<!--            {% if TopGrpFilter: %}
+                    <p><a href ="/topgrps?TopGrpFilter={{TopGrpFilter}}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
+                {% else: %}
+                    <p><a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
                 {% endif %}
-                >{{language.langName}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Select Language">
-    </form>
-</td><td>
-<!--    </div>
-    <div>-->
-    <form method="GET">
-      <div class="field-wrapper" style="float: left; margin-left: 20px;">
-        <div class="field-field">
-            <select name="StatusFilter">
-                <option value="all" 
-                {% if 'all' == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >All</option>
-                {% for Status in StatusList %}
-                    <option value="{{Status}}" 
-                    {% if Status == StatusFilter %}
-                        selected="selected"
-                    {% endif %}
-                    >{{Status}}</option>
-                {% endfor %}
-            </select>
-        </div>
-      </div>
-      <input type="hidden" name="rq" id="id_rq" value="2" />
-      <input style="float: left; margin-left: 20px; text-align:bottom;" type="submit" value="Select Status">
-    </form>
-</td></tr></table>
-<!--    </div>
-</div> -->
+-->
+                <a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&SubjFilter={{SubjFilter}}&rq=2"> Return to Topic Groups</a>
+            </td><td>
+                <a href ="/units?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
+            </td></tr>
+        </table>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td><td>
+                <form method="GET">
+                  <div class="field-wrapper" style="float: left; margin-left: 10px;">
+                    <div class="field-field">
+                        <select name="StatusFilter">
+                            <option value="all" 
+                            {% if 'all' == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >All</option>
+                            {% for Status in StatusList %}
+                                <option value="{{Status}}" 
+                                {% if Status == StatusFilter %}
+                                    selected="selected"
+                                {% endif %}
+                                >{{Status}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                  </div>
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
 {% if TopGrpFilter: %}
-    <h2 style="text-align: center;">List of Topics for Topic Group: {{TopGrpFilter}}</h2>
+    <h2 style="text-align: center;">Topics in Topic Group: {{TopGrpFilter}}</h2>
     <p><a href ="/topgrps?TopGrpFilter={{TopGrpFilter}}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
 {% else: %}
     <h2 style="text-align: center;">List of Topics</h2>
     <p><a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Exercise Topic Group List</a></p>
 {% endif %}
-<p><a href ="/units?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a></p>
 {% if langCode != 'en': %}
 <p>There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
   {% if count_en > count_other_language: %}
@@ -128,6 +142,9 @@
       <td colspan="4">
         <div class="field-label" style="float: left;>
           <label for="id_Description">Description</label>:
+          {% if unit.LangCode != 'en': %}
+            (English version: {{ dict_units_en[unit.LearningUnitID] }})
+          {% endif %}
         </div>
         <div class="field-field">
             <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="80" />

@@ -5,9 +5,13 @@ from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from webapp2_extras import sessions
+from google.appengine.api import memcache
 from SecurityUtils import AccessOK
+from DButils import TemplateClone
 
 from models import Templates
+from models import TokenValues
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -29,11 +33,36 @@ class TemplateBaseHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
+
 
 class TemplateList(TemplateBaseHandler):
 
     def get(self):
+#        TemplateClone()
         templates = Templates.query().order(Templates.Name)
+
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
 
         logout = None
         login = None
