@@ -426,6 +426,9 @@ class LearnSubjEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
 
+        f = Subjects.query(Subjects.LangCode == 'en', Subjects.LearningUnitID == unit.LearningUnitID)
+        units_en = f.get()
+        
         SubjAreaList = []
         if SubjectAreas.LangCode == 'en':
             q = SubjectAreas.query(SubjectAreas.LangCode == 'en').order(SubjectAreas.Seq)
@@ -443,7 +446,7 @@ class LearnSubjEdit(BaseHandler):
 
         #SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnSubjEdit.html', {'unit': unit, 'SubjectList': SubjAreaList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnSubjEdit.html', {'unit': unit, 'units_en': units_en, 'SubjectList': SubjAreaList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnSubjDelete(BaseHandler):

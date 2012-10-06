@@ -50,6 +50,9 @@
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Description">Description</label>:
+      {% if unit.LangCode != 'en': %}
+        (English version: {{ units_en.Description }})
+      {% endif %}
     </div>
     <div class="field-field">
 	  <input type="text" name="Description" id="id_Description" value="{{ unit.Description }}" size="120" />

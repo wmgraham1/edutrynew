@@ -142,6 +142,9 @@
       <td colspan="4">
         <div class="field-label" style="float: left;>
           <label for="id_Description">Description</label>:
+          {% if unit.LangCode != 'en': %}
+            (English version: {{ dict_units_en[unit.LearningUnitID] }})
+          {% endif %}
         </div>
         <div class="field-field">
             <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="96" />

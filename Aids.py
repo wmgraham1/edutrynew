@@ -403,6 +403,9 @@ class LearnAidEdit(BaseHandler):
         iden = int(aid_id)
         aid = ndb.Key('LearnAids', iden).get()
 
+        f = LearnAids.query(LearnAids.LangCode == 'en', LearnAids.LearnAidID == aid.LearnAidID)
+        units_en = f.get()
+
         logout = None
         login = None
         currentuser = users.get_current_user()
@@ -432,7 +435,7 @@ class LearnAidEdit(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         VideoStatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnAidEdit.html', {'aid': aid, 'SubjectList': SubjectList, 'StatusList': StatusList, 'VideoStatusList': VideoStatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnAidEdit.html', {'aid': aid, 'units_en':units_en, 'SubjectList': SubjectList, 'StatusList': StatusList, 'VideoStatusList': VideoStatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnAidDelete(BaseHandler):

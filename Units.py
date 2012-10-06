@@ -411,6 +411,9 @@ class LearnUnitEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('LearningUnits', iden).get()
 
+        f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.LearningUnitID == unit.LearningUnitID)
+        units_en = f.get()
+
         if self.request.get('SubjFilter'):
             SubjFilter=self.request.get('SubjFilter')
             self.session['SubjFilter'] = SubjFilter
@@ -440,7 +443,7 @@ class LearnUnitEdit(BaseHandler):
 
 #        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnUnitEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnUnitEdit.html', {'unit': unit, 'units_en': units_en, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnUnitDelete(BaseHandler):

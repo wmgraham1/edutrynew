@@ -365,6 +365,9 @@ class TopicAreaEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('TopicAreas', iden).get()
 
+        f = TopicAreas.query(TopicAreas.LangCode == 'en', TopicAreas.LearningUnitID == unit.LearningUnitID)
+        units_en = f.get()
+        
         if self.request.get('SubjFilter'):
             SubjFilter=self.request.get('SubjFilter')
             self.session['SubjFilter'] = SubjFilter
@@ -403,7 +406,7 @@ class TopicAreaEdit(BaseHandler):
 
 #        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnTopicAreaEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnTopicAreaEdit.html', {'unit': unit, 'units_en': units_en, 'SubjectList': SubjectList, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TopicAreaDelete(BaseHandler):

@@ -362,6 +362,9 @@ class TopicGrpEdit(BaseHandler):
         iden = int(unit_id)
         unit = ndb.Key('TopicGrps', iden).get()
 
+        f = TopicGrps.query(TopicGrps.LangCode == 'en', TopicGrps.LearningUnitID == unit.LearningUnitID)
+        units_en = f.get()
+
         if self.request.get('SubjFilter'):
             SubjFilter=self.request.get('SubjFilter')
             self.session['SubjFilter'] = SubjFilter
@@ -400,7 +403,7 @@ class TopicGrpEdit(BaseHandler):
 
 #        SubjectList = ['Math', 'Biology', 'Chemistry'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        self.render_template('LearnTopicGrpEdit.html', {'unit': unit, 'SubjectList': SubjectList, 'SubjFilter': SubjFilter, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnTopicGrpEdit.html', {'unit': unit, 'units_en': units_en, 'SubjectList': SubjectList, 'SubjFilter': SubjFilter, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TopicGrpDelete(BaseHandler):
