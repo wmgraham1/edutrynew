@@ -28,6 +28,7 @@ jQuery(function(){
         <div id="header">
             <div id="header_side">
                 <ul>
+                    <li><a href="/feedback">Feedback</a></li>
                 {% if currentuser %} 
                     {% if logout %} 
                        <li><a href="{{logout}}">Logout</a></li>
@@ -76,6 +77,14 @@ jQuery(function(){
 				</li>
 				<li><a href="/papers/learners">Learners/Prgms</a></li>	
 				<li><a href="/papers/misc">Misc Discussions</a></li>	
+                <li><a href="#">Transla. Tools</a>	
+					<ul>
+						<li><a href="/transintro">Transla. Intro</a></li>
+						<li><a href="/subjareas?Typ=ex">Exercise Transla.</a></li>
+						<li><a href="/tokens-step1?extyp=other">Other Transla.</a></li>
+						<li><a href="/subjareas?Typ=vid">Video Transla.</a></li>
+					</ul>
+                </li>
 				{% endif %}
 				<li><a href="#">About</a>
 					<ul>
@@ -86,7 +95,7 @@ jQuery(function(){
 					</ul>
                 </li>
 				<li><a href="/users/join">Join us</a></li>
-				<li><a href="/feedback">Feedback</a></li>
+<!--				<li><a href="/feedback">Feedback</a></li> -->
 				{% if currentuser|AccessOK(1) %} 
 				<li><a href="#">Admin</a>
 					<ul>

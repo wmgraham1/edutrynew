@@ -30,7 +30,7 @@ import contactpage
 
 #import notes
 #import views
-from Home import DisplayHome
+from Home import DisplayHome, DisplayTransIntro
 from views import MainPage, CreateNote, DeleteNote, EditNote
 from PageContent import PageContentList, PageContentCreate, PageContentEdit, PageContentDelete
 from Paper import PaperList, PaperDisplay, PaperCreate, PaperEdit, PaperDelete, FeedbackList, FeedbackCreate, FeedbackDisplay, FeedbackEdit
@@ -66,6 +66,7 @@ config['webapp2_extras.sessions'] = {
 app = webapp2.WSGIApplication([
 	('/', DisplayHome),
 	('/home', DisplayHome),
+	('/transintro', DisplayTransIntro),
 	('/about/site', DisplayAboutSite),
 	('/about/us', DisplayAboutUs),
 	('/about/ka', DisplayAboutKA),

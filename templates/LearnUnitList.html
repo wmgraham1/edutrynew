@@ -6,7 +6,7 @@
         <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
             <tr><td>
                 <a href ="/topgrps?StatusFilter=all&langCode={{langCode}}&SubjFilter={{SubjFilter}}&rq=2"> Return to Topic Groups</a>
-            </td><td>
+            </td><td style="background-color:pink;">
                 <a href ="/unitsedit?TopGrpFilter={{ TopGrpFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a>
             </td></tr>
         </table>
@@ -65,7 +65,8 @@
     	  <td style="text-align: center;"><a href ="/units/clone?langCode={{langCode}}"> Clone missing Topics.</a></td>
         {% endif %}
   {% endif %}
-  Please note that Topics names in other languages are initially the same as in English until you translate them.
+  Please note that Topics names in other languages are initially the same as in English until you translate them.   <span style="text-align: center; color: red; font-weight: bold;">Note: The ID = the original name in English and cannot be changed.</span><br />
+  <span style="color:red; font-weight:bold;">Click on the template name if present to go to the translation page for the exercise content.</span>
 </p>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
     {% if TopGrpFilter: %}
@@ -86,7 +87,7 @@
 	  <th>Created Date</th>
       <th>Status</th>
       <th>Status Date</th>
-      <th>Edit</th>
+<!--      <th>Edit</th> -->
     </tr>
   </thead>
   <tbody>
@@ -97,15 +98,15 @@
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
-      {% if unit.TemplateName == 'None':%}
-        <td>&nbsp;</td>
-      {% else: %}
+      {% if unit.TemplateName:%}
         <td><big> <a href="/tokens?templateName={{unit.TemplateName}}&langCode={{langCode}}&extyp=exercise">{{unit.TemplateName}}</a> </big></td>
+      {% else: %}
+        <td>&nbsp;</td>
       {% endif %}
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
-	  <td><a href ="/units/edit/{{ unit.key.id() }}">edit </a></td>
+<!--	  <td><a href ="/units/edit/{{ unit.key.id() }}">edit </a></td> -->
     </tr>
     {% endfor %}	
   </tbody>

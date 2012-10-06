@@ -1,7 +1,12 @@
 {% extends "page_template.html" %}
 {% block content %}
-<h2 style="text-align: center;">Token: {{ token.tknID }} for Template: {{token.templateName}} and Language: {{token.langCode}}</h2>
-
+<h2 style="text-align: center;">Token: {{ token.tknID }} <br />for Template: {{token.templateName}} and Language: {{token.langCode}}</h2>
+<p><span style="color: red; font-weight:bold;">Please be careful when translating to not translate or change any program code or function calls</span> - including parenthesis, etc.  Only translate text content.  E.g., in the following example, you would not translate (or change in any way) anything with a pink background.  In other words, in the following example, DO NOT CHANGE any text with a pink background: <span style="text-align: center;"><code><span style="background-color: pink;">&lt;p&gt;</span>Round <span style="background-color: pink;">&lt;code&gt;&lt;var&gt;commafy( NUM )&lt;/var&gt;&lt;/code&gt;</span> to the nearest <span style="background-color: pink;">&lt;var&gt;TPLACE&lt;/var&gt;</span>.<span style="background-color: pink;">&lt;/p&gt;</span></code></span>.  <span style="color: red; font-weight:bold;">Note, the pink background is only here as an example, during the translation process, you have to be very careful and only change display text content.</span></p>
+<p><span style="color: red; font-weight:bold;">Example:</span><ul style="list-style-type:none;">
+<li style="margin-left:10px;"><span style="color: red; font-weight:bold;">BEFORE:</span> <code>&lt;p&gt;Round &lt;code&gt;&lt;var&gt;commafy( NUM )&lt;/var&gt;&lt;/code&gt; to the nearest &lt;var&gt;TPLACE&lt;/var&gt;&lt;/p&gt;</code></li>
+<li style="margin-left:10px;"><span style="color: red; font-weight:bold;">AFTER:</span> <code>&lt;p&gt;Runde &lt;code&gt;&lt;var&gt;commafy( NUM )&lt;/var&gt;&lt;/code&gt; auf oder ab zum naechsten &lt;var&gt;TPLACE&lt;/var&gt;&lt;/p&gt;</code></li>
+</ul></p>
+<p><a href ="/tokens?templateName={{ token.templateName }}">Return to Template</a></p>
 <form action="" method="post">
   <div class="field-wrapper">
 {% if token.langCode == 'en' %} 
@@ -43,8 +48,7 @@
       {% endif %}
     </div>
   </div>
-<br />
-
+ 
 {% if not token.langCode == 'en' %} 
   <div class="field-wrapper">
     <div class="field-label">
@@ -55,8 +59,8 @@
     </div>   
   </div>
 <br />
-{% endif %}  
-<p><span style="color: red;">Please be careful when translating to not translate or change any code or function calls</span> - including paranthesis, etc.  Only translate text content.  E.g., in the following example, you would not translate (or change in any way) anything with a yellow background.  In other words, only translate the text withough the yellow backgroud: <span style="text-align: center;"><code><span style="background-color: yellow;">&lt;p&gt;</span>Round <span style="background-color: yellow;">&lt;code&gt;&lt;var&gt;commafy( NUM )&lt;/var&gt;&lt;/code&gt;</span> to the nearest <span style="background-color: yellow;">&lt;var&gt;TPLACE&lt;/var&gt;</span>.<span style="background-color: yellow;">&lt;/p&gt;</span></code></span>.  <span style="color: red;">Note, the yellow background is only here as an example, during the translation process, you have to be very careful and only change raw text content.</span></p>
+{% endif %}
+
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_tknval">Current Language Token Value</label>:

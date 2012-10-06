@@ -1,46 +1,84 @@
 {% extends "page_template.html" %}
 {% block content %}
-<h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
-{% if extyp == 'exercise': %}
-    <p><a href ="/units?TopGrpFilter={{TopGrpFilter}}&langCode={{ langCode }}"> Return to Exercise List</a></p>
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+        <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+            <tr><td>
+                {% if extyp == 'exercise': %}
+                    <a href ="/units?TopGrpFilter={{TopGrpFilter}}&langCode={{ langCode }}"> Return to Exercise Topic List</a>
+                {% else: %}
+                    <a href ="/tokens-step1?extyp=other&langCode={{ langCode }}"> Return to Template List</a>
+                {% endif %}
+            </td></tr>
+        </table>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td><td>
+                <form method="GET">
+                  <div class="field-wrapper" style="float: left; margin-left: 10px;">
+                    <div class="field-field">
+                    <select name="StatusFilter">
+                        <option value="all" 
+                        {% if 'all' == StatusFilter %}
+                                selected="selected"
+                            {% endif %}
+                            >All</option>
+                        {% for Status in StatusList %}
+                            <option value="{{Status}}" 
+                            {% if Status == StatusFilter %}
+                                selected="selected"
+                            {% endif %}
+                            >{{Status}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                  </div>
+                  <input style="float: left; margin-left: 10px; text-align:bottom;" type="submit" value="Select Status">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
+{% if TemplateGenReady: %}
+    <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+        <tr><td>
+                <a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>
+            {% if GenFileReady: %}
+                &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiledownload/{{ GenFileReady }}"> Download Translated File</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/try/{{langCode}}/{{ SearchName }}"> Try Exercise</a>
+            {% endif %}
+        </td></tr>
+    </table>
 {% else: %}
-    <p><a href ="/tokens-step1?extyp=other&langCode={{ langCode }}"> Return to Template List</a></p>
+    <p style="color:red;">Once all the tokens for a template in a specific language have a status of 'published', then the option to generate the translated file will be presented.</p>
 {% endif %}
+<h2 style="text-align: center;">Tokens for Template: {{templateName}} and Language: {{langName}}</h2>
+
 <p>
 {% if langCode != 'en': %}
-<p>There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
+There are {{count_en}} Topics in English and {{count_other_language}} Topics in {{langName}}.
   {% if count_en > count_other_language: %}
     	  <td style="text-align: center;"><a href ="/tokens/clone?templateName={{templateName}}&langCode={{langCode}}"> Clone missing Tokens.</a></td>
         {% endif %}
   {% endif %}
   Please note that Token Values in other languages are initially the same as in English until you translate them.
 </p>
-{% if TemplateGenReady: %}
-<a href="/tokens/translate?templateName={{templateName}}&langCode={{langCode}}">Generate Translated File</a>
-{% endif %}
-{% if GenFileReady: %}
-    &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/genfiledownload/{{ GenFileReady }}"> Download Translated File</a>
-    &nbsp;&nbsp;&nbsp;&nbsp;<a href ="/genfiles/try/{{langCode}}/{{ SearchName }}"> Try Exercise</a>
-{% endif %}
-</p>
-<form method="GET">
-    <select name="StatusFilter">
-        <option value="all" 
-        {% if 'all' == StatusFilter %}
-                selected="selected"
-            {% endif %}
-            >All</option>
-        {% for Status in StatusList %}
-            <option value="{{Status}}" 
-            {% if Status == StatusFilter %}
-                selected="selected"
-            {% endif %}
-            >{{Status}}</option>
-        {% endfor %}
-    </select>
-<input type="submit" value="Select Status">
-</form>
-
 <br />
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>
@@ -54,7 +92,7 @@
 	  <th>Created</th>
       <th>CreatedBy</th>
 	  {% if currentuser|AccessOK(221) %} 
-      <th>Edit</th>
+        <th>Edit</th>
 	  {% endif %}
     </tr>
   </thead>

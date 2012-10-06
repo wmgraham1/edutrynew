@@ -264,7 +264,7 @@ class TokenList(BaseHandler):
                 countmap_other_language=countmap_other_language+1
 
 #        languages = Languages.all().filter('langCode =', langCode)
-        q = Languages.query(Languages.langCode == langCode).order(Languages.langCode, Languages.langName)
+        q = Languages.query().order(Languages.langName)
         languages = q.fetch(999)
 
         langName = 'no language'
@@ -307,7 +307,7 @@ class TokenList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 

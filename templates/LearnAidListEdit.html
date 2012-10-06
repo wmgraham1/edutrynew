@@ -6,7 +6,7 @@
         <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
             <tr><td>
                 <a href ="/topareas?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&rq=2"> Return to Playlists</a>
-            </td><td>
+            </td><td style="background-color:pink;">
                 <a href ="/aids?SubjFilter={{ SubjFilter }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2">Switch to List Mode</a>
             </td></tr>
         </table>
@@ -55,7 +55,7 @@
     </td></tr>
 </table>
 {% if TopAreaFilter: %}
-    <h2 style="text-align: center;">List of Learning Aids (Videos) for Playlist: {{TopAreaFilter}}</h2>
+    <h2 style="text-align: center;">Learning Aids (Videos) for Playlist: {{TopAreaFilter}}</h2>
 {% else: %}
     <h2 style="text-align: center;">List of Learning Aids (Videos)</h2>
 {% endif %}
@@ -86,7 +86,7 @@
       <th>Seq</th>
       <th>Lang.</th>
       <th>Playlist</th>
-	  <th>Created/Status Date</th>
+	  <th>Created Date</th>
       <th>Update</th>
     </tr>
   </thead>
@@ -147,7 +147,7 @@
           {% endif %}
         </div>
         <div class="field-field">
-            <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="96" />
+            <input type="text" name="Description" id="id_Description{{ unit.key.id()}}" value="{{ unit.Description }}" size="80" />
         </div>
       </td>
 	  <td>
@@ -168,7 +168,25 @@
             </div>
           </div>
       </td>
-	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
+	  <td> 
+<!--      {{ unit.StatusDate.strftime('%Y-%m-%d') }} -->
+          <div class="field-wrapper">
+            <div class="field-label">
+              <label for="id_VideoStatus">Video Status</label>:
+            </div>
+            <div class="field-field">
+                <select name="VideoStatus" id="id_VideoStatus{{ unit.key.id()}}">
+                {% for VideoStatus in VideoStatusList %}
+                    <option value="{{VideoStatus}}" 
+                    {% if VideoStatus == unit.VideoStatus %}
+                        selected="selected"
+                    {% endif %}
+                    >{{VideoStatus}}</option>
+                {% endfor %}
+                </select>
+            </div>
+          </div>      
+      </td>
       <td>
         <input type="button" value="Update" class="listUpdate" id="{{ unit.key.id() }}"/>
         </form>
@@ -184,7 +202,7 @@
             // bind 'myForm' and provide a simple callback function 
              $(".listUpdate").click(function() {
             var id = $(this).attr("id");
-			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val();
+			var string = 'Seq='+ $('#id_LearnUnitSeq'+id).val() + '&Name='+$('#id_LearnUnitName'+id).val() + '&Status=' + $('#id_Status'+id).val() + '&Description=' + $('#id_Description'+id).val() + '&Subject=' + $('#id_LearnUnitSubject'+id).val() + '&VideoStatus=' + $('#id_VideoStatus'+id).val();
 			//alert (string);
 			//id = '';
             //alert (id);
@@ -207,13 +225,12 @@
        }
     </script> 
 
+{% if currentuser|AccessOK(221) and langCode == 'en' %} 
+    {% if TopAreaFilter: %}
+        <p><a href="/aids/create?TopAreaFilter={{TopAreaFilter}}">Add New Learning Aid</a></p> 
+    {% else: %}
+        <p><a href="/aids/create">Add New Learning Aid</a></p> 
+    {% endif %}
+{% endif %}
 
-{% if langCode != 'en': %}
-<p>There are {{count_en}} Learning Aids in English and {{count_other_language}} Learning Aids in {{langName}}.
-  {% if count_en > count_other_language: %}
-    	  <td style="text-align: center;"><a href ="/aids/clone?langCode={{langCode}}"> Clone missing Learning Aids.</a></td>
-        {% endif %}
-  {% endif %}
-  Please note that Learning Aid titles in other languages are initially the same as in English until you translate them.
-</p>
 {% endblock content %}

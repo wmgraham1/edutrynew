@@ -4,7 +4,7 @@
 <table width="100%" border="0" align="center" bordercolor="red" cellpadding="0" cellspacing="0">
     <tr style="vertical-align:middle;"><td>
         <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
-            <tr><td>
+            <tr><td style="background-color:pink;">
                 <a href ="/subjareasedit?StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> Switch to Edit Mode</a>
             </td></tr>
         </table>
@@ -48,7 +48,8 @@
         </table>
     </td></tr>
 </table>
-<h2 style="text-align: center;">List of Subject Areas</h2>
+<h2 style="text-align: center;">List of Subject Areas<br />
+<span style="text-align: center; color: red; font-weight: bold; font-size: 14px;">(Note: only the Subject Area Math has thus far been populated)</span></h2>
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/subjareas/create">Add New Subject Area</a></p> 
 {% endif %}
@@ -58,7 +59,7 @@
     	  <td style="text-align: center;"><a href ="/subjareas/clone?langCode={{langCode}}"> Clone missing Subject Areas.</a></td>
         {% endif %}
   {% endif %}
-  Please note that Subject Area names in other languages are initially the same as in English until you translate them.
+  Please note that Subject Area names in other languages are initially the same as in English until you translate them.  <span style="text-align: center; color: red; font-weight: bold;">Note: The ID = the original name in English and cannot be changed.</span>
 </p>
 
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
@@ -72,7 +73,7 @@
 	  <th>Created Date</th>
       <th>Status</th>
       <th>Status Date</th>
-      <th>Edit</th>
+<!--      <th>Edit</th> -->
     </tr>
   </thead>
   <tbody>
@@ -86,7 +87,7 @@
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
-	  <td><a href ="/subjareas/edit/{{ unit.key.id() }}">edit </a></td>
+<!--	  <td><a href ="/subjareas/edit/{{ unit.key.id() }}">edit </a></td> -->
     </tr>
     {% endfor %}	
   </tbody>

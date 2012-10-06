@@ -77,3 +77,29 @@ class DisplayHome(BaseHandler):
         jinja_environment.filters['AccessOK'] = AccessOK
 
         self.response.out.write(template.render(template_values))
+
+class DisplayTransIntro(BaseHandler):
+    def get(self):
+
+        q = Papers.query(Papers.Category != 'Feedback').order(Papers.Category, -Papers.CreatedDate)
+        papers = q.fetch(10)
+
+        if papers:
+            Havepapers = True
+        else:
+            Havepapers = False
+		
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/' )
+        else:
+              login = users.create_login_url('/')
+
+        template_values = {'content1': 'No content yet.', 'papers':papers, 'Havepapers':Havepapers, 'currentuser':currentuser, 'login':login, 'logout': logout}
+
+        template = jinja_environment.get_template('TransIntro.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+
+        self.response.out.write(template.render(template_values))

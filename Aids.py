@@ -277,8 +277,9 @@ class LearnAidEditList(BaseHandler):
               login = users.create_login_url('/aids')
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        VideoStatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnAidListEdit.html', {'aids': aids, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'SubjectList':SubjectList, 'TopAreaFilter':TopAreaFilter, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnAidListEdit.html', {'aids': aids, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'VideoStatusList':VideoStatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'SubjectList':SubjectList, 'TopAreaFilter':TopAreaFilter, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class LearnAidCreate(BaseHandler):
