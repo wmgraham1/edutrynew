@@ -165,4 +165,4 @@ class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
 
 class GenFileRedirect(BaseHandler):
     def get(self):
-        self.redirect("/try-it/khan-exercise.js")
+        self.redirect("/try-it/loader.js")
