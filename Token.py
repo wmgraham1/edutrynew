@@ -548,7 +548,10 @@ class TokenEdit(BaseHandler):
               logout = users.create_logout_url('/tokens' )
         else:
               login = users.create_login_url('/tokens')
-        StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+        TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
+        jinja_environment = \
+            jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
         self.render_template('TokenEdit.html', {'token': token, 'tknValue_en': tknValue_en, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 

@@ -1850,7 +1850,7 @@ var Khan = (function() {
         attempts = 0;
         lastAction = (new Date).getTime();
 
-        $("#hint").val("I'd like a hint");
+        $("#hint").val("{{tkn001}}");
 
         $(Khan).trigger("newProblem");
 
@@ -2261,7 +2261,7 @@ var Khan = (function() {
                 hintsUsed += 1;
 
                 var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
-                $(this).val($(this).data("buttonText") || "I'd like another hint (" + stepsLeft + ")");
+                $(this).val($(this).data("buttonText") || "{{tkn002}} (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
 
