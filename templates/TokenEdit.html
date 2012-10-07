@@ -90,9 +90,11 @@
   </div>
 
 <br />      
-  
+<p style="background-color: red;"><span style="font-weight: bold;"> WARNING!</span> There is a problem with restoring the content of a small number of token values to the input/edit field.  <span style="font-weight: bold;"> NEVER</span> click the update button without actively verifying what is in the input field is what you intended.</p>  
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
 <!--    <input type='button' name='Delete' value="Delete" onClick='locaton.href="/tokens/tknDelete/{{ token.key.id() }}";'> -->
+<a href ="/tokens?templateName={{ token.templateName }}">Return to Template without saving</a>&nbsp;&nbsp;&nbsp;
+
   <a href ="/tokens/delete/{{ token.key.id() }}">Delete Token</a>
 </form>
 {% endblock content %}

@@ -135,7 +135,7 @@ class TemplateEdit(TemplateBaseHandler):
               logout = users.create_logout_url('/templates' )
         else:
               login = users.create_login_url('/templates')
-        FolderList = ['exercises', 'utils', 'other'];		  
+        FolderList = ['exercises', 'utils', 'try', 'other'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
         self.render_template('TemplateEdit.html', {'template': template, 'FolderList': FolderList, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
