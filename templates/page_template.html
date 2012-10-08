@@ -6,21 +6,38 @@
 <meta http-equiv="Pragma" content="no-cache">
 <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 <title>Simple Test of inserting content in a template</title>
-<link href="/css/style.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" media="screen" href="/css/superfish.css" />
-<link rel="stylesheet" media="screen" href="/css/jquery.zrssfeed.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link href="/css/superfish.css" rel="stylesheet" media="screen" />
+<link href="/css/jquery.zrssfeed.css" rel="stylesheet" media="screen" />
+<style type="text/css" media="screen">
+    .slides_container {
+        width:570px;
+        height:270px;
+    }
+    .slides_container div {
+        width:570px;
+        height:270px;
+        display:block;
+    }
+</style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery.form.js"></script> 
 <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script> 
 <script type="text/javascript" src="/js/superfish.js"></script>
 <script type="text/javascript" src="/js/jquery.zrssfeed.min.js"></script>
+<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+<script type="text/javascript"  src="/slider/slides.jquery.js"></script>
 <script type="text/javascript">
-
 // initialise plugins
 jQuery(function(){
 	jQuery('ul.sf-menu').superfish();
-});
-
+    jQuery("#slides").slides({
+        preload: true,
+        generatePagination: false,
+        play: 3000
+        });
+    });
 </script>
 
 <body>
@@ -49,17 +66,19 @@ jQuery(function(){
             <ul class="sf-menu">
                 <li><a href="/">Home</a></li>
 				{% if currentuser|AccessOK(110) %} 
-                <li><a href="#">Videos/Etc.</a>	
+                <li><a href="/papers/resources">Videos/Etc.</a>	
+<!--                <li><a href="#">Videos/Etc.</a>	
 					<ul>
 						<li><a href="/papers/resources">Discuss. Papers</a></li>
 						<li><a href="/subjareas?Typ=vid">Video Transla.</a></li>
 					</ul>
-                </li>
-                <li><a href="#">Platform</a>
+                </li>-->
+                <li><a href="/papers/platform">Platform</a>
+<!--                <li><a href="#">Platform</a>
 					<ul>
 						<li><a href="/papers/platform">Discuss. Papers</a></li>
 						<li><a href="/subjareas?Typ=ex">Exercise Transla.</a></li>
-						<li><a href="/tokens-step1?extyp=other">Other Transla.</a></li>
+						<li><a href="/tokens-step1?extyp=other">Other Transla.</a></li> -->
 <!--						<li><a href="#">Translations</a>
 							<ul>/
 								<li><a href="/subjareas">Videos/Aids</a></li>
@@ -72,17 +91,17 @@ jQuery(function(){
 								<li><a href="/tokens-step1">Exercises</a></li> 
 								<li><a href="/tokens-step1nonex">Misc Templates</a></li>
 							</ul>
-						</li> -->
-					</ul>
+						</li> 
+					</ul>-->
 				</li>
 				<li><a href="/papers/learners">Learners/Prgms</a></li>	
 				<li><a href="/papers/misc">Misc Discussions</a></li>	
-                <li><a href="#">Transla. Tools</a>	
+                <li><a href="#">Tools</a>	
 					<ul>
-						<li><a href="/transintro">Transla. Intro</a></li>
-						<li><a href="/subjareas?Typ=ex">Exercise Transla.</a></li>
-						<li><a href="/tokens-step1?extyp=other">Other Transla.</a></li>
-						<li><a href="/subjareas?Typ=vid">Video Transla.</a></li>
+						<li><a href="/transintro">Intro to Tools</a></li>
+						<li><a href="/subjareas?Typ=ex">Exercise Tools</a></li>
+						<li><a href="/subjareas?Typ=vid">Video Name Tools</a></li>
+						<li><a href="/tokens-step1?extyp=other">Templates/Etc.</a></li>
 					</ul>
                 </li>
 				{% endif %}

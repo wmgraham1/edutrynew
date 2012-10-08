@@ -1,5 +1,6 @@
 {% extends "page_template.html" %}
 {% block content %}
+<h3>Edit Base for Discussion: {{ Paper.Title }}</h3>
 <script type="text/javascript" src="js/ckeditor/ckeditor.js"></script> 
 <form action="" method="post">
   <div class="field-wrapper">
@@ -11,7 +12,7 @@
 	  {{ cat }}
     </div>
   </div>
-  
+<br />  
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Title">Title</label>:
@@ -21,6 +22,7 @@
     </div>
   </div>
 {% if currentuser|AccessOK(1) %} 
+<br />
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Rank">Rank</label>:
@@ -38,6 +40,7 @@
     </div>
   </div>
 {% else: %}
+<br />
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Rank">Rank</label>:
@@ -47,8 +50,8 @@
 	  {{ Paper.Rank  }}
     </div>
   </div>
-    
-{% endif %}  
+{% endif %}
+<br />  
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Category">Category</label>:
@@ -65,7 +68,7 @@
         </select>
     </div>
   </div>
-  
+<br />  
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Type">Type</label>:
@@ -82,7 +85,7 @@
         </select>
     </div>
   </div>
-    
+<br />    
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Text">Text</label>:
@@ -91,19 +94,16 @@
       <textarea class="field-field" rows="10" cols="50" id="editor2" name="Text" >{{ Paper.Text }}</textarea>
 	  <script type="text/javascript">
 		//<![CDATA[
-
 			CKEDITOR.replace( 'editor2',
 			{
 				fullPage : false
-				
 			});
-				
 		//]]>
 		</script>
 	</div>
     <div style="clear: both;"></div>
   </div>
-
+<br />
   <div class="field-wrapper">
     <div class="field-label">
       <label for="id_Status">Status</label>:
@@ -120,10 +120,7 @@
         </select>
     </div>
   </div>
-
-
-   <br />      
-  
+<br />      
   <input type="submit" value="Update" />&nbsp;&nbsp;&nbsp;
 <!--    <input type='button' name='Delete' value="Delete" onClick='locaton.href="/papers/delete/{{ Paper.key.id() }}/?cat={{cat}}";'> -->
   <a href ="/papers/delete/{{Paper.key.id()}}?cat={{cat}}">Delete Paper</a>
