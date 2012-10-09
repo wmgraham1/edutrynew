@@ -1,5 +1,6 @@
 {% extends "page_template.html" %}
 {% block content %}
+<div>
 <table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
     <tr style="vertical-align:middle;"><td>
         <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
@@ -10,7 +11,7 @@
                     <a href ="/tokens-step1?extyp=other&langCode={{ langCode }}"> Return to Template List</a>
                 {% endif %}
             </td><td style="background-color:pink;">
-                <a href ="/tokensedit?templateName={{templateName}}&langCode={{langCode}}&Typ={{Typ}}"> Switch to Edit Mode</a>
+                <a href ="/tokens?templateName={{templateName}}&langCode={{langCode}}&Typ={{Typ}}"> Switch to List Mode</a>
             </td></tr>
         </table>
     </td><td style="float: left;">
@@ -57,6 +58,7 @@
         </table>
     </td></tr>
 </table>
+
 {% if TemplateGenReady: %}
     <table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
         <tr><td>
@@ -85,36 +87,95 @@ There are {{count_en}} Topics in English and {{count_other_language}} Topics in 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>
 {% endif %}
+
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th>Token</th>
-      <th>Value</th>
-	  <th>Status</th>
-	  <th>Created</th>
-      <th>CreatedBy</th>
-	  {% if currentuser|AccessOK(221) %} 
-        <th>Edit</th>
-	  {% endif %}
+      <th>ID/Lang.</th>
+      <th>Token Value</th>
+      <th>Status</th>
+      <th>Update</th>
     </tr>
   </thead>
   <tbody>
-    {% for token in tokens %}
-	<tr>
-	  <td> {{ token.tknID }} </td>
-	  <td> {{ token.tknValue }} </td>
-	  <td> {{ token.Status }} </td>
-	  <td> {{ token.CreatedDate  }} </td>
-	  <td> {{ token.CreatedBy }} </td>
-	  {% if currentuser|AccessOK(221) %} 
-	  <td><a href ="/tokens/edit/{{ token.key.id() }}">edit </a></td>
-	  {% endif %}
+    {% for token in tokens: %} 
+	<tr class="{{ loop.cycle('odd1', 'even1') }}">
+    <form name="edit" action="/tokenslisteditpost/{{ token.key.id() }}" method="POST" id="myForm">
+      <td>{{ token.tknID }}</td>
+      <td>
+        <div class="field-wrapper" style="max-width:520px;">
+          <table border=0 cellspacing=0 cellpadding=0><tr><td style="max-width:520px; word-wrap:break-word;">
+            <div class="field-label" style="float: left;>
+              <label for="id_tknValue">Token Value</label>:
+              {% if token.langCode != 'en': %}
+                : English version: <code><xmp>{{ dict_units_en[token.tknID] }}</xmp></code>
+              {% endif %}
+            </div>
+          </td></tr>
+          <tr><td>
+            <div class="field-field">
+                <input type="text" name="tknValue" id="id_tknValue{{ token.key.id() }}" value="{{ token.tknValue }}" size="96" />
+            </div>
+          </td></tr></table>
+        </div>
+      </td>
+	  <td>
+          <div class="field-wrapper">
+            <div class="field-label">
+              <label for="id_Status">Status</label>:
+            </div>
+            <div class="field-field">
+                <select name="Status" id="id_Status{{ token.key.id() }}">
+                {% for Status in StatusList %}
+                    <option value="{{Status}}" 
+                    {% if Status == token.Status %}
+                        selected="selected"
+                    {% endif %}
+                    >{{Status}}</option>
+                {% endfor %}
+                </select>
+            </div>
+          </div>
+      </td>
+      <td>
+        <input type="button" value="Update" class="listUpdate" id="{{ token.key.id() }}"/>
+        </form>
+      </td>
     </tr>
     {% endfor %}	
   </tbody>
  </table>
+ 
+  <script> 
+        // wait for the DOM to be loaded 
+        $(document).ready(function() { 
+            // bind 'myForm' and provide a simple callback function 
+             $(".listUpdate").click(function() {
+            var id = $(this).attr("id");
+			var string = 'tknValue='+$('#id_tknValue'+id).val() + '&Status=' + $('#id_Status'+id).val();
+			//alert (string);
+			//id = '';
+            //alert (id);
+			 $.ajax({
+               type: "POST",
+               url: "/tokenslisteditpost/"+id,
+               data: string,
+               cache: false,
+               error: showResponse
+            });
+          }); 
+        }); 
+		
+		
+       function showResponse(responseText, statusText, xhr, $form) {
+        alert(statusText);
+		//return false;
+        //$("span").text('' + responseText + '').show();
+       }
+    </script> 
 
 {% if currentuser|AccessOK(221) and langCode == 'en' %} 
 <p><a href="/tokens/createt?tName={{templateName}}">Add New Template Token</a> </p>
 {% endif %}
+
 {% endblock content %}

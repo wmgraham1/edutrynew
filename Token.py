@@ -309,6 +309,127 @@ class TokenList(BaseHandler):
 
         self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
+class TokenEditList(BaseHandler):
+
+    def get(self):
+        #langCode='en'
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+
+        if self.request.get('templateName'):
+            templateName=self.request.get('templateName')
+            self.session['templateName'] = templateName
+        else:
+            templateName = self.session.get('templateName')
+
+        if self.request.get('extyp'):
+            extyp=self.request.get('extyp')
+            self.session['extyp'] = extyp
+        else:
+            extyp = self.session.get('extyp')
+        if not extyp:
+            self.session['extyp'] = 'exercise'
+
+        if self.request.get('StatusFilter'):
+            StatusFilter=self.request.get('StatusFilter')
+            self.session['StatusFilter'] = StatusFilter
+        else:
+            StatusFilter = self.session.get('StatusFilter')
+        if not StatusFilter:
+            self.session['StatusFilter'] = 'all'
+            StatusFilter = 'all'
+
+        if self.request.get('TopGrpFilter'):
+            TopGrpFilter=self.request.get('TopGrpFilter')
+            self.session['TopGrpFilter'] = TopGrpFilter
+        else:
+            TopGrpFilter = self.session.get('TopGrpFilter')
+        if not TopGrpFilter:
+            self.session['TopGrpFilter'] = 'all'
+            TopGrpFilter = 'all'
+
+        countmap_en=0
+        langCode_en = 'en'
+        q = TokenValues.query(TokenValues.langCode == langCode_en, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
+        tokens = q.fetch(99)
+#        tokens = TokenValues.all().filter('langCode =', langCode_en)
+        for token in tokens:
+            logging.info('QQQ: token_en: %s' % token.langCode)
+            countmap_en=countmap_en+1
+
+        countmap_other_language=0
+        if langCode != 'en':    
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
+            tokens = q.fetch(99)
+#		tokens = TokenValues().all().filter('langCode =', langCode)
+            for token in tokens:
+                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+                countmap_other_language=countmap_other_language+1
+
+#        languages = Languages.all().filter('langCode =', langCode)
+        q = Languages.query().order(Languages.langName)
+        languages = q.fetch(999)
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+
+        q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status != 'Published')
+        TokensNotReady = q.get()
+
+        if TokensNotReady:
+            TemplateGenReady = False
+        else:        
+            TemplateGenReady = True
+        
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.TemplateName == templateName).order(-GeneratedFiles.CreatedDate)
+        GenFile = q.get()
+
+        if GenFile:
+            GenFileReady = GenFile.key.id()
+            SearchName = GenFile.SearchName
+        else:        
+            GenFileReady = None
+            SearchName = None
+
+        logging.info('GGG: StatusFilter in TokenList: %s' % StatusFilter)
+        if StatusFilter == 'all':
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        else:
+            q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName, TokenValues.Status == StatusFilter).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
+        tokens = q.fetch(999)
+
+        if StatusFilter == 'all':
+            f = TokenValues.query(TokenValues.langCode == 'en', TokenValues.templateName == templateName)
+        else:
+            f = TokenValues.query(Subjects.LangCode == 'en', TokenValues.templateName == templateName, TokenValues.Status == StatusFilter)
+
+        units_en = f.fetch(999)
+        
+        dict_units_en = {}
+        for unit_en in units_en:
+#            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+#            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+            dict_units_en[unit_en.tknID] = unit_en.tknValue
+
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/tokens' )
+        else:
+              login = users.create_login_url('/tokens')
+
+        StatusList = ['Pending Translation', 'Pending Review', 'Published'];
+
+        self.render_template('TokenListEdit.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+
 class TokenCreate(BaseHandler):
 
     def post(self):
@@ -490,6 +611,34 @@ class TemplateTokenCreate(BaseHandler):
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
         self.render_template('TokenCreate.html', {'templates': templates, 'Src': Src, 'extyp':extyp, 'templateName': templateName, 'Dup': Dup, 'tknID': tknID, 'StatusList': StatusList, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
+class TokenEditListPost(BaseHandler):
+
+    def post(self, token_id):
+        iden = int(token_id)
+        logging.info('GGG: in TokenEditListPost/iden: %s' % iden)
+        token = ndb.Key('TokenValues', iden).get()
+        currentuser = users.get_current_user()
+#        if currentuser != token.whichuser and not users.is_current_user_admin():
+#            self.abort(403)
+#            return
+#        templateName = self.request.get('templateName')
+#        langCode = self.request.get('langCode')
+#        token.templateName = templateName
+#        token.langCode = langCode
+#        token.tknID = self.request.get('tknID')
+        logging.info('GGG: in TokenEditListPost/old TokenVal: %s' % token.tknValue)
+        token.tknValue = self.request.get('tknValue')
+        logging.info('GGG: in TokenEditListPost/new TokenVal: %s' % token.tknValue)
+        StatusPrev = token.Status
+        token.Status = self.request.get('Status')
+        logging.info('GGG: in TokenEditListPost/token.Status: %s' % token.Status)
+        if not token.Status == StatusPrev:
+            token.StatusBy = currentuser
+            token.StatusDate = datetime.now()    
+        token.UpdatedBy = currentuser
+        token.UpdatedDate = datetime.now()    
+        token.put()
+#        return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 		
 class TokenEdit(BaseHandler):
 

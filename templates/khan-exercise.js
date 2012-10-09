@@ -1850,7 +1850,7 @@ var Khan = (function() {
         attempts = 0;
         lastAction = (new Date).getTime();
 
-        $("#hint").val("{{tkn001}}");
+        $("#hint").val("{{tokenvals.tkn001}}");
 
         $(Khan).trigger("newProblem");
 
@@ -2261,7 +2261,7 @@ var Khan = (function() {
                 hintsUsed += 1;
 
                 var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
-                $(this).val($(this).data("buttonText") || "{{tkn002}} (" + stepsLeft + ")");
+                $(this).val($(this).data("buttonText") || "{{tokenvals.tkn002}} (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();
 

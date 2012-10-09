@@ -5,6 +5,8 @@ import logging
 from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.ext import ndb
+from webapp2_extras import sessions
+from google.appengine.api import memcache
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
@@ -31,6 +33,22 @@ class BaseHandler(webapp2.RequestHandler):
         ):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
+
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
 
 
 class GenFileList(BaseHandler):
@@ -160,9 +178,39 @@ class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
             if not genfile:
                 self.redirect("/try-it/" + TemplateName)
                 return
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just before blob_info get')
         blob_info = blobstore.BlobInfo.get(genfile.blob)
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just after blob_info get')
         self.send_blob(blob_info, content_type='text/html')
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just after blob_info send')
 
 class GenFileRedirect(BaseHandler):
     def get(self):
-        self.redirect("/try-it/loader.js")
+#        self.redirect("/try-it/loader.js")
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+        logging.info('QQQ: redirect_target langCode: %s' % langCode)
+
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.SearchName == 'khan-exercise.js').order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+        genfile = q.get()
+        if not genfile:
+            logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'file in target language not found')
+            q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == 'khan-exercise.js').order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+            genfile = q2.get()
+            if not genfile:
+                logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'file in English not found')
+                self.redirect("/try-it/" + TemplateName)
+                return
+        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'made it to part where sending data')
+        blob_info = blobstore.BlobInfo.get(genfile.blob)
+        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'just after blob_info get')
+        self.send_blob(blob_info, content_type='text/javascript')
+        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'just after blob_info send')
+
+#        logging.info('QQQ: redirect_target: %s' % redirect_target)
