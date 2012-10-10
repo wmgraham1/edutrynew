@@ -1850,7 +1850,7 @@ var Khan = (function() {
         attempts = 0;
         lastAction = (new Date).getTime();
 
-        $("#hint").val("I'd like a hint");
+        $("#hint").val("I-rrr like a hint");
 
         $(Khan).trigger("newProblem");
 
