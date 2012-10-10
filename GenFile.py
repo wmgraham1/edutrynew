@@ -195,22 +195,8 @@ class GenFileRedirect(BaseHandler):
         if not langCode:
             self.session['langCode'] = 'en' 
             langCode = 'en'
-        logging.info('QQQ: redirect_target langCode: %s' % langCode)
+        redirect_target = ("/genfiles/try/" + langCode + "/khan-exercise.js")
+        logging.info('QQQ: redirect_target langCode: %s' % redirect_target)
+        self.redirect(redirect_target)
 
-        q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.SearchName == 'khan-exercise.js').order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
-        genfile = q.get()
-        if not genfile:
-            logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'file in target language not found')
-            q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == 'khan-exercise.js').order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
-            genfile = q2.get()
-            if not genfile:
-                logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'file in English not found')
-                self.redirect("/try-it/" + TemplateName)
-                return
-        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'made it to part where sending data')
-        blob_info = blobstore.BlobInfo.get(genfile.blob)
-        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'just after blob_info get')
-        self.send_blob(blob_info, content_type='text/javascript')
-        logging.info('QQQ: redirect_target khan-exercise.js: %s' % 'just after blob_info send')
 
-#        logging.info('QQQ: redirect_target: %s' % redirect_target)
