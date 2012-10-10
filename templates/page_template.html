@@ -66,14 +66,14 @@ jQuery(function(){
             <ul class="sf-menu">
                 <li><a href="/">Home</a></li>
 				{% if currentuser|AccessOK(110) %} 
-                <li><a href="/papers/resources">Videos/Etc.</a>	
+                <li><a href="/papers/resources"><span class="dropt" title="Everything and anything related to obtaining learning resourses/videos, etc., in each language.">Videos/Etc.</span></a>	
 <!--                <li><a href="#">Videos/Etc.</a>	
 					<ul>
 						<li><a href="/papers/resources">Discuss. Papers</a></li>
 						<li><a href="/subjareas?Typ=vid">Video Transla.</a></li>
 					</ul>
                 </li>-->
-                <li><a href="/papers/platform">Platform</a>
+                <li><a href="/papers/platform"><span class="dropt" title="Everything and anything related to having a Learning Platform available in all applicable languages that enables learners to assess their knowledge and track their progress as well enabling coaches to track progress.">Platform</span></a>
 <!--                <li><a href="#">Platform</a>
 					<ul>
 						<li><a href="/papers/platform">Discuss. Papers</a></li>
@@ -94,18 +94,18 @@ jQuery(function(){
 						</li> 
 					</ul>-->
 				</li>
-				<li><a href="/papers/learners">Learners/Prgms</a></li>	
-				<li><a href="/papers/misc">Misc Discussions</a></li>	
-                <li><a href="#">Tools</a>	
+				<li><a href="/papers/learners"><span class="dropt" title="Everything and anything related to getting learners involved and succeeding using the platform and learning resources.">Learners/Prgms</span></a></li>	
+				<li><a href="/papers/misc"><span class="dropt" title="Where you will find discussions about Goals, Strategies, Alliances & Partnerships, Recruitment & Organization, etc.">Misc Discussions</span></a></li>	
+                <li><a href="#"><span class="dropt" title="Where you will find the Tools and the Current Status of different language versions of the Exercise Platform, Video Names and other content on the Khan Academy website.">Tools</span></a>	
 					<ul>
 						<li><a href="/transintro">Intro to Tools</a></li>
 						<li><a href="/subjareas?Typ=ex">Exercise Tools</a></li>
-						<li><a href="/subjareas?Typ=vid">Video Name Tools</a></li>
+						<li><a href="/subjareas?Typ=vid">Video Tools</a></li>
 						<li><a href="/tokens-step1?extyp=other">Templates/Etc.</a></li>
 					</ul>
                 </li>
 				{% endif %}
-				<li><a href="#">About</a>
+				<li><a href="#"><span class="dropt" title="About us, the site and how to use the site.">About</span></a>
 					<ul>
 						<li><a href="/about/site">About this site</a></li>
 						<li><a href="/about/us">About Us</a></li>
@@ -113,7 +113,7 @@ jQuery(function(){
 						<li><a href="/how">How to use site</a></li>
 					</ul>
                 </li>
-				<li><a href="/users/join">Join us</a></li>
+				<li><a href="/users/join"><span class="dropt" title="Submit a request to gain access to this site.">Join us</span></a></li>
 <!--				<li><a href="/feedback">Feedback</a></li> -->
 				{% if currentuser|AccessOK(1) %} 
 				<li><a href="#">Admin</a>

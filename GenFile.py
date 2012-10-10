@@ -184,6 +184,22 @@ class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
         self.send_blob(blob_info, content_type='text/html')
         logging.info('QQQ: FileTryHandlerAlt : %s' % 'just after blob_info send')
 
+class FileTryHandlerAltTry(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, LangCode, TemplateName):
+        q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.SearchName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+        genfile = q.get()
+        if not genfile:
+            q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
+            genfile = q2.get()
+            if not genfile:
+                self.redirect("/try-it/utils/" + TemplateName)
+                return
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just before blob_info get')
+        blob_info = blobstore.BlobInfo.get(genfile.blob)
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just after blob_info get')
+        self.send_blob(blob_info, content_type='text/html')
+        logging.info('QQQ: FileTryHandlerAlt : %s' % 'just after blob_info send')
+
 class GenFileRedirect(BaseHandler):
     def get(self):
 #        self.redirect("/try-it/loader.js")
@@ -196,7 +212,21 @@ class GenFileRedirect(BaseHandler):
             self.session['langCode'] = 'en' 
             langCode = 'en'
         redirect_target = ("/genfiles/try/" + langCode + "/khan-exercise.js")
-        logging.info('QQQ: redirect_target langCode: %s' % redirect_target)
+        logging.info('QQQ: redirect_target: %s' % redirect_target)
         self.redirect(redirect_target)
 
+class GenFileRedirectHints(BaseHandler):
+    def get(self):
+#        self.redirect("/try-it/loader.js")
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+        redirect_target = ("/genfiles/try/utils/" + langCode + "/hints.js")
+        logging.info('QQQ: redirect_target-Hints: %s' % redirect_target)
+        self.redirect(redirect_target)
 
