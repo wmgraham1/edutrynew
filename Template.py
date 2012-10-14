@@ -8,7 +8,7 @@ from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
 from SecurityUtils import AccessOK
-from DButils import TemplateClone
+from DButils import TemplateClone, TemplateValSave
 
 from models import Templates
 from models import TokenValues
@@ -54,6 +54,7 @@ class TemplateList(TemplateBaseHandler):
 
     def get(self):
 #        TemplateClone()
+#        TemplateValSave()
         templates = Templates.query().order(Templates.Name)
 
         if self.request.get('extyp'):
@@ -86,7 +87,7 @@ class TemplateCreate(TemplateBaseHandler):
                   , Status=self.request.get('Status')
                   )
         n.put()
-        return webapp2.redirect('/templates')
+        return webapp2.redirect('/templates?extyp=all')
 
     def get(self):
         logout = None
@@ -99,7 +100,7 @@ class TemplateCreate(TemplateBaseHandler):
 
         FolderList = ['exercises', 'utils', 'other'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
+        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise', 'none'];	
         self.render_template('TemplateCreate.html', {'FolderList': FolderList, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
@@ -123,7 +124,7 @@ class TemplateEdit(TemplateBaseHandler):
             template.StatusBy = currentuser
             template.StatusDate = datetime.now()    
         template.put()
-        return webapp2.redirect('/templates')
+        return webapp2.redirect('/templates?extyp=all')
 
     def get(self, template_id):
         iden = int(template_id)
@@ -137,7 +138,7 @@ class TemplateEdit(TemplateBaseHandler):
               login = users.create_login_url('/templates')
         FolderList = ['exercises', 'utils', 'try', 'other'];		  
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];		  
-        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise'];	
+        TemplateTypeList = ['template', 'pagecontent', 'function', 'exercise', 'none'];	
         self.render_template('TemplateEdit.html', {'template': template, 'FolderList': FolderList, 'StatusList': StatusList, 'TemplateTypeList': TemplateTypeList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 

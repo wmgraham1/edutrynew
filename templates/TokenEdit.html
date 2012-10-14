@@ -16,24 +16,25 @@
 {% endif %}
     <div class="field-field">
 	  {% if token.langCode == 'en' %} 
-        <input type="text" name="templateName" id="id_template" value="{{ token.templateName }}" />
+        <input type="text" name="templateName" id="id_template" value="{{ token.templateName }}" size="80" />
       {% else %}
         <input type="hidden" name="templateName" id="id_template" value="{{ token.templateName }}" />
       {% endif %}
     </div>
   </div>
 <br />
+
   <div class="field-wrapper">
-{% if token.langCode == 'en' %} 
     <div class="field-label">
       <label for="id_language">Language Code</label>:
     </div>
-{% endif %}
     <div class="field-field">
-	  <input type="hidden" name="langCode" id="id_language" value="{{ token.langCode }}" />
+	    <input type="hidden" name="langCode" id="id_language" value="{{ token.langCode }}" />
+        {{ token.langCode }}
     </div>
   </div>
 <br />
+
   <div class="field-wrapper">
 {% if token.langCode == 'en' %} 
     <div class="field-label">
@@ -61,6 +62,20 @@
   </div>
 <br />
 {% endif %}
+ 
+{% if not token.langCode == 'en' %} 
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_tknval">Current Token Value in Target Language.  This is presented in case you need to cut and paste to restore to the inout field.</label>:
+    </div>
+    <div class="field-field"><code>
+      <xmp>{{ token.tknValue }}</xmp>
+    </code>
+    </div>   
+  </div>
+<br />
+{% endif %}
+
 
   <div class="field-wrapper">
     <div class="field-label">

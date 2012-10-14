@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html data-require="math math-format word-problems stat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{{tokenvals.tkn000}}</title>
+    <script src="../khan-exercise.js"></script>
+    <style>
+        .estimation span {
+            width: 100px;
+        }
+        .estimation span:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="exercise">
+
+    <div class="problems">
+        <div>
+            <div class="vars">
+                <var id="VALUES">$.map( randRange( 1000, 16000, randRange( 3, 7 ) ), function( n ){ return ( n / 1000 ).toFixed( randRange( 1, 2 ) ); } )</var>
+                <var id="ANSWER">sum( $.map( VALUES, round ) )</var>
+                <var id="TYPES">randFromArray( [ [ "jogging", "ran", "mile" ], [ "riding a bicycle ", "traveled", "mile" ], [ "collecting mushrooms", "collected", "pound" ], [ "painting a roof", "painted", "square foot" ], [ "harvesting grain", "harvested", "tonne" ] ] )</var>
+                <var id="ACC">0</var>
+                <var id="SIZE">
+                    $.map( VALUES, function( i ){
+                        if ( round( i ) &lt; i ) {
+                            return "smaller than";
+                        }
+                        else{
+                            return "bigger or equal to";
+                        }
+                    } )
+                </var>
+                <var id="SUM">
+                    (function() {
+                        var sum = 0;
+                        $.each( VALUES, function( i, val ) {
+                            sum += parseFloat( val );
+                        });
+                        return roundTo( 2, sum );
+                    })()
+                </var>
+            </div>
+            <p>{{tokenvals.tkn001}}</p>
+            <p class="question">{{tokenvals.tkn002}}</p>
+            <div class="fake_header estimation">
+                <span>{{tokenvals.tkn003}}<br /> <span style="color:white">" "</span></span>
+                <span>{{tokenvals.tkn004}} <br /><font size="2">(in <var>plural( TYPES[ 2 ] )</var>)</font></span>
+            </div>
+            <div class="fake_row estimation" data-each="VALUES as i, val">
+                <span><var>i+1</var></span>
+                <span><var>val</var></span>
+            </div>
+            <p><br />{{tokenvals.tkn005}}</p>
+            <p class="solution" data-type="multiple">
+                <span class="sol" data-forms="integer"><var>ANSWER</var></span> <var>plural( TYPES[ 2 ] )</var>
+            </p>
+
+            <div class="hints">
+                <p>{{tokenvals.tkn006}}</p>
+                <div class="fake_header estimation">
+                    <span>{{tokenvals.tkn007}}</span>
+                    <span>{{tokenvals.tkn008}}</span>
+                    <span>{{tokenvals.tkn009}}</span>
+                    <span>{{tokenvals.tkn010}}</span>
+                </div>
+                <div class="fake_row estimation" data-each="VALUES as i, val">
+                    <span><var>i+1</var></span>
+                    <span><var>val</var></span>
+                    <span><var>round( val )</var></span>
+                    <span><var>ACC += round( val )</var></span>
+                </div>
+                <p>{{tokenvals.tkn011}}</p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>

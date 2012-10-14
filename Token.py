@@ -283,12 +283,21 @@ class TokenList(BaseHandler):
         q = GeneratedFiles.query(GeneratedFiles.LangCode == langCode, GeneratedFiles.TemplateName == templateName).order(-GeneratedFiles.CreatedDate)
         GenFile = q.get()
 
+        TryReady = False
         if GenFile:
             GenFileReady = GenFile.key.id()
             SearchName = GenFile.SearchName
+            q2 = Templates.query(Templates.Name == GenFile.TemplateName)
+            GenFileTemplate = q2.get()
+            if GenFileTemplate.TemplateType == 'exercise':
+                TryReady = True
+            else:
+                TryReady = False
         else:        
             GenFileReady = None
             SearchName = None
+            TryReady = False
+        logging.info('GGG: Token.py/TryReady: %s' % TryReady)
 
         logging.info('GGG: StatusFilter in TokenList: %s' % StatusFilter)
         if StatusFilter == 'all':
@@ -307,7 +316,7 @@ class TokenList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenList.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TryReady':TryReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenEditList(BaseHandler):
 
@@ -417,6 +426,21 @@ class TokenEditList(BaseHandler):
 #            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
             dict_units_en[unit_en.tknID] = unit_en.tknValue
 
+        TryReady = False
+        if GenFile:
+            GenFileReady = GenFile.key.id()
+            SearchName = GenFile.SearchName
+            q2 = Templates.query(Templates.Name == GenFile.TemplateName)
+            GenFileTemplate = q2.get()
+            if GenFileTemplate.TemplateType == 'exercise':
+                TryReady = True
+            else:
+                TryReady = False
+        else:        
+            GenFileReady = None
+            SearchName = None
+            TryReady = False
+        logging.info('GGG: Token.py/TryReady: %s' % TryReady)
 
         logout = None
         login = None
@@ -428,7 +452,7 @@ class TokenEditList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenListEdit.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenListEdit.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'TryReady':TryReady, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 
@@ -655,6 +679,7 @@ class TokenEdit(BaseHandler):
         token.langCode = langCode
         token.tknID = self.request.get('tknID')
         token.tknValue = self.request.get('tknValue')
+        token.tknValue2 = self.request.get('tknValue')
         StatusPrev = token.Status
         token.Status = self.request.get('Status')
         if not token.Status == StatusPrev:
@@ -793,6 +818,7 @@ class TokenClone(BaseHandler):
                         , langCode=self.request.get('langCode')
                         , tknID=token.tknID
                         , tknValue=token.tknValue
+                        , tknValue2=token.tknValue2
                         )
                     n.put()
             if extyp == 'exercise':
@@ -805,6 +831,7 @@ class TokenClone(BaseHandler):
 class TokenFileGen(BaseHandler):
 
     def get(self):
+
         templateName=self.request.get('templateName')
         langCode=self.request.get('langCode')
 
@@ -829,7 +856,10 @@ class TokenFileGen(BaseHandler):
         SearchName = ''
         if template.TemplateType == 'exercise':
             logging.info('RRR: INSIDE IF - template.TemplateType: %s' % template.TemplateType)
-            SearchName = template.Name
+            SearchName = FileName
+        elif template.TemplateType == 'none':
+            logging.info('RRR: INSIDE IF / elif - template.TemplateType: %s' % template.TemplateType)
+            SearchName = FileName
         else:
             logging.info('RRR: INSIDE FAILED IF - template.TemplateType: %s' % template.TemplateType)
             SearchName = template.FolderName + '/' + template.FileName
@@ -852,6 +882,9 @@ class TokenFileGen(BaseHandler):
             for genfile in genfiles:
                 genfile.key.delete()
 
+        TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'tokenizedtemplates')
+        jinja_environment = \
+            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
         logging.info('QQQ: FileName: %s' % FileName)
         template = jinja_environment.get_template(FileName)
 #        self.response.out.write(template.render(tokenvals = tokendict)) 
@@ -881,7 +914,9 @@ class TokenFileGen(BaseHandler):
             , blob = blob_key                       
             )
         f.put()
-        
+        TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
+        jinja_environment = \
+            jinja2.Environment(autoescape=False, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
         return self.redirect('/tokens?templateName=' + templateName + '&langCode=' + langCode)
 
 class TokenFileView(BaseHandler):

@@ -109,6 +109,25 @@ def TemplateClone():
         n.put()
     return
 
+def TemplateValSave():
+    q2 = TokenValues.query()
+    unitsen = q2.fetch(999)
+    for uniten in unitsen:
+        #logging.error('QQQ: tokencreate POST')
+        logging.info('QQQ: In CreateToken putting content tknID=: %s' % uniten.tknID)
+        tknVal = uniten.tknValue
+        n = TokenValues(templateName=uniten.templateName
+                , TypeCode=uniten.TypeCode
+                , langCode=uniten.langCode
+                , tknID = uniten.tknID
+                , tknValue=uniten.tknValue
+                , tknValue2=tknVal
+                , Status = uniten.Status
+                )
+        n.put()
+        logging.info('QQQ: In CreateToken putting content tknValue2 after put=: %s' % n.tknValue2)
+    return
+
 def AidSeqRecalc():
     dic_en = {}
     q2 = LearnAids.query(LearnAids.LangCode == 'en')

@@ -170,12 +170,16 @@ class FileTryHandler(blobstore_handlers.BlobstoreDownloadHandler):
 
 class FileTryHandlerAlt(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, LangCode, TemplateName):
+        logging.info('QQQ: FileTryHandlerAlt parm/LangCode: %s' % LangCode)
+        logging.info('QQQ: FileTryHandlerAlt parm/TemplateName: %s' % TemplateName)
         q = GeneratedFiles.query(GeneratedFiles.LangCode == LangCode, GeneratedFiles.SearchName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
         genfile = q.get()
         if not genfile:
+            logging.info('QQQ: FileTryHandlerAlt : %s' % 'no genfile')
             q2 = GeneratedFiles.query(GeneratedFiles.LangCode == 'en', GeneratedFiles.TemplateName == TemplateName).order(GeneratedFiles.LangCode, GeneratedFiles.TemplateName, -GeneratedFiles.CreatedDate)
             genfile = q2.get()
             if not genfile:
+                logging.info('QQQ: FileTryHandlerAlt 2nd try to get genfile: %s' % 'no genfile')
                 self.redirect("/try-it/" + TemplateName)
                 return
         logging.info('QQQ: FileTryHandlerAlt : %s' % 'just before blob_info get')
