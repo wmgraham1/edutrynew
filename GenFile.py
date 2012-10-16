@@ -234,3 +234,17 @@ class GenFileRedirectHints(BaseHandler):
         logging.info('QQQ: redirect_target-Hints: %s' % redirect_target)
         self.redirect(redirect_target)
 
+class GenFileRedirectGraphieHelpersArithmetic(BaseHandler):
+    def get(self):
+#        self.redirect("/try-it/loader.js")
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+        redirect_target = ("/genfiles/try/utils/" + langCode + "/graphie-helpers-arithmetic.js")
+        logging.info('QQQ: redirect_target-GraphieHelpersArithmetic: %s' % redirect_target)
+        self.redirect(redirect_target)

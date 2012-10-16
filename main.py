@@ -141,6 +141,7 @@ app = webapp2.WSGIApplication([
     ('/genfiles/try/([\w]+)/(.+)', FileTryHandlerAlt),
     ('/genfiles/try/khan-exercise.js', GenFileRedirect),
     ('/genfiles/try/utils/hints.js', GenFileRedirectHints),
+    ('/genfiles/try/utils/graphie-helpers-arithmetic.js', GenFileRedirectGraphieHelpersArithmetic),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
     ('/subjareasedit', SubjAreaEditList), 
