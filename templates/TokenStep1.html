@@ -65,7 +65,7 @@ DIV.lix TABLE {background-color: lightyellow; text-align: left; font-family: ver
   </thead>
   <tbody>
     {% for key in countmap_en %}
-        {% if key in ExerciseList: %}
+        {% if key in ExerciseList and key != 'ExerciseTemplate': %}
         <tr>
           <td><big> <a href="/tokens?templateName={{key}}&langCode={{langCode}}">{{key}}</a> </big></td>
           <td style="text-align: center;"> {{countmap_en[key]}} </td>

@@ -84,6 +84,7 @@
       <th>Subject</th>
       <th>Language</th>
       <th>Template</th>
+      <th>Try-It</th>
 	  <th>Created Date</th>
       <th>Status</th>
       <th>Status Date</th>
@@ -94,12 +95,17 @@
     {% for unit in units: %}
 	<tr>
 	  <td> {{ unit.LearningUnitID }} </td>
-	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.Seq }} </td>
+	  <td> {{ unit.Name }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
       {% if unit.TemplateName:%}
         <td><big> <a href="/tokens?templateName={{unit.TemplateName}}&langCode={{langCode}}&extyp=exercise">{{unit.TemplateName}}</a> </big></td>
+      {% else: %}
+        <td>&nbsp;</td>
+      {% endif %}
+      {% if dictTryReadyFiles[unit.TemplateName]: %}
+        <td><a href ="/genfiles/try/{{langCode}}/{{ dictTryReadyFiles[unit.TemplateName] }}"> Try-It</a></td>
       {% else: %}
         <td>&nbsp;</td>
       {% endif %}

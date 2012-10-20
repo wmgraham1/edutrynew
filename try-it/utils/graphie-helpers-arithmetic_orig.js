@@ -46,7 +46,7 @@ function Adder(a, b, digitsA, digitsB) {
         var x = pos.max - index;
 
         if (prevCarry !== 0) {
-            highlights.push(graph.label([x, pos.carry], "\\color{#6495ED}{" + prevCarry + "}", "{{tokenvals.tkn003}}"));
+            highlights.push(graph.label([x, pos.carry], "\\color{#6495ED}{" + prevCarry + "}", "below"));
             prevCarryStr = "\\color{#6495ED}{" + prevCarry + "} + ";
         }
 
@@ -65,7 +65,7 @@ function Adder(a, b, digitsA, digitsB) {
         carry = Math.floor(sum / 10);
         if (carry !== 0) {
             highlights.push(graph.label([x - 1, pos.carry],
-                "\\color{#FFA500}{" + carry + "}", "{{tokenvals.tkn003}}"));
+                "\\color{#FFA500}{" + carry + "}", "below"));
             carryStr = "\\color{#FFA500}{" + carry + "}";
         }
 
@@ -83,7 +83,7 @@ function Adder(a, b, digitsA, digitsB) {
 
     this.showFinalCarry = function() {
         highlights.push(graph.label([pos.max - index, pos.carry],
-            "\\color{#6495ED}{" + carry + "}", "{{tokenvals.tkn003}}"));
+            "\\color{#6495ED}{" + carry + "}", "below"));
         graph.label([pos.max - index, pos.sum], "\\LARGE{" + carry + "}");
         highlights.push(graph.label([pos.max - index, pos.sum],
             "\\LARGE{\\color{#28AE7B}{" + carry + "}}"));
@@ -106,7 +106,7 @@ function Adder(a, b, digitsA, digitsB) {
     };
 
     this.showSideLabel = function(str) {
-        highlights.push(graph.label([pos.sideX, pos.sideY], str, "{{tokenvals.tkn001}}"));
+        highlights.push(graph.label([pos.sideX, pos.sideY], str, "right"));
     };
 
     this.showDecimals = function(deciA, deciB) {
@@ -115,7 +115,7 @@ function Adder(a, b, digitsA, digitsB) {
                 graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
             });
         }
-        this.showSideLabel("{{tokenvals.tkn002}}");
+        this.showSideLabel("\\text{Make sure the decimals are lined up.}");
     }
 }
 
@@ -170,11 +170,11 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
         var depth = borrowedIdx - idx - 1;
 
         highlights[idx].push(graph.label([pos.max - idx, pos.carry + (0.5 * depth)],
-                                             "\\color{#6495ED}{" + workingDigitsA[idx] + "}", "{{tokenvals.tkn003}}"));
+                                             "\\color{#6495ED}{" + workingDigitsA[idx] + "}", "below"));
         highlights[idx].push(graph.path([[pos.max - 0.3 - idx, pos.first - 0.4], [pos.max + 0.3 - idx, pos.first + 0.4]]));
 
         highlights[idx + 1].push(graph.label([pos.max - 1 - idx, pos.carry + (0.5 * depth)],
-                                                 "\\color{#FFA500}{" + workingDigitsA[idx + 1] + "}", "{{tokenvals.tkn004}}"));
+                                                 "\\color{#FFA500}{" + workingDigitsA[idx + 1] + "}", "below"));
         highlights[idx + 1].push(graph.path([[pos.max - 1.3 - idx, pos.first - 0.4], [pos.max - 0.7 - idx, pos.first + 0.4]]));
         if (depth !== 0) {
             highlights[idx + 1].push(graph.path([[pos.max - 1.3 - idx, pos.carry - 1 + (0.5 * depth)], [pos.max - 0.7 - idx, pos.carry - 0.7 + (0.5 * depth)]]));
@@ -204,7 +204,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
                 "\\LARGE{\\color{#6495ED}{" + workingDigitsA[index] + "}}"));
         } else {
             highlights[index].push(graph.label([pos.max - index, pos.carry],
-                "\\color{#6495ED}{" + workingDigitsA[index] + "}", "{{tokenvals.tkn005}}"));
+                "\\color{#6495ED}{" + workingDigitsA[index] + "}", "below"));
         }
 
         if (withinB) {
@@ -248,7 +248,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
     };
 
     this.showSideLabel = function(str) {
-        highlights[index].push(graph.label([pos.sideX, pos.sideY], str, "{{tokenvals.tkn006}}"));
+        highlights[index].push(graph.label([pos.sideX, pos.sideY], str, "right"));
     };
 
     this.showDecimals = function(deciA, deciB) {
@@ -257,7 +257,7 @@ function Subtractor(a, b, digitsA, digitsB, decimalPlaces) {
                 graph.ellipse([pos.max - Math.max(deciA, deciB) + 0.5, i - 0.2], [0.08, 0.04]);
             });
         }
-        this.showSideLabel("{{tokenvals.tkn007}}");
+        this.showSideLabel("\\text{Make sure the decimals are lined up.}");
     };
 }
 
@@ -514,12 +514,12 @@ function Multiplier(a, b, digitsA, digitsB, deciA, deciB) {
         var x = -maxNumDigits;
         var y = -digitsB.length * digitsA.length;
         graph.label([x, y + 2],
-            "{{tokenvals.tkn008}}" + KhanUtil.plural(deciA, "{{tokenvals.tkn009}}") + "{{tokenvals.tkn010}}", "{{tokenvals.tkn011}}");
+            "\\text{The top number has " + KhanUtil.plural(deciA, "digit") + " to the right of the decimal.}", "right");
         graph.label([x, y + 1],
-            "{{tokenvals.tkn012}}" + KhanUtil.plural(deciB, "{{tokenvals.tkn009}}") + "{{tokenvals.tkn010}}", "{{tokenvals.tkn011}}");
+            "\\text{The bottom number has " + KhanUtil.plural(deciB, "digit") + " to the right of the decimal.}", "right");
         graph.label([x, y],
-            "{{tokenvals.tkn013}}" + deciA + " + " + deciB + " = " + (deciA + deciB)
-             + "{{tokenvals.tkn014}}", "{{tokenvals.tkn011}}");
+            "\\text{The product has " + deciA + " + " + deciB + " = " + (deciA + deciB)
+             + " digits to the right of the decimal.}", "right");
         graph.style({
             fill: "#000"
         }, function() {
@@ -597,11 +597,11 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             highlights = highlights.concat(drawDigits(totalDigits, index - totalDigits.length + 1, -2 * index, KhanUtil.BLUE));
 
             graph.label([digitsDividend.length + 0.5, -2 * index],
-                "{{tokenvals.tkn015}}"
+                "\\text{How many times does }"
                 + divisor
-                + "{{tokenvals.tkn016}}"
+                + "\\text{ go into }"
                 + "\\color{#6495ED}{" + total + "}"
-                + "{{tokenvals.tkn017}}", "{{tokenvals.tkn011}}");
+                + "\\text{?}", "right");
 
             fShowFirstHalf = false;
         } else {
@@ -631,12 +631,12 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\div"
                 + divisor + "="
                 + "\\color{#28AE7B}{" + quotient + "}"
-                + "{{tokenvals.tkn018}}"
+                + "\\text{ or }"
                 + divisor
-                + "{{tokenvals.tkn019}}"
+                + "\\times"
                 + "\\color{#28AE7B}{" + quotient + "}"
                 + " = "
-                + "\\color{#FFA500}{" + (divisor * quotient) + "}", "{{tokenvals.tkn011}}");
+                + "\\color{#FFA500}{" + (divisor * quotient) + "}", "right");
             index++;
             fShowFirstHalf = true;
         }
@@ -651,7 +651,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
         this.addDecimal();
         this.show();
         graph.label([digitsDividend.length, 1],
-                "{{tokenvals.tkn020}}", "{{tokenvals.tkn011}}");
+                "\\text{Write in a decimal and a zero and continue dividing.}", "right");
     };
 
     this.getNumHints = function() {
@@ -680,7 +680,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
 
         if (deciDivisor !== 0) {
             graph.label([digitsDividend.length + 1 + (deciDiff > 0 ? deciDiff : 0), 1],
-                "{{tokenvals.tkn021}}" + deciDivisor + "{{tokenvals.tkn022}}", "{{tokenvals.tkn011}}");
+                "\\text{Shift the decimal " + deciDivisor + " to the right.}", "right");
             graph.style({
                 fill: "#000"
             }, function() {
@@ -688,9 +688,9 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
             });
         } else {
             graph.label([digitsDividend.length + 0.5, 1.2],
-                "{{tokenvals.tkn023}}", "{{tokenvals.tkn011}}");
+                "\\text{Bring the decimal up into the}", "right");
             graph.label([digitsDividend.length + 0.5, 0.8],
-                "{{tokenvals.tkn024}}", "{{tokenvals.tkn011}}");
+                "\\text{answer (the quotient).}", "right");
         }
 
         this.addDecimal();

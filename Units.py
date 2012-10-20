@@ -11,10 +11,10 @@ from google.appengine.api import memcache
 from SecurityUtils import AccessOK
 from DButils import UnitSeqRecalc, UnitSubjRecalc, UnitTemplateSync
 
-
 from models import LearningUnits
 from models import TopicGrps
 from models import Languages
+from models import GeneratedFiles
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -154,7 +154,19 @@ class LearnUnitList(BaseHandler):
         for uni in units:
             logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
             unitcnt = unitcnt + 1
-        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)    
+        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
+
+        dictTryReadyFiles = {}
+        logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
+        gf = GeneratedFiles.query(GeneratedFiles.LangCode == langCode)
+        GenFiles = gf.fetch(999)
+        if GenFiles:
+            for GenFile in GenFiles:
+                if GenFile.TemplateName:
+                    logging.info('GGG: UnitList/dictTryReadyFiles.TemplateName: %s' % GenFile.TemplateName)
+#                    logging.info('GGG: UnitList/dictTryReadyFiles.FolderName: %s' % GenFile.FolderName)
+                    logging.info('GGG: UnitList/dictTryReadyFiles.SearchName: %s' % GenFile.SearchName)
+                    dictTryReadyFiles[GenFile.TemplateName] = GenFile.SearchName
 
         logout = None
         login = None
@@ -166,7 +178,7 @@ class LearnUnitList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'dictTryReadyFiles':dictTryReadyFiles, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class LearnUnitEditList(BaseHandler):
 
