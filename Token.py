@@ -421,10 +421,17 @@ class TokenEditList(BaseHandler):
         units_en = f.fetch(999)
         
         dict_units_en = {}
+        dict_units_en['DummyTemplate'] = 'no content'
+        dict_Context_en = {}
+        dict_Context_en['DummyTemplate'] = 'no content'
         for unit_en in units_en:
 #            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
 #            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
-            dict_units_en[unit_en.tknID] = unit_en.tknValue
+            if unit_en.Context:
+                dict_units_en[unit_en.tknID] = unit_en.Context
+            else:
+                dict_units_en[unit_en.tknID] = unit_en.tknValue
+            dict_Context_en[unit_en.tknID] = unit_en.Context
 
         TryReady = False
         if GenFile:
@@ -452,7 +459,7 @@ class TokenEditList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('TokenListEdit.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'TryReady':TryReady, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenListEdit.html', {'tokens': tokens, 'langName':langName, 'extyp':extyp, 'count_en':countmap_en, 'count_other_language':countmap_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'templateName':templateName, 'dict_units_en':dict_units_en, 'dict_Context_en':dict_Context_en, 'languages':languages, 'langCode':langCode, 'SearchName':SearchName, 'TryReady':TryReady, 'GenFileReady':GenFileReady, 'TemplateGenReady':TemplateGenReady, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 class TokenCreate(BaseHandler):
 
@@ -472,6 +479,7 @@ class TokenCreate(BaseHandler):
                     , langCode = langCode
                     , tknID = tknID
                     , tknValue = self.request.get('tknValue')
+                    , Context = self.request.get('Context')
                     , Status = 'Pending Translation'
                     )
             n.put()
@@ -569,6 +577,7 @@ class TemplateTokenCreate(BaseHandler):
                     , langCode=langCode
                     , tknID = tknID
                     , tknValue=self.request.get('tknValue')
+                    , Context = self.request.get('Context')
                     , Status = 'Pending Translation'
                     )
             n.put()
@@ -680,6 +689,7 @@ class TokenEdit(BaseHandler):
         token.tknID = self.request.get('tknID')
         token.tknValue = self.request.get('tknValue')
         token.tknValue2 = self.request.get('tknValue')
+        token.Context = self.request.get('Context')
         StatusPrev = token.Status
         token.Status = self.request.get('Status')
         if not token.Status == StatusPrev:
@@ -693,6 +703,7 @@ class TokenEdit(BaseHandler):
         token = ndb.Key('TokenValues', iden).get()
         logging.info('GGG: token.langCode: %s' % token.langCode)
         tknValue_en = 'no entry'
+        Context_en = 'no entry'
         if  (token.langCode != 'en'):
             TemplateName_en = token.templateName
             tknID_en = token.tknID
@@ -709,6 +720,7 @@ class TokenEdit(BaseHandler):
             logging.info('GGG: tknID_en: %s' % tknID_en)
             logging.info('GGG: tknValue: %s' % token.tknValue)
             tknValue_en = TokenVal_en.tknValue
+            Context_en = TokenVal_en.Context
 
 #        token = db.get(db.Key.from_path('TokenValues', iden))
         currentuser = users.get_current_user()
@@ -726,7 +738,7 @@ class TokenEdit(BaseHandler):
         TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
         jinja_environment = \
             jinja2.Environment(autoescape=True, loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
-        self.render_template('TokenEdit.html', {'token': token, 'tknValue_en': tknValue_en, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('TokenEdit.html', {'token': token, 'tknValue_en': tknValue_en, 'Context_en': Context_en, 'StatusList': StatusList, 'currentuser':currentuser, 'login':login, 'logout': logout})
 
 
 class TokenDelete(BaseHandler):

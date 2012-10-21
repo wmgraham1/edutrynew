@@ -62,11 +62,35 @@
   </div>
 <br />
 {% endif %}
- 
+
+{% if token.langCode == 'en' %} 
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_Context">Context</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="Context" id="id_Context" size="120" value="{{ token.Context }}" />
+    </div>   
+  </div>
+<br />
+{% else: %}
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_tknval">English Context</label>:
+    </div>
+    <div class="field-field"><code>
+      <xmp>{{ Context_en }}</xmp>
+    </code>
+    </div>   
+  </div>
+<br />
+
+{% endif %}
+
 {% if not token.langCode == 'en' %} 
   <div class="field-wrapper">
     <div class="field-label">
-      <label for="id_tknval">Current Token Value in Target Language.  This is presented in case you need to cut and paste to restore to the inout field.</label>:
+      <label for="id_tknval">Current Token Value in Target Language.  This is presented in case you need to cut and paste to restore to the input field.</label>:
     </div>
     <div class="field-field"><code>
       <xmp>{{ token.tknValue }}</xmp>
@@ -75,7 +99,6 @@
   </div>
 <br />
 {% endif %}
-
 
   <div class="field-wrapper">
     <div class="field-label">

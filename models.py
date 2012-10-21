@@ -241,6 +241,7 @@ class TokenValues(ndb.Model):
   tknID = ndb.StringProperty()
   tknValue = ndb.TextProperty()
   tknValue2 = ndb.StringProperty()
+  Context = ndb.TextProperty()
   CreatedBy = ndb.UserProperty(auto_current_user_add=True)
   CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
   Status = ndb.StringProperty(default="Pending Translation")
