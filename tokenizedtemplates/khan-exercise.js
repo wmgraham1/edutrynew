@@ -702,7 +702,7 @@ var Khan = (function() {
         },
 
         showSolutionButtonText: function() {
-            return hintsUsed ? "Show next step (" + hints.length + " left)" : "Show Solution";
+            return hintsUsed ? "{{tokenvals.tkn005}} (" + hints.length + " {{tokenvals.tkn006}})" : "{{tokenvals.tkn007}}";
         }
 
     };
@@ -887,7 +887,7 @@ var Khan = (function() {
         $("#check-answer-button")
             .removeAttr("disabled")
             .removeClass("buttonDisabled")
-            .val("Check Answer");
+            .val("{{tokenvals.tkn004}}");
     }
 
     function disableCheckAnswer() {
@@ -1360,8 +1360,8 @@ var Khan = (function() {
 
             var timelinecontainer = $("<div id='timelinecontainer'>")
                 .append("<div>\n" +
-                        "<div id='previous-problem' class='simple-button'>Previous Problem</div>\n" +
-                        "<div id='previous-step' class='simple-button'><span>Previous Step</span></div>\n" +
+                        "<div id='previous-problem' class='simple-button'>{{tokenvals.tkn010}}</div>\n" +
+                        "<div id='previous-step' class='simple-button'><span>{{tokenvals.tkn012}}</span></div>\n" +
                         "</div>")
                 .insertBefore("#problem-and-answer");
 
@@ -1422,8 +1422,8 @@ var Khan = (function() {
 
             timelinecontainer
                 .append("<div>\n" +
-                        "<div id='next-problem' class='simple-button'>Next Problem</div>\n" +
-                        "<div id='next-step' class='simple-button'><span>Next Step</span></div>\n" +
+                        "<div id='next-problem' class='simple-button'>{{tokenvals.tkn011}}</div>\n" +
+                        "<div id='next-step' class='simple-button'><span>{{tokenvals.tkn013}}</span></div>\n" +
                         "</div>");
 
             $("<div class='user-activity correct-activity'>Started</div>")
@@ -2053,7 +2053,7 @@ var Khan = (function() {
             if (pass !== true) {
                 checkAnswerButton
                     .effect("shake", {times: 3, distance: 5}, 80)
-                    .val("Try Again");
+                    .val("{{tokenvals.tkn003}}");
 
                 // Is this a message to be shown?
                 if (typeof pass === "string") {
@@ -2260,7 +2260,7 @@ var Khan = (function() {
 
                 hintsUsed += 1;
 
-                var stepsLeft = hints.length + " step" + (hints.length === 1 ? "" : "s") + " left";
+                var stepsLeft = hints.length + " {{tokenvals.tkn013}}" + (hints.length === 1 ? "" : "s") + " {{tokenvals.tkn006}}";
                 $(this).val($(this).data("buttonText") || "{{tokenvals.tkn002}} (" + stepsLeft + ")");
 
                 var problem = $(hint).parent();

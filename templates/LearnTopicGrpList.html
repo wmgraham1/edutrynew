@@ -78,9 +78,9 @@
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th>ID</th>
       <th>Seq</th>
       <th>Topic Grp</th>
+      <th>ID</th>
       <th>Subject</th>
       <th>Language</th>
 	  <th>Created Date</th>
@@ -92,9 +92,9 @@
   <tbody>
     {% for unit in units %}
 	<tr>
-	  <td><a href ="/units?TopGrpFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Name }} </td>
+	  <td><a href ="/units?TopGrpFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&extyp=exercise"> {{ unit.LearningUnitID }} </a></td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>

@@ -81,9 +81,9 @@
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Subject Name</th>
       <th>Seq</th>
+      <th>Subject Name</th>
+      <th>English ID</th>
       <th>Subject Area</th>
       <th>Language</th>
 	  <th>Created Date</th>
@@ -95,13 +95,13 @@
   <tbody>
     {% for unit in units %}
 	<tr>
+	  <td> {{ unit.Seq }} </td>
+	  <td> {{ unit.Name }} </td>
       {% if Typ == 'ex': %}
         <td><a href ="/topgrps?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
       {% else: %}
         <td><a href ="/topareas?SubjFilter={{ unit.LearningUnitID }}&StatusFilter=all&langCode={{langCode}}&Typ={{Typ}}&rq=2"> {{ unit.LearningUnitID }} </a></td>
       {% endif %}
-	  <td> {{ unit.Name }} </td>
-	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>

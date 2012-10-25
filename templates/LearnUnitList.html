@@ -78,9 +78,9 @@
 <table width = 100% border=2 cellspacing=0 cellpadding=2>
   <thead>
     <tr>
-      <th>ID</th>
       <th>Seq</th>
       <th>Name</th>
+      <th>ID</th>
       <th>Subject</th>
       <th>Language</th>
       <th>Template</th>
@@ -94,9 +94,9 @@
   <tbody>
     {% for unit in units: %}
 	<tr>
-	  <td> {{ unit.LearningUnitID }} </td>
 	  <td> {{ unit.Seq }} </td>
 	  <td> {{ unit.Name }} </td>
+	  <td> {{ unit.LearningUnitID }} </td>
 	  <td> {{ unit.Subject }} </td>
 	  <td> {{ unit.LangCode }} </td>
       {% if unit.TemplateName:%}
