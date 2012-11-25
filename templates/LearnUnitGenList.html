@@ -1,0 +1,31 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div>
+<table border="1" bordercolor="red" cellpadding="9" cellspacing="0">
+    <tr><td>
+        <a href ="/home"> Return to Home Page</a>
+    </td></tr>
+</table>
+
+<h2 style="text-align: center;">Math / Arithmetic and Pre-algebra / Decimals : Exercises in {{langName}}</h2>
+<p>When you are finished with an exercise, click the browser back button to return to this list.</P>
+<br />
+<p>There is a known problem when clicking on the check answers and hints equivalent button in that the language changes (only in this outside display).  We are working to resolve this.</p>
+<table border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Exercise Topic</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for unit in units: %}
+      {% if dictTryReadyFiles[unit.TemplateName]: %}
+        <tr>
+            <td><a href ="/genfiles/try/{{langCode}}/{{ dictTryReadyFiles[unit.TemplateName] }}"> {{ unit.Name }} </a> ( {{ unit.LearningUnitID }} )</td>
+        </tr>
+      {% endif %}
+    {% endfor %}	
+  </tbody>
+ </table>
+</div>
+{% endblock content %}

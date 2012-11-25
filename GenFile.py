@@ -219,6 +219,36 @@ class GenFileRedirect(BaseHandler):
         logging.info('QQQ: redirect_target: %s' % redirect_target)
         self.redirect(redirect_target)
 
+class GenFileRedirectAnswerTypes(BaseHandler):
+    def get(self):
+#        self.redirect("/try-it/loader.js")
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+        redirect_target = ("/genfiles/try/utils/" + langCode + "/answer-types.js")
+        logging.info('QQQ: redirect_target-answer-types: %s' % redirect_target)
+        self.redirect(redirect_target)
+
+class GenFileRedirectMathFormats(BaseHandler):
+    def get(self):
+#        self.redirect("/try-it/loader.js")
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+        redirect_target = ("/genfiles/try/utils/" + langCode + "/math-format.js")
+        logging.info('QQQ: redirect_target-math-format: %s' % redirect_target)
+        self.redirect(redirect_target)
+
 class GenFileRedirectHints(BaseHandler):
     def get(self):
 #        self.redirect("/try-it/loader.js")

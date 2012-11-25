@@ -234,9 +234,9 @@ $.extend(KhanUtil, {
 
     // Ported from https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L285
     cardinal: function(n) {
-        var cardinalScales = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
-        var cardinalUnits = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
-        var cardinalTens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+        var cardinalScales = ["", "{{tokenvals.tkn201}}", "{{tokenvals.tkn202}}", "{{tokenvals.tkn203}}", "{{tokenvals.tkn204}}", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
+        var cardinalUnits = ["{{tokenvals.tkn000}}", "{{tokenvals.tkn001}}", "{{tokenvals.tkn002}}", "{{tokenvals.tkn003}}", "{{tokenvals.tkn004}}", "{{tokenvals.tkn005}}", "{{tokenvals.tkn006}}", "{{tokenvals.tkn007}}", "{{tokenvals.tkn008}}", "{{tokenvals.tkn009}}", "{{tokenvals.tkn010}}", "{{tokenvals.tkn011}}", "{{tokenvals.tkn012}}", "{{tokenvals.tkn013}}", "{{tokenvals.tkn014}}", "{{tokenvals.tkn015}}", "{{tokenvals.tkn016}}", "{{tokenvals.tkn017}}", "{{tokenvals.tkn018}}", "{{tokenvals.tkn019}}"];
+        var cardinalTens = ["", "", "{{tokenvals.tkn020}}", "{{tokenvals.tkn030}}", "{{tokenvals.tkn040}}", "{{tokenvals.tkn050}}", "{{tokenvals.tkn060}}", "{{tokenvals.tkn070}}", "{{tokenvals.tkn080}}", "{{tokenvals.tkn090}}"];
         // For formatting numbers less than 1000
         var smallNumberWords = function(n) {
             var hundredDigit = Math.floor(n / 100);
@@ -244,7 +244,7 @@ $.extend(KhanUtil, {
             var str = "";
 
             if (hundredDigit) {
-                str += cardinalUnits[hundredDigit] + " hunxxxdred";
+                str += cardinalUnits[hundredDigit] + " {{tokenvals.tkn100}}";
             }
 
             if (hundredDigit && rest) {

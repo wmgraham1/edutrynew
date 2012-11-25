@@ -89,7 +89,9 @@
 	  <th>Created Date</th>
       <th>Status</th>
       <th>Status Date</th>
-<!--      <th>Edit</th> -->
+      {% if currentuser|AccessOK(221) %} 
+        <th>Edit</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -107,7 +109,9 @@
 	  <td> {{ unit.CreatedDate.strftime('%Y-%m-%d') }} </td>
 	  <td> {{ unit.Status }} </td>
 	  <td> {{ unit.StatusDate.strftime('%Y-%m-%d') }} </td>
-<!--	  <td><a href ="/subjs/edit/{{ unit.key.id() }}">edit </a></td> -->
+      {% if currentuser|AccessOK(221) %}  
+        <td><a href ="/subjs/edit/{{ unit.key.id() }}"> edit </a></td> 
+      {% endif %}
     </tr>
     {% endfor %}	
   </tbody>

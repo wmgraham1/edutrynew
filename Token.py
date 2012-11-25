@@ -91,10 +91,10 @@ class TokenStep1PageEx(BaseHandler):
         countmap_en={}
         langCode_en = 'en'
         q = TokenValues.query(TokenValues.langCode == langCode_en).order(TokenValues.langCode, TokenValues.tknID)
-        tokens = q.fetch(99)
+        tokens = q.fetch(999)
 #        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
-            logging.info('QQQ: token_en: %s' % token.langCode)
+#            logging.info('QQQ: token_en: %s' % token.langCode)
             if token.templateName in countmap_en:
                     countmap_en[token.templateName]=countmap_en[token.templateName]+1
             else:
@@ -103,10 +103,10 @@ class TokenStep1PageEx(BaseHandler):
         countmap_other_language={}
         if langCode != 'en':    
             q = TokenValues.query(TokenValues.langCode == langCode).order(TokenValues.langCode, TokenValues.tknID)
-            tokens = q.fetch(99)
+            tokens = q.fetch(999)
 #		tokens = TokenValues().all().filter('langCode =', langCode)
             for token in tokens:
-                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+#                logging.info('QQQ: token_non-EN: %s' % token.langCode)
                 if token.templateName in countmap_other_language:
                         countmap_other_language[token.templateName]=countmap_other_language[token.templateName]+1
                 else:
@@ -163,10 +163,10 @@ class TokenStep1Page(BaseHandler):
         countmap_en={}
         langCode_en = 'en'
         q = TokenValues.query(TokenValues.langCode == langCode_en).order(TokenValues.langCode, TokenValues.tknID)
-        tokens = q.fetch(99)
+        tokens = q.fetch(999)
 #        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
-            logging.info('QQQ: token_en: %s' % token.langCode)
+#            logging.info('QQQ: token_en: %s' % token.langCode)
             if token.templateName in countmap_en:
                     countmap_en[token.templateName]=countmap_en[token.templateName]+1
             else:
@@ -175,10 +175,10 @@ class TokenStep1Page(BaseHandler):
         countmap_other_language={}
         if langCode != 'en':    
             q = TokenValues.query(TokenValues.langCode == langCode).order(TokenValues.langCode, TokenValues.tknID)
-            tokens = q.fetch(99)
+            tokens = q.fetch(999)
 #		tokens = TokenValues().all().filter('langCode =', langCode)
             for token in tokens:
-                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+#                logging.info('QQQ: token_non-EN: %s' % token.langCode)
                 if token.templateName in countmap_other_language:
                         countmap_other_language[token.templateName]=countmap_other_language[token.templateName]+1
                 else:
@@ -248,19 +248,19 @@ class TokenList(BaseHandler):
         countmap_en=0
         langCode_en = 'en'
         q = TokenValues.query(TokenValues.langCode == langCode_en, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
-        tokens = q.fetch(99)
+        tokens = q.fetch(999, keys_only=True)
 #        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
-            logging.info('QQQ: token_en: %s' % token.langCode)
+#            logging.info('QQQ: token_en: %s' % token.langCode)
             countmap_en=countmap_en+1
 
         countmap_other_language=0
         if langCode != 'en':    
             q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
-            tokens = q.fetch(99)
+            tokens = q.fetch(999, keys_only=True)
 #		tokens = TokenValues().all().filter('langCode =', langCode)
             for token in tokens:
-                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+#                logging.info('QQQ: token_non-EN: %s' % token.langCode)
                 countmap_other_language=countmap_other_language+1
 
 #        languages = Languages.all().filter('langCode =', langCode)
@@ -364,19 +364,19 @@ class TokenEditList(BaseHandler):
         countmap_en=0
         langCode_en = 'en'
         q = TokenValues.query(TokenValues.langCode == langCode_en, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
-        tokens = q.fetch(99)
+        tokens = q.fetch(999, keys_only=True)
 #        tokens = TokenValues.all().filter('langCode =', langCode_en)
         for token in tokens:
-            logging.info('QQQ: token_en: %s' % token.langCode)
+#            logging.info('QQQ: token_en: %s' % token.langCode)
             countmap_en=countmap_en+1
 
         countmap_other_language=0
         if langCode != 'en':    
             q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.tknID)
-            tokens = q.fetch(99)
+            tokens = q.fetch(999, keys_only=True)
 #		tokens = TokenValues().all().filter('langCode =', langCode)
             for token in tokens:
-                logging.info('QQQ: token_non-EN: %s' % token.langCode)
+#                logging.info('QQQ: token_non-EN: %s' % token.langCode)
                 countmap_other_language=countmap_other_language+1
 
 #        languages = Languages.all().filter('langCode =', langCode)
@@ -427,10 +427,11 @@ class TokenEditList(BaseHandler):
         for unit_en in units_en:
 #            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
 #            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
-            if unit_en.Context:
-                dict_units_en[unit_en.tknID] = unit_en.Context
-            else:
-                dict_units_en[unit_en.tknID] = unit_en.tknValue
+#            if unit_en.Context:
+#                dict_units_en[unit_en.tknID] = unit_en.tknValue + ' in (' + unit_en.Context + ')'
+#            else:
+#                dict_units_en[unit_en.tknID] = unit_en.tknValue
+            dict_units_en[unit_en.tknID] = unit_en.tknValue
             dict_Context_en[unit_en.tknID] = unit_en.Context
 
         TryReady = False

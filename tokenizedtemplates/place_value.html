@@ -47,7 +47,7 @@
                     <var id="SOLUTION">PLACES[ DIGITS.length - 1 - POWER ]</var>
                 </div>
 
-                <p class="question">{{tokenvals.tkn001}}</p>
+                <p class="question">{{tokenvals.tkn001}} <var>DIGIT</var> {{tokenvals.tkn002}} <var>NUMBER</var>{{tokenvals.tkn003}}</p>
                 <p class="solution"><var>SOLUTION</var></p>
                 <ul class="choices" data-category="true">
                     <li data-each="PLACES as place"><var>place</var></li>
@@ -55,11 +55,11 @@
 
                 <div class="hints">
                     <div>
-                        <p>{{tokenvals.tkn002}}</p>
+                        <p><var>NUMBER</var> {{tokenvals.tkn004}}</p>
                         <p><code>= <var>HINT_IN_NUMBERS</var></code></p>
                     </div>
                     <p><code>= </code> <var>HINT_IN_WORDS</var></p>
-                    <p class="final_hint">{{tokenvals.tkn003}}</p>
+                    <p class="final_hint">{{tokenvals.tkn005}} <var>DIGIT</var> {{tokenvals.tkn006}} <var>SOLUTION</var> {{tokenvals.tkn007}}</p>
                 </div>
             </div>
 
@@ -80,12 +80,12 @@
                                 if ( index === DIGITS.length - 1 ) {
                                     if ( DIGITS[ index - 1] === 0 ) {
                                         ADDENDS.push( digit );
-                                        return cardinal( digit ) + " is the same as " + digit;
+                                        return cardinal( digit ) + " {{tokenvals.tkn008}} " + digit;
                                     }
                                 } else if ( index === DIGITS.length - 2 ) {
                                     addend = digit * 10 + DIGITS[ DIGITS.length - 1 ];
                                     ADDENDS.push( addend );
-                                    return cardinal( addend ) + " is the same as " + addend;
+                                    return cardinal( addend ) + " {{tokenvals.tkn008}} " + addend;
                                 } else {
                                     var words = cardinal( digit ) + " " + powerToPlace(maxPower - index);
                                     var input = [ "*", digit, pow(10, maxPower - index) ];
@@ -93,19 +93,19 @@
                                     addend = expr( input, true );
 
                                     ADDENDS.push( addend );
-                                    return words + " is the same as " + ex + " = " + addend;
+                                    return words + " {{tokenvals.tkn008}} " + ex + " = " + addend;
                                 }
                             });
                         })()
                     </var>
                 </div>
 
-                <p class="question">{{tokenvals.tkn004}}</p>
+                <p class="question">{{tokenvals.tkn009}} <var>cardinal( NUMBER )</var> {{tokenvals.tkn010}}</p>
                 <p class="solution"><var>NUMBER</var></p>
                 <div class="hints">
                     <p data-each="HINT as hint"><var>hint</var></p>
                     <div>
-                        <p>{{tokenvals.tkn005}}</p>
+                        <p>{{tokenvals.tkn011}}</p>
                         <p><var>ADDENDS.join( " + " )</var></p>
                     </div>
                     <p>= <var>NUMBER</var></p>

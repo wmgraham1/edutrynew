@@ -9,7 +9,7 @@
     <div class="exercise">
         <div class="vars">
             <var id="PM">randRangeNonZero( -1, 1 )</var>
-            <var id="OPERATOR">( PM === 1 ? "multiply" : "divide" )</var>
+            <var id="OPERATOR">( PM === 1 ? "{{tokenvals.tkn002}}" : "{{tokenvals.tkn003}}" )</var>
             <var id="A">randRange( 0, 99999 )</var>
 
             <div data-ensure="( PM === 1 ? A_DECIMAL > B_DECIMAL : A_DECIMAL < B_DECIMAL )">
@@ -25,7 +25,7 @@
         <div class="problems">
             <div>
                 <div class="question">
-                    <p><b>{{tokenvals.tkn001}}</b></p>
+                    <p><b>{{tokenvals.tkn001}} <var>OPERATOR</var> <code><var>A_FLOAT.toFixed( A_DECIMAL )</var></code> {{tokenvals.tkn004}} <code><var>B_FLOAT.toFixed( B_DECIMAL )</var></code>{{tokenvals.tkn005}}</b></p>
                 </div>
 
                 <p class="solution" data-forms="integer"><var>POW_DIFF</var></p>
@@ -84,23 +84,23 @@
                 ellipse( [ digitsA.length - A_DECIMAL - 0.5, 0.8 ], [ 0.09, 0.06 ] );
                 ellipse( [ digitsB.length - B_DECIMAL - 0.5, -0.2 ], [ 0.09, 0.06 ] );
 
-                var labelstr = "{{tokenvals.tkn002}}" + POW_DIFF + "{{tokenvals.tkn003}}" + ( POW_DIFF !== 1 ? "{{tokenvals.tkn004}}.}" : ".}");
+                var labelstr = "\\text{" + "{{tokenvals.tkn006}} " + ( POW_DIFF !== 1 ? "{{tokenvals.tkn008}}.}" : "{{tokenvals.tkn007}}.}");
                 label ([ digitsA.length + 0.5, 0.5 ], labelstr, "right", 1);
             </div>
 
-            <p>{{tokenvals.tkn005}}<var>PM === 1 ? "{{tokenvals.tkn006}}" : "{{tokenvals.tkn007}}"</var> {{tokenvals.tkn008}} <var>PM === 1 ? "{{tokenvals.tkn009}}" : "{{tokenvals.tkn010}}"</var> {{tokenvals.tkn011}}.</p>
+            <p>{{tokenvals.tkn009}} <var>PM === 1 ? "{{tokenvals.tkn010}}" : "{{tokenvals.tkn011}}"</var> {{tokenvals.tkn012}} <var>PM === 1 ? "{{tokenvals.tkn013}}" : "{{tokenvals.tkn014}}"</var> {{tokenvals.tkn015}}</p>
 
             <div data-if="PM === 1 && POW_DIFF !== 1">
-                <p data-if="POW_DIFF !== 1">{{tokenvals.tkn012}}</p>
+                <p data-if="POW_DIFF !== 1">{{tokenvals.tkn016}} <code><var>POW_DIFF</var></code> {{tokenvals.tkn017}} <code><var>POW_DIFF</var></code> {{tokenvals.tkn018}} <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} * {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>
             <div data-if="PM !== 1 && POW_DIFF !== 1">
-                <p data-if="POW_DIFF !== 1">{{tokenvals.tkn013}}</p>
+                <p data-if="POW_DIFF !== 1">{{tokenvals.tkn020}} <code><var>POW_DIFF</var></code> {{tokenvals.tkn021}} <code><var>POW_DIFF</var></code> {{tokenvals.tkn022}} <code><var>pow( 10, POW_DIFF )</var></code>:</p>
                 <p><code>{<var>A_FLOAT.toFixed( A_DECIMAL )</var>} \div {<var>pow( 10, POW_DIFF )</var>} = {<var>B_FLOAT.toFixed( B_DECIMAL )</var>}</code></p>
             </div>
 
             <div>
-                <p><b>{{tokenvals.tkn014}}</b></p>
+                <p><b>{{tokenvals.tkn024}} <var>OPERATOR</var> {{tokenvals.tkn025}} <code><var>POW_DIFF</var></code> {{tokenvals.tkn026}}<span data-if="POW_DIFF !== 1">{{tokenvals.tkn027}}</span>{{tokenvals.tkn028}}</b></p>
             </div>
 
         </div>

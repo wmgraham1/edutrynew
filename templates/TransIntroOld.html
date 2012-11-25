@@ -1,0 +1,26 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div class="PageContentBlock">
+    <div id="leftcontent">
+    <h4><a name="trans">Welcome to the Translation Section.</a> <span style="color: red;">NOTE: The Structure of the Translation Efforts has been sigificantly changed and this Intro will be rewritten shortly.</span></h4>
+    <p>A major part of this site is dedicated to supporting the efforts to make the Khan Academy Platform available in any language.  Almost everything related to the platform translation effort can be found under the <span style="color: red; font-weight: bold;">Platform Menu Item</span> (where else):
+    <div style="text-align: center;"><img src="/images/MenuExercise.png" width="400px" /></div>
+    <ol class="list1">
+        <li><span style="font-weight: bold;">Topic/Learning Unit Names:</span> The names that are visible on the Knowledge/Learning Map.</li>
+        <li><span style="font-weight: bold;">Templates:</span> This is the name of the files that have language-related content.  The language related content has been replaced with placeholders which we are calling tokens.  There are database records for each token for each language.  Once all the tokens for a particular language have been translated in the database, a translated file can be generated whereby the tokens are replaced with the translated text for the applicable language.  See <a href="/how/trans">How to Translate Exercise Platform Content</a> for detailed documentation of the steps to translating exercises.  Templates fall into the following categories:</li>
+            <ol class="lista">
+                <li><span style="font-weight: bold;">Page Content:</span> The templates that contain the static content on pages.</li>
+                <li><span style="font-weight: bold;">Container Templates:</span> These are the parts of a web page surrounding other templates (currently the site-template and the exercise-wrapper template).</li>
+                <li><span style="font-weight: bold;">Exercise Templates:</span> These are the templates that contain the actual content for individual exercises.</li>
+                <li><span style="font-weight: bold;">Function Templates:</span> These are the javascript files that generate content that go into other templates, in particular the Exercise Templates.</li>
+                <li><span style="font-weight: bold;">Report Templates:</span> These are the templates that contain report content for learners and coaches.</li>
+                <li>Etc.</li>
+            </ol>
+    </ol>
+    </p>
+    <p>The basic concept behind the translation of the Exercise Platform is that every language will have its own set of files that mirror the original Khan Academy files, except in their own language.  The purpose of the application functionality of this site is to make the process of translating and managing the translations as easy as possible and minimizing the need for a technical background.</p>
+    </div>  <!-- end of leftcontent 'http://feeds.reuters.com/reuters/greece' -->
+</div>
+
+<br/><br/>
+{% endblock content %}

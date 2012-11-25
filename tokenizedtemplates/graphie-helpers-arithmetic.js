@@ -633,7 +633,7 @@ function Divider(divisor, dividend, deciDivisor, deciDividend) {
                 + "\\color{" + "#28AE7B}{" + quotient + "}"
                 + "\\text{ " + "{{tokenvals.tkn018}}" + " }"
                 + divisor
-                + "\\" + "{{tokenvals.tkn019}} "
+                + "\\times"
                 + "\\color{" + "#28AE7B}{" + quotient + "}"
                 + " = "
                 + "\\color{" + "#FFA500}{" + (divisor * quotient) + "}", "right");

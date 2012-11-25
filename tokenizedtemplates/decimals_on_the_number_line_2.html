@@ -22,7 +22,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                <p>{{tokenvals.tkn001}}</p>
+                <p>{{tokenvals.tkn001}} <strong><code>\color{orange}{\text{{tokenvals.tkn002}}</code></strong> {{tokenvals.tkn003}} <strong><code>\color{orange}{<var>SOLUTION</var>}</code></strong> {{tokenvals.tkn004}}</p>
                 <div class="graphie" id="number-line">
                     init({
                         range: [ [LOWER_BOUND - 1, UPPER_BOUND + 1], [-1, 1] ],
@@ -61,7 +61,7 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction"> Move the orange dot to select your answer. </span>
+                <span class="instruction"> {{tokenvals.tkn005}} </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
                     if ( guess === 0 ) {
@@ -75,16 +75,20 @@
             </div>
 
             <div class="hints">
-                <p>{{tokenvals.tkn002}}<span data-if="SOLUTION > 0">{{tokenvals.tkn003}}<span data-if="SOLUTION > 0">{{tokenvals.tkn004}}</p>
+                <p> {{tokenvals.tkn006}} <code>\color{orange}{<var>SOLUTION</var>}</code> {{tokenvals.tkn007}} <span data-if="SOLUTION > 0">{{tokenvals.tkn008}}</span>
+                <span data-else>{{tokenvals.tkn009}}</span> {{tokenvals.tkn010}} <span data-if="SOLUTION > 0">{{tokenvals.tkn011}}</span>
+                <span data-else>{{tokenvals.tkn012}}</span> {{tokenvals.tkn013}}</p>
 
                 <div data-if="abs(SOLUTION) > 1">
-                    <p>{{tokenvals.tkn005}}</p>
+                    <p>{{tokenvals.tkn014}}</p>
                     <p><code>\color{orange}{<var>SOLUTION</var>}</code> =
                     <code>\color{blue}{<var>SOLUTION_WHOLE</var>}</code> + <code>\color{blue}{<var>SOLUTION_DECIMAL</var>}</code>
                 </div>
 
                 <div>
-                    <p>{{tokenvals.tkn006}}</p>
+                    <p>{{tokenvals.tkn015}} <code>\color{orange}{<var>SOLUTION</var>}</code> {{tokenvals.tkn016}}
+                    <code>\color{orange}{<var>SOLUTION_WHOLE</var>}</code> {{tokenvals.tkn017}}
+                    <code>\color{orange}{<var>SOLUTION_WHOLE + (SOLUTION > 0 ? 1 : -1)</var>}</code> {{tokenvals.tkn018}}</p>
                     <div class="graphie" data-update="number-line">
                         style({ stroke: "#FFA500", strokeWidth: 3.5 });
                         line( [SOLUTION_WHOLE, -0.2], [SOLUTION_WHOLE, 0.2]);
@@ -98,7 +102,7 @@
                         line( [ 0, 0 ], [ SOLUTION, 0 ] );
                         graph.movablePoint.visibleShape.toFront();
                     </div>
-                    <p>{{tokenvals.tkn007}}</p>
+                    <p>{{tokenvals.tkn019}} <code>\color{orange}{<var>SOLUTION</var>}</code> {{tokenvals.tkn020}}</p>
                 </div>
 
                 <div>
@@ -106,7 +110,7 @@
                         label( [ SOLUTION, -0.53 ],  SOLUTION, "center", { color: "#FFA500" });
                         graph.movablePoint.moveTo( SOLUTION, 0 );
                     </div>
-                    <p>{{tokenvals.tkn008}}</p>
+                    <p>{{tokenvals.tkn021}} <code>\color{orange}{<var>SOLUTION</var>}</code> {{tokenvals.tkn022}}</p>
                 </div>
 
             </div>

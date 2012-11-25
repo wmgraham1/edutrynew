@@ -87,3 +87,21 @@ class HowTrans(BaseHandler):
         jinja_environment.filters['AccessOK'] = AccessOK
 
         self.response.out.write(template.render(template_values))
+
+class HowTransTheory(BaseHandler):
+    def get(self):
+
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/' )
+        else:
+              login = users.create_login_url('/')
+
+        template_values = {'currentuser':currentuser, 'login':login, 'logout': logout}
+
+        template = jinja_environment.get_template('HowTransTheory.html')
+        jinja_environment.filters['AccessOK'] = AccessOK
+
+        self.response.out.write(template.render(template_values))

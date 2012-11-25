@@ -2299,7 +2299,7 @@ var Khan = (function() {
 
         // On an exercise page, replace the "Report a Problem" link with a button
         // to be more clear that it won't replace the current page.
-        $("<a>Report a Problem</a>")
+        $("<a>{{tokenvals.tkn015}}</a>")
             .attr("id", "report").addClass("simple-button green")
             .replaceAll($(".footer-links #report"));
 

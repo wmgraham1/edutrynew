@@ -2,9 +2,36 @@
 {% block content %}
 <div class="PageContentBlock">
     <div id="leftcontent">
-    <h4><a name="trans">Welcome to the Translation Section.</a> <span style="color: red;">NOTE: The Structure of the Translation Efforts has been sigificantly changed and this Intro will be rewritten shortly.</span></h4>
-    <p>A major part of this site is dedicated to supporting the efforts to make the Khan Academy Platform available in any language.  Almost everything related to the platform translation effort can be found under the <span style="color: red; font-weight: bold;">Platform Menu Item</span> (where else):
-    <div style="text-align: center;"><img src="/images/MenuExercise.png" width="400px" /></div>
+    <h3>Welcome to the Translation Section.</h3>
+    <p>A major part of this site is dedicated to supporting the efforts to make the Khan Academy Exercise Platform available in many languages.  Almost everything related to the platform translation effort can be found in one of 2 places:
+    <ol class="list1">
+        <li><span style="color: red; font-weight: bold;">Platform</span> This is where you will find discussions to various aspects pertaining to the translation of the Exercise Platform</li>
+        <li><span style="color: red; font-weight: bold;">Translation Tools</span> This is where you will find the tools to translate the various aspects of the Exercise Platform</li>
+    </ol></p>
+    <div style="text-align: center;"><img src="/images/MenuExercise.png" width="540px" /></div>
+    <p><span style="font-size: large; font-weight: bold;">The Translation Tools section is divided into 3 subsections:</span>
+    <ol class="lista">
+        <li><span style="color: red; font-weight: bold;">Exercise Tools:</span> This is where you will find tools for translating the Knowledge hierarchy and the exercises themselves.</li>
+        <li><span style="color: red; font-weight: bold;">Video Tools:</span> You can ignore this section for the time being.  Khan Academy is already heavily focused on the translation of Videos.  The primary functionality, this section offers is the management of the process of translating the Playlist and Video names.  Whether or not that is of value will be determined at time of integration into the Khan Academy site.</li>
+        <li><span style="color: red; font-weight: bold;">Templates/Etc.</span> This is where you will find tools for translating the Core shared templates, functions and other content on the site other than the exercises themselves.  It includes, however, much content that is shared by multiple exercises and is therefore crucial to the correct display of the site in a particular language.  This is where the translation process should start.</li>
+    </ol></p>
+    <h3>A Short Tour of the Site</h3>
+    <p>If this is your first visit to the site, a quick tour of some existing exercises for a few languages is a good way to get a feel for how the site works.</p>
+    </ol>
+    <ol class="list1">
+        <li><span style="font-weight: bold;">Topic/Learning Unit Names:</span> The names that are visible on the Knowledge/Learning Map.</li>
+        <li><span style="font-weight: bold;">Templates:</span> This is the name of the files that have language-related content.  The language related content has been replaced with placeholders which we are calling tokens.  There are database records for each token for each language.  Once all the tokens for a particular language have been translated in the database, a translated file can be generated whereby the tokens are replaced with the translated text for the applicable language.  See <a href="/how/trans">How to Translate Exercise Platform Content</a> for detailed documentation of the steps to translating exercises.  Templates fall into the following categories:</li>
+            <ol class="lista">
+                <li><span style="font-weight: bold;">Page Content:</span> The templates that contain the static content on pages.</li>
+                <li><span style="font-weight: bold;">Container Templates:</span> These are the parts of a web page surrounding other templates (currently the site-template and the exercise-wrapper template).</li>
+                <li><span style="font-weight: bold;">Exercise Templates:</span> These are the templates that contain the actual content for individual exercises.</li>
+                <li><span style="font-weight: bold;">Function Templates:</span> These are the javascript files that generate content that go into other templates, in particular the Exercise Templates.</li>
+                <li><span style="font-weight: bold;">Report Templates:</span> These are the templates that contain report content for learners and coaches.</li>
+                <li>Etc.</li>
+            </ol>
+    </ol>
+    <h3>Translation Quick Start</h3>
+    </ol>
     <ol class="list1">
         <li><span style="font-weight: bold;">Topic/Learning Unit Names:</span> The names that are visible on the Knowledge/Learning Map.</li>
         <li><span style="font-weight: bold;">Templates:</span> This is the name of the files that have language-related content.  The language related content has been replaced with placeholders which we are calling tokens.  There are database records for each token for each language.  Once all the tokens for a particular language have been translated in the database, a translated file can be generated whereby the tokens are replaced with the translated text for the applicable language.  See <a href="/how/trans">How to Translate Exercise Platform Content</a> for detailed documentation of the steps to translating exercises.  Templates fall into the following categories:</li>

@@ -110,7 +110,11 @@ There are {{count_en}} Topics in English and {{count_other_language}} Topics in 
             <div class="field-label" style="float: left;>
               <label for="id_tknValue">Token Value</label>:
               {% if token.langCode != 'en': %}
-                : English version: <code><xmp>{{ dict_units_en[token.tknID] }}</xmp></code>
+<!--                : English version: <code><xmp>{{ dict_units_en[token.tknID] }}</xmp></code> -->
+                : English version: <span style="color:red; font-weight:bold;">{{ dict_units_en[token.tknID] }}</span>
+                {% if dict_Context_en[token.tknID]: %}
+                    &nbsp;&nbsp;&nbsp;in "{{ dict_Context_en[token.tknID] }}"
+                {% endif %}
               {% endif %}
             </div>
           </td></tr>

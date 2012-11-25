@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from webapp2_extras import sessions
 from google.appengine.api import memcache
-from SecurityUtils import AccessOK
+from SecurityUtils import AccessOK, AccessOKNew
 
 from models import Papers
 
@@ -17,6 +17,7 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 jinja_environment.filters['AccessOK'] = AccessOK
+jinja_environment.filters['AccessOKNew'] = AccessOKNew
 
 #jinja_environment = jinja2.Environment(autoescape=True,
 #    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
@@ -55,6 +56,7 @@ class BaseHandler(webapp2.RequestHandler):
 class DisplayHome(BaseHandler):
     def get(self):
 
+#        q = Papers.query(Papers.Category != 'Feedback').order(Papers.Category, -Papers.CreatedDate)
         q = Papers.query(Papers.Category != 'Feedback').order(Papers.Category, -Papers.CreatedDate)
         papers = q.fetch(10)
 
@@ -75,6 +77,7 @@ class DisplayHome(BaseHandler):
 
         template = jinja_environment.get_template('Home.html')
         jinja_environment.filters['AccessOK'] = AccessOK
+        jinja_environment.filters['AccessOKNew'] = AccessOKNew
 
         self.response.out.write(template.render(template_values))
 
@@ -101,5 +104,6 @@ class DisplayTransIntro(BaseHandler):
 
         template = jinja_environment.get_template('TransIntro.html')
         jinja_environment.filters['AccessOK'] = AccessOK
+        jinja_environment.filters['AccessOKNew'] = AccessOKNew
 
         self.response.out.write(template.render(template_values))

@@ -102,6 +102,13 @@ indexes:
   - name: Seq
   - name: LearningUnitID
 
+- kind: LearningUnits
+  properties:
+  - name: LangCode
+  - name: Subject
+  - name: Seq
+  - name: Name
+
 - kind: PageContents
   properties:
   - name: LangCode
@@ -269,6 +276,12 @@ indexes:
   properties:
   - name: LangCode
   - name: Seq
+
+- kind: TopicGrps
+  properties:
+  - name: LangCode
+  - name: Seq
+  - name: LearningUnitID
 
 - kind: TopicGrps
   properties:

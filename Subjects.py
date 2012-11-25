@@ -125,19 +125,44 @@ class LearnSubjList(BaseHandler):
 #        SubjAreaList = ['Math', 'Science'];	
         logging.info('QQQ: rq rq rq: %s' % self.request.get('rq'))
 #        if self.request.get('rq') == '2':
-        count_en = 0
-        langCode_en = 'en'
-        q = Subjects.query(Subjects.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+
+        Cnt = memcache.get("Subj_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got Subj_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get Subjs_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("Subjs_En")
+            if units is not None:
+                logging.info("PPP - got Subjs_En_units from memcache.")
+            else:
+                # logging.info("PPP - Can not get SubjAreas_units from memcache.")
+                q = Subjects.query(Subjects.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("Subjs_En", units, 999):
+                    logging.info("PPP - Subjs_EnCnt_Memcache set failed.")
+            for unit in units:
+#                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("Subj_EnCnt", count_en, 999):
+                    logging.info("PPP - Subj_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
+
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = Subjects.query(Subjects.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = Subjects.query(Subjects.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
@@ -181,7 +206,7 @@ class LearnSubjEditListPost(BaseHandler):
     def post(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
-
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
@@ -195,9 +220,11 @@ class LearnSubjEditListPost(BaseHandler):
             unit.StatusDate = datetime.now()
         #logging.info("XXXXXXXXXXxxxx id: %s" % iden)
         #ogging.info("XXXXXXXXXXxxxxSeq: %s" % self.request.get('Seq'))
-       
         unit.put()
-        
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete Subjs_units from memcache.")
+            memcache.delete("Subjs_En")
+            memcache.delete("Subj_EnCnt")
 
 class LearnSubjEditList(BaseHandler):
     def get(self):
@@ -272,19 +299,44 @@ class LearnSubjEditList(BaseHandler):
 #        SubjAreaList = ['Math', 'Science'];	
         logging.info('QQQ: rq rq rq: %s' % self.request.get('rq'))
 #        if self.request.get('rq') == '2':
-        count_en = 0
-        langCode_en = 'en'
-        q = Subjects.query(Subjects.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+
+        Cnt = memcache.get("Subj_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got Subj_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get Subjs_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("Subjs_En")
+            if units is not None:
+                logging.info("PPP - got Subjs_En_units from memcache.")
+            else:
+                # logging.info("PPP - Can not get SubjAreas_units from memcache.")
+                q = Subjects.query(Subjects.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("Subjs_En", units, 999):
+                    logging.info("PPP - Subjs_EnCnt_Memcache set failed.")
+            for unit in units:
+                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("Subj_EnCnt", count_en, 999):
+                    logging.info("PPP - Subj_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
+
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = Subjects.query(Subjects.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = Subjects.query(Subjects.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
@@ -357,6 +409,9 @@ class LearnSubjCreate(BaseHandler):
                   , Status = 'Pending Review'
                   )
         n.put()
+        logging.info("PPP - Preparing to delete Subjs_units from memcache.")
+        memcache.delete("Subjs_En")
+        memcache.delete("Subj_EnCnt")
         return self.redirect('/subjs/create')
 
     def get(self):
@@ -407,7 +462,7 @@ class LearnSubjEdit(BaseHandler):
     def post(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
-
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
@@ -420,6 +475,10 @@ class LearnSubjEdit(BaseHandler):
             unit.StatusBy = currentuser
             unit.StatusDate = datetime.now()    
         unit.put()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete Subjs_units from memcache.")
+            memcache.delete("Subjs_En")
+            memcache.delete("Subj_EnCnt")
         return self.redirect('/subjs')
 
     def get(self, unit_id):
@@ -454,11 +513,16 @@ class LearnSubjDelete(BaseHandler):
     def get(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('Subjects', iden).get()
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
 #        if currentuser != template.CreatedBy and not users.is_current_user_admin():
 #            self.abort(403)
 #            return
         unit.key.delete()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete Subjs_units from memcache.")
+            memcache.delete("Subjs_En")
+            memcache.delete("Subj_EnCnt")
         return self.redirect('/subjs')
 
 class LearnSubjClone(BaseHandler):

@@ -20,7 +20,7 @@
     <div class="problems">
         <div>
             <div class="question">
-                {{tokenvals.tkn001}}<p>Move the <strong><code>\color{orange}{\text{orange dot}}</code></strong> to <strong><code>\color{orange}{<var>SOLN_TXT</var>}</code></strong> on the number line.</p>
+                <p>{{tokenvals.tkn001}} <strong><code>\color{orange}{\text{{tokenvals.tkn002}}</code></strong> {{tokenvals.tkn003}} <strong><code>\color{orange}{<var>SOLN_TXT</var>}</code></strong> {{tokenvals.tkn004}}</p>
 
                 <div class="graphie" id="number-line">
                     init({
@@ -54,7 +54,7 @@
             </div>
 
             <div class="solution" data-type="custom">
-                <span class="instruction"> Move the orange dot to select your answer. </span>
+                <span class="instruction"> {{tokenvals.tkn005}} </span>
                 <div class="guess"> graph.movablePoint.coord[0] </div>
                 <div class="validator-function">
                     if ( guess === 0 ) {
@@ -68,16 +68,19 @@
             </div>
 
             <div class="hints">
-                <p>{{tokenvals.tkn002}}</p>
+                <p>{{tokenvals.tkn006}}</p>
 
                 <div>
-                    <p>{{tokenvals.tkn003}}</p>
-                    <p>{{tokenvals.tkn004}}</p>
+                    <p>{{tokenvals.tkn007}}</p>
+                    <p><p><code>\color{green}{\text{{tokenvals.tkn008}}</code> = <code>\color{red}{<var>MARK_INCREMENT</var>}</code></p>
                 </div>
 
                 <p><code>\color{orange}{<var>SOLN_TXT</var>}</code> =
                 <code>\color{red}{<var>MARK_INCREMENT</var>}</code> * <code>\color{blue}{<var>TENTHS</var>}</code></p>
-                <p>{{tokenvals.tkn005}}</p>
+                <p>{{tokenvals.tkn009}} <code>\color{orange}{\text{{tokenvals.tkn010}}</code>
+                <code>\color{blue}{<var>TENTHS</var>}</code> place<var>plural(TENTHS)</var> {{tokenvals.tkn0011}}
+                <code>\color{orange}{<var>SOLN_TXT</var>}</code>{{tokenvals.tkn012}}</p>
+                <p></p>
 
                 <div>
                     <div class="graphie" data-update="number-line">
@@ -97,7 +100,7 @@
                         label( [ TENTHS, -0.53 ], SOLN_TXT, "center", { color: "orange" });
                         graph.movablePoint.moveTo( SOLUTION, 0 );
                     </div>
-                    <p>{{tokenvals.tkn006}}</p>
+                    <p>{{tokenvals.tkn013}} <code>\color{orange}{<var>SOLN_TXT</var>}</code> {{tokenvals.tkn014}}</p>
                 </div>
 
             </div>

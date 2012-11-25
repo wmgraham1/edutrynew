@@ -55,21 +55,35 @@ class SubjAreaList(BaseHandler):
     def get(self):
         languages = memcache.get("languages")
         if languages is not None:
-            logging.info("get languages from memcache.")
+            logging.info("PPP - got languages from memcache.")
         else:
+            logging.info("PPP - Can not get languages from memcache.")
             q = Languages.query().order(Languages.langName)
             languages = q.fetch(99)
-            logging.info("Can not get languages from memcache.")
-            if not memcache.add("languages", languages, 10):
-                logging.info("Memcache set failed.")
-
+            if not memcache.add("languages", languages, 99):
+                logging.info("PPP - Memcache set failed.")
+            # languages = memcache.get("languages")
+            # if languages is not None:
+                # logging.info("PPP2 - got languages from memcache.")
+            # else:
+                # logging.info("PPP - Can not get languages from memcache.")
+                # q = Languages.query().order(Languages.langName)
+                # languages = q.fetch(99)
+                # if not memcache.add("languages", languages, 99):
+                    # logging.info("PPP - Memcache set failed.")
+            
+        langCode = 'en'
         if self.request.get('langCode'):
+#            logging.info('GGG: SubjAreasList-Where: %s' % 'LangCode passed as param')
             langCode=self.request.get('langCode')
             self.session['langCode'] = langCode
         else:
+#            logging.info('GGG: SubjAreasList-Where: %s' % 'LangCode NOT passed as param - prep get from session')
+#            logging.info('GGG: SubjAreasList-LangCode before session.get = : %s' % langCode)
             langCode = self.session.get('langCode')
+#            logging.info('GGG: SubjAreasList-LangCode after session.get = : %s' % langCode)
         if not langCode:
-            self.session['langCode'] = 'en' 
+#            logging.info('GGG: SubjAreasList-Where: %s' % 'LangCode still blank')
             langCode = 'en'
 
         langName = 'no language'
@@ -95,21 +109,52 @@ class SubjAreaList(BaseHandler):
             self.session['Typ'] = 'ex'
             Typ = 'ex'
 
-        count_en = 0
-        langCode_en = 'en'
-        q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+        # count_en = 0
+        # langCode_en = 'en'
+        # units = memcache.get("SubjAreas")
+        # if units is not None:
+            # logging.info("PPP - got SubjAreas_units from memcache.")
+        # else:
+            # logging.info("PPP - Can not get SubjAreas_units from memcache.")
+            # q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
+            # units = q.fetch(999)
+            # if not memcache.add("SubjAreas", units, 999):
+                # logging.info("PPP - SubjAreas_Memcache set failed.")
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
+
+        Cnt = memcache.get("SubjAreas_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got SubjAreas_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get SubjAreas_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("SubjAreas")
+            if units is not None:
+                logging.info("PPP - got SubjAreas_units from memcache.")
+            else:
+                # logging.info("PPP - Can not get SubjAreas_units from memcache.")
+                q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("SubjAreas", units, 999):
+                    logging.info("PPP - SubjAreas_Memcache set failed.")
+            for unit in units:
+#                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("SubjAreas_EnCnt", count_en, 999):
+                    logging.info("PPP - SubjAreas_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = SubjectAreas.query(SubjectAreas.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
-            logging.info('QQQ: count_other_language: %d' % count_other_language)
+#            logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
         logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
@@ -177,21 +222,44 @@ class SubjAreaEditList(BaseHandler):
             self.session['Typ'] = 'ex'
             Typ = 'ex'
 
-        count_en = 0
-        langCode_en = 'en'
-        q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
+        Cnt = memcache.get("SubjAreas_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got SubjAreas_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get SubjAreas_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("SubjAreas")
+            if units is not None:
+                logging.info("PPP - got SubjAreas_units from memcache.")
+            else:
+                # logging.info("PPP - Can not get SubjAreas_units from memcache.")
+                q = SubjectAreas.query(SubjectAreas.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("SubjAreas", units, 999):
+                    logging.info("PPP - SubjAreas_Memcache set failed.")
+            for unit in units:
+#                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("SubjAreas_EnCnt", count_en, 999):
+                    logging.info("PPP - SubjAreas_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = SubjectAreas.query(SubjectAreas.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
-            logging.info('QQQ: count_other_language: %d' % count_other_language)
+#            logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
         logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
@@ -228,6 +296,9 @@ class SubjAreaCreate(BaseHandler):
                   , Status = 'Pending Review'
                   )
         n.put()
+        logging.info("PPP - Preparing to delete SubjAreas_units from memcache.")
+        memcache.delete("SubjAreas")
+        memcache.delete("SubjAreas_EnCnt")
         return self.redirect('/subjareas/create')
 
     def get(self):
@@ -304,11 +375,16 @@ class SubjAreaDelete(BaseHandler):
     def get(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('SubjectAreas', iden).get()
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
 #        if currentuser != template.CreatedBy and not users.is_current_user_admin():
 #            self.abort(403)
 #            return
         unit.key.delete()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete SubjAreas_units from memcache.")
+            memcache.delete("SubjAreas")
+            memcache.delete("SubjAreas_EnCnt")
         return self.redirect('/subjareas')
 
 class SubjAreaClone(BaseHandler):

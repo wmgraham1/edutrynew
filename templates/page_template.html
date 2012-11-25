@@ -65,7 +65,7 @@ jQuery(function(){
         <div id="sf-menu"> 
             <ul class="sf-menu">
                 <li><a href="/">Home</a></li>
-				{% if currentuser|AccessOK(110) %} 
+				{% if session|AccessOK(110) %} 
                 <li><a href="/papers/resources"><span class="dropt" title="Everything and anything related to obtaining learning resourses/videos, etc., in each language.">Videos/Etc.</span></a>	
 <!--                <li><a href="#">Videos/Etc.</a>	
 					<ul>

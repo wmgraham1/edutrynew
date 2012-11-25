@@ -104,19 +104,43 @@ class TopicGrpList(BaseHandler):
             self.session['SubjFilter'] = 'all'
             SubjFilter = 'all'
 
-        count_en = 0
-        langCode_en = 'en'
-        q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+        Cnt = memcache.get("TopGrp_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got TopGrp_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get TopGrp_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("TopGrps_En")
+            if units is not None:
+                logging.info("PPP - got TopGrps_En from memcache.")
+            else:
+                logging.info("PPP - Can not get TopGrps_En_units from memcache.")
+                q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("TopGrps_En", units, 999):
+                    logging.info("PPP - TopGrps_En_Memcache set failed.")
+            for unit in units:
+#                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("TopGrp_EnCnt", count_en, 999):
+                    logging.info("PPP - TopGrp_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
+
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = TopicGrps.query(TopicGrps.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
@@ -220,19 +244,43 @@ class TopicGrpEditList(BaseHandler):
             self.session['SubjAreaFilter'] = 'Math'
             SubjAreaFilter = 'Math'
 
-        count_en = 0
-        langCode_en = 'en'
-        q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
-        units = q.fetch(999)
-        for unit in units:
-            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
+        Cnt = memcache.get("TopGrp_EnCnt")
+        if Cnt is not None:
+            logging.info("PPP - got TopGrp_EnCnt from memcache.")
+            count_en = Cnt
+        else:
+            logging.info("PPP - Could not get TopGrp_EnCnt from memcache.")
+            count_en = 0
+            langCode_en = 'en'
+            units = memcache.get("TopGrps_En")
+            if units is not None:
+                logging.info("PPP - got TopGrps_En from memcache.")
+            else:
+                logging.info("PPP - Can not get TopGrps_En_units from memcache.")
+                q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
+                units = q.fetch(999, keys_only=True)
+                if not memcache.add("TopGrps_En", units, 999):
+                    logging.info("PPP - TopGrps_En_Memcache set failed.")
+            for unit in units:
+#                logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            if not memcache.add("TopGrp_EnCnt", count_en, 999):
+                    logging.info("PPP - TopGrp_EnCnt_Memcache set failed.")
         logging.info('QQQ: Total count_en: %d' % count_en)
+
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = TopicGrps.query(TopicGrps.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+            # logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
 
         logging.info('QQQ: langCode: %s' % langCode)
         count_other_language = 0
         q2 = TopicGrps.query(TopicGrps.LangCode == langCode)
-        unitsx = q2.fetch(999)
+        unitsx = q2.fetch(999, keys_only=True)
         for unit in unitsx:
             logging.info('QQQ: count_other_language: %d' % count_other_language)
             count_other_language = count_other_language + 1
@@ -311,6 +359,9 @@ class TopicGrpCreate(BaseHandler):
                   , Status = 'Pending Review'
                   )
         n.put()
+        logging.info("PPP - Preparing to delete TopGrp_units from memcache.")
+        memcache.delete("TopGrps_En")
+        memcache.delete("TopGrp_EnCnt")
         return self.redirect('/topgrps/create?SubjFilter=' + Subject)
 
     def get(self):
@@ -357,7 +408,7 @@ class TopicGrpEditListPost(BaseHandler):
         logging.info('QQQ: TopicGrpEditListPost: %s' % unit_id)
         iden = int(unit_id)
         unit = ndb.Key('TopicGrps', iden).get()
-
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
@@ -370,13 +421,17 @@ class TopicGrpEditListPost(BaseHandler):
             unit.StatusBy = currentuser
             unit.StatusDate = datetime.now()    
         unit.put()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete TopGrp_units from memcache.")
+            memcache.delete("TopGrps_En")
+            memcache.delete("TopGrp_EnCnt")
 #        return self.redirect('/topgrps')
 
 class TopicGrpEdit(BaseHandler):
     def post(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('TopicGrps', iden).get()
-
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
         unit.Name = self.request.get('Name')
         if self.request.get('Seq') != 'None':
@@ -389,6 +444,10 @@ class TopicGrpEdit(BaseHandler):
             unit.StatusBy = currentuser
             unit.StatusDate = datetime.now()    
         unit.put()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete TopGrp_units from memcache.")
+            memcache.delete("TopGrps_En")
+            memcache.delete("TopGrp_EnCnt")
         return self.redirect('/topgrps')
 
     def get(self, unit_id):
@@ -443,11 +502,16 @@ class TopicGrpDelete(BaseHandler):
     def get(self, unit_id):
         iden = int(unit_id)
         unit = ndb.Key('TopicGrps', iden).get()
+        LangCode = unit.LangCode
         currentuser = users.get_current_user()
 #        if currentuser != template.CreatedBy and not users.is_current_user_admin():
 #            self.abort(403)
 #            return
         unit.key.delete()
+        if LangCode == 'en':
+            logging.info("PPP - Preparing to delete TopGrp_units from memcache.")
+            memcache.delete("TopGrps_En")
+            memcache.delete("TopGrp_EnCnt")
         return self.redirect('/topgrps')
 
 class TopicGrpClone(BaseHandler):

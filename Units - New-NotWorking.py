@@ -91,14 +91,14 @@ class LearnUnitList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
-        if self.request.get('SubjFilter'):
-            SubjFilter=self.request.get('SubjFilter')
-            self.session['SubjFilter'] = SubjFilter
-        else:
-            SubjFilter = self.session.get('SubjFilter')
-        if not SubjFilter:
-            self.session['SubjFilter'] = 'all'
-            SubjFilter = 'all'
+       # if self.request.get('SubjFilter'):
+           # SubjFilter=self.request.get('SubjFilter')
+           # self.session['SubjFilter'] = SubjFilter
+       # else:
+           # SubjFilter = self.session.get('SubjFilter')
+       # if not SubjFilter:
+           # self.session['SubjFilter'] = 'all'
+           # SubjFilter = 'all'
 
         if self.request.get('TopGrpFilter'):
             TopGrpFilter=self.request.get('TopGrpFilter')
@@ -110,22 +110,33 @@ class LearnUnitList(BaseHandler):
             TopGrpFilter = 'all'
 
         count_en = 0
-        langCode_en = 'en'
-        q = LearningUnits.query(LearningUnits.LangCode == langCode_en)
-        units = q.fetch(999, keys_only=True)
-        for unit in units:
-#            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
-        logging.info('QQQ: Total count_en: %d' % count_en)
+        logging.info('QQQ: Total-Outside-1 unitCount_en: %d' % count_en)
+        count_en = self.session.get('unitCount_en')
+        logging.info('QQQ: Total-Outside-2 unitCount_en: %d' % count_en)
+        if count_en < 1:
+            count_en = 0
+            langCode_en = 'en'
+            q = LearningUnits.query(LearningUnits.LangCode == 'en')
+            units = q.fetch(999)
+            for unit in units:
+    #            logging.info('QQQ: count_en: %d' % count_en)
+                count_en = count_en + 1
+            logging.info('QQQ: Total unitCount_en: %d' % count_en)
+            self.session['unitCount_en'] = 'count_en'
+        logging.info('QQQ: Total-Outside-3 unitCount_en: %d' % count_en)
 
-        logging.info('QQQ: langCode: %s' % langCode)
-        count_other_language = 0
-        q2 = LearningUnits.query(LearningUnits.LangCode == langCode)
-        unitsx = q2.fetch(999, keys_only=True)
-        for unit in unitsx:
-#            logging.info('QQQ: count_other_language: %d' % count_other_language)
-            count_other_language = count_other_language + 1
-        logging.info('QQQ: Total count_other_language: %d' % count_other_language)
+        count_other_language = self.session.get('unitCount_other_language')
+        if not count_other_language:
+            logging.info('QQQ: unitCount_other_language-langCode: %s' % langCode)
+            count_other_language = 0
+            q2 = LearningUnits.query(LearningUnits.LangCode == langCode)
+            unitsx = q2.fetch(999)
+            for unit in unitsx:
+    #            logging.info('QQQ: count_other_language: %d' % count_other_language)
+                count_other_language = count_other_language + 1
+            logging.info('QQQ: Total count_other_language: %d' % count_other_language)
+            self.session['unitCount_other_language'] = 'count_other_language'
+        logging.info('QQQ: Total-Outside count_other_language: %d' % count_other_language)
 
         logging.info('LLL: StatusFilter in LearnUnitList: %s' % StatusFilter)
         logging.info('LLL: TopGrpFilter in LearnUnitList: %s' % TopGrpFilter)
@@ -150,11 +161,11 @@ class LearnUnitList(BaseHandler):
         logging.info('LLL: q in LearnUnitList: %s' % q)
 
         units = q.fetch(999)
-        unitcnt = 0
-        for uni in units:
-            logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
-            unitcnt = unitcnt + 1
-        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
+        # unitcnt = 0
+        # for uni in units:
+            # logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
+            # unitcnt = unitcnt + 1
+        # logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
 
         dictTryReadyFiles = {}
         logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
@@ -178,7 +189,8 @@ class LearnUnitList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'dictTryReadyFiles':dictTryReadyFiles, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+        self.render_template('LearnUnitList.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'dictTryReadyFiles':dictTryReadyFiles, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+#'SubjFilter':SubjFilter, 
 
 class LearnUnitEditList(BaseHandler):
 
@@ -216,14 +228,14 @@ class LearnUnitEditList(BaseHandler):
             self.session['StatusFilter'] = 'all'
             StatusFilter = 'all'
 
-        if self.request.get('SubjFilter'):
-            SubjFilter=self.request.get('SubjFilter')
-            self.session['SubjFilter'] = SubjFilter
-        else:
-            SubjFilter = self.session.get('SubjFilter')
-        if not SubjFilter:
-            self.session['SubjFilter'] = 'all'
-            SubjFilter = 'all'
+        # if self.request.get('SubjFilter'):
+            # SubjFilter=self.request.get('SubjFilter')
+            # self.session['SubjFilter'] = SubjFilter
+        # else:
+            # SubjFilter = self.session.get('SubjFilter')
+        # if not SubjFilter:
+            # self.session['SubjFilter'] = 'all'
+            # SubjFilter = 'all'
 
         if self.request.get('TopGrpFilter'):
             TopGrpFilter=self.request.get('TopGrpFilter')
@@ -235,32 +247,33 @@ class LearnUnitEditList(BaseHandler):
             TopGrpFilter = 'all'
 
         TopGrpList = []
-        q = TopicGrps.query(TopicGrps.LangCode == 'en').order(TopicGrps.Seq, TopicGrps.Name)
-        SubjAreaResponseSet = q.fetch(999)
-        for SubjArea in SubjAreaResponseSet:
-            TopGrpList.append(SubjArea.Name)
+        if langCode == 'en':
+            q = TopicGrps.query(TopicGrps.LangCode == 'en').order(TopicGrps.Seq, TopicGrps.Name)
+            SubjAreaResponseSet = q.fetch(999)
+            for SubjArea in SubjAreaResponseSet:
+                TopGrpList.append(SubjArea.Name)
 
-        count_en = 0
-        langCode_en = 'en'
-        q = LearningUnits.query(LearningUnits.LangCode == langCode_en)
-        units = q.fetch(999, keys_only=True)
-        for unit in units:
-#            logging.info('QQQ: count_en: %d' % count_en)
-            count_en = count_en + 1
-        logging.info('QQQ: Total count_en: %d' % count_en)
+        # count_en = 0
+        # langCode_en = 'en'
+        # q = LearningUnits.query(LearningUnits.LangCode == langCode_en)
+        # units = q.fetch(999)
+        # for unit in units:
+# #            logging.info('QQQ: count_en: %d' % count_en)
+            # count_en = count_en + 1
+        # logging.info('QQQ: Total count_en: %d' % count_en)
 
-        logging.info('QQQ: langCode: %s' % langCode)
-        count_other_language = 0
-        q2 = LearningUnits.query(LearningUnits.LangCode == langCode)
-        unitsx = q2.fetch(999, keys_only=True)
-        for unit in unitsx:
-#            logging.info('QQQ: count_other_language: %d' % count_other_language)
-            count_other_language = count_other_language + 1
-        logging.info('QQQ: Total count_other_language: %d' % count_other_language)
+        # logging.info('QQQ: langCode: %s' % langCode)
+        # count_other_language = 0
+        # q2 = LearningUnits.query(LearningUnits.LangCode == langCode)
+        # unitsx = q2.fetch(999)
+        # for unit in unitsx:
+# #            logging.info('QQQ: count_other_language: %d' % count_other_language)
+            # count_other_language = count_other_language + 1
+        # logging.info('QQQ: Total count_other_language: %d' % count_other_language)
 
-        logging.info('LLL: StatusFilter in LearnUnitList: %s' % StatusFilter)
-        logging.info('LLL: TopGrpFilter in LearnUnitList: %s' % TopGrpFilter)
-        logging.info('LLL: langCode in LearnUnitList: %s' % langCode)
+        # logging.info('LLL: StatusFilter in LearnUnitList: %s' % StatusFilter)
+        # logging.info('LLL: TopGrpFilter in LearnUnitList: %s' % TopGrpFilter)
+        # logging.info('LLL: langCode in LearnUnitList: %s' % langCode)
         #TopGrpFilter = 'all'
         #StatusFilter = 'all'
         if StatusFilter == 'all':
@@ -281,29 +294,40 @@ class LearnUnitEditList(BaseHandler):
         logging.info('LLL: q in LearnUnitList: %s' % q)
         units = q.fetch(999)
 
-        if StatusFilter == 'all':
-            if TopGrpFilter == 'all':
-                f = LearningUnits.query(LearningUnits.LangCode == 'en') 
-            else:
-                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Subject == TopGrpFilter)
-        else:
-            if TopGrpFilter == 'all':
-                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter)
-            else:
-                f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter)
-        units_en = f.fetch(999)
-        
-        dict_units_en = {}
-        for unit_en in units_en:
-#            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
-#            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
-            dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+        dict_units_en = self.session.get('listEditUnits_en')
+        if not dict_units_en:
+            f = LearningUnits.query(LearningUnits.LangCode == 'en') 
+            units_en = f.fetch(999)
+            dict_units_en = {}
+            for unit_en in units_en:
+    #            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+    #            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+                dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+            self.session['listEditUnits_en'] = dict_units_en
 
-        unitcnt = 0
-        for uni in units:
-#            logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
-            unitcnt = unitcnt + 1
-        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)    
+            # if StatusFilter == 'all':
+                # if TopGrpFilter == 'all':
+                    # f = LearningUnits.query(LearningUnits.LangCode == 'en') 
+                # else:
+                    # f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Subject == TopGrpFilter)
+            # else:
+                # if TopGrpFilter == 'all':
+                    # f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter)
+                # else:
+                    # f = LearningUnits.query(LearningUnits.LangCode == 'en', LearningUnits.Status == StatusFilter, LearningUnits.Subject == TopGrpFilter)
+            # units_en = f.fetch(999)
+            
+            # dict_units_en = {}
+            # for unit_en in units_en:
+    # #            logging.info('GGG: Subjects.py/LearningUnitID: %s' % unit_en.LearningUnitID)
+    # #            logging.info('GGG: Subjects.py/Description: %s' % unit_en.Description)
+                # dict_units_en[unit_en.LearningUnitID] = unit_en.Description
+
+        # unitcnt = 0
+        # for uni in units:
+            # logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
+            # unitcnt = unitcnt + 1
+        # logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)    
 
         logout = None
         login = None
@@ -315,26 +339,19 @@ class LearnUnitEditList(BaseHandler):
 
         StatusList = ['Pending Translation', 'Pending Review', 'Published'];
 
-        self.render_template('LearnUnitListEdit.html', {'units': units, 'count_en': count_en, 'count_other_language': count_other_language, 'TopGrpList':TopGrpList, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'SubjFilter':SubjFilter, 'TopGrpFilter':TopGrpFilter, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
-
+        self.render_template('LearnUnitListEdit.html', {'units': units, 'TopGrpList':TopGrpList, 'StatusList':StatusList, 'StatusFilter':StatusFilter, 'TopGrpFilter':TopGrpFilter, 'dict_units_en':dict_units_en, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})
+#'count_en': count_en, 'count_other_language': count_other_language, 'SubjFilter':SubjFilter, 
+        
 class LearnUnitGenList(BaseHandler):
 
     def get(self, langCode):
         self.session['langCode'] = langCode
         langName=self.request.get('langName')
-        logging.info('LLL: q in LearnUnitList: %s' % 'Now in LearnUnitGenList')
+        # logging.info('LLL: q in LearnUnitList: %s' % 'Now in LearnUnitGenList')
         langDictDemo = {}
         langDictDemo['en'] = 'Math / Arithmetic and Pre-algebra / Decimals - Exercises in English'
-        langDictDemo['hu'] = 'Math / Arithmetic and Pre-algebra / Decimals - Exercises in Hungarian'
-        langDictDemo['no'] = 'Math / Aritmetikk og Pre-algebra / Desimaler - Exercises in Norwegian'
-        langDictDemo['da'] = 'Math / Aritmetik og Pre-algebra / Decimaler - Exercises in Danish'
-        langDictDemo['es'] = 'Matemáticas / Aritmética y álgebra Pre- / Decimales - Exercises in Spanish'
-        langDictDemo['vi'] = 'Toán / Số học và đại số cơ bản / Thập phân - Exercises in Vietnamese'
-        langDictDemo['sk'] = 'Matematika / Aritmetický a Pre-algebra / Desatinných - Exercises in Slovak'
-        langDictDemo['it'] = 'Matematica / Aritmetica e pre-algebra / Decimali - Exercises in Italian'
         langDictDemo['de'] = 'Mathe / Arithmetik und Pre-algebra / Dezimalen - Exercises in German'
         langDictDemo['nl'] = 'Wiskunde / Rekenen en Pre-algebra / Decimalen - Exercises in Dutch'
-        langDictDemo['ru'] = 'Математика / RАрифметика и начало алгебры / Десятичные дроби - Exercises in Russian'
         langDictDemo['zh'] = '数学 / 算术和初等代数 / 小数 - Exercises in Chinese'
         langDictDemo['cs'] = 'Matematika / Aritmetika / Desetinná čísla - Exercises in Czech'
         langDictDemo['pl'] = 'Matematyka / Arytmetyka i wstęp do algebry / Liczby dziesiętne - Exercises in Polish'
@@ -342,26 +359,41 @@ class LearnUnitGenList(BaseHandler):
         PageTitle = langDictDemo[langCode]
 
         q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == 'Decimals').order(LearningUnits.Seq, LearningUnits.Name)
-        logging.info('LLL: q in LearnUnitList: %s' % q)
+        # logging.info('LLL: q in LearnUnitList: %s' % q)
         units = q.fetch(999)
 
-        unitcnt = 0
-        for uni in units:
-#            logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
-            unitcnt = unitcnt + 1
-        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
+        # unitcnt = 0
+        # for uni in units:
+            # logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
+            # unitcnt = unitcnt + 1
+        # logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
 
+        GenFiles = self.session.get('TryReadyAllFiles')
+        if not GenFiles:
+            gf = GeneratedFiles.query()
+            GenFiles = gf.fetch(999)
+            self.session['TryReadyAllFiles'] = GenFiles 
         dictTryReadyFiles = {}
-        logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
-        gf = GeneratedFiles.query(GeneratedFiles.LangCode == langCode)
-        GenFiles = gf.fetch(999)
+        # logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
         if GenFiles:
             for GenFile in GenFiles:
                 if GenFile.TemplateName:
-#                    logging.info('GGG: UnitList/dictTryReadyFiles.TemplateName: %s' % GenFile.TemplateName)
-#                    logging.info('GGG: UnitList/dictTryReadyFiles.FolderName: %s' % GenFile.FolderName)
-#                    logging.info('GGG: UnitList/dictTryReadyFiles.SearchName: %s' % GenFile.SearchName)
+                    # logging.info('GGG: UnitList/dictTryReadyFiles.TemplateName: %s' % GenFile.TemplateName)
+# #                    logging.info('GGG: UnitList/dictTryReadyFiles.FolderName: %s' % GenFile.FolderName)
+                    # logging.info('GGG: UnitList/dictTryReadyFiles.SearchName: %s' % GenFile.SearchName)
                     dictTryReadyFiles[GenFile.TemplateName] = GenFile.SearchName
+
+        # dictTryReadyFiles = {}
+        # # logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
+        # gf = GeneratedFiles.query(GeneratedFiles.LangCode == langCode)
+        # GenFiles = gf.fetch(999)
+        # if GenFiles:
+            # for GenFile in GenFiles:
+                # if GenFile.TemplateName:
+                    # # logging.info('GGG: UnitList/dictTryReadyFiles.TemplateName: %s' % GenFile.TemplateName)
+# # #                    logging.info('GGG: UnitList/dictTryReadyFiles.FolderName: %s' % GenFile.FolderName)
+                    # # logging.info('GGG: UnitList/dictTryReadyFiles.SearchName: %s' % GenFile.SearchName)
+                    # dictTryReadyFiles[GenFile.TemplateName] = GenFile.SearchName
                     
         logout = None
         login = None
@@ -529,12 +561,12 @@ class LearnUnitDelete(BaseHandler):
 class LearnUnitClone(BaseHandler):
 
     def get(self):
+        #This function clones ALL the Learning Units for a language - not just the ones for the current Topic Group
         if self.request.get('langCode'):
             langCode = self.request.get('langCode')
 
             q = LearningUnits.query(LearningUnits.LangCode == langCode)
             units = q.fetch(999)
-
             countmap_other_language={}
             for unit in units:
                 logging.info('QQQ: LangCode in clone: %s' % unit.LangCode)
@@ -544,7 +576,6 @@ class LearnUnitClone(BaseHandler):
 
             q = LearningUnits.query(LearningUnits.LangCode == 'en')
             units_en = q.fetch(999)
-
             for unit2 in units_en:
                 if unit2.LearningUnitID not in countmap_other_language:
                     logging.info('QQQ: LearningUnitID to add in clone: %s' % unit2.LearningUnitID)

@@ -47,9 +47,9 @@ from SubjAreas import SubjAreaList, SubjAreaCreate, SubjAreaEdit, SubjAreaDelete
 from Subjects import LearnSubjList, LearnSubjCreate, LearnSubjEdit, LearnSubjDelete, LearnSubjClone, LearnSubjEditList, LearnSubjEditListPost
 from TopicAreas import TopicAreaList, TopicAreaCreate, TopicAreaEdit, TopicAreaDelete, TopicAreaClone, TopicAreaEditList, TopicAreaEditListPost
 from TopicGrps import TopicGrpList, TopicGrpCreate, TopicGrpEdit, TopicGrpDelete, TopicGrpClone, TopicGrpEditList, TopicGrpEditListPost
-from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone, LearnUnitEditList, LearnUnitEditListPost
+from Units import LearnUnitList, LearnUnitCreate, LearnUnitEdit, LearnUnitDelete, LearnUnitClone, LearnUnitEditList, LearnUnitEditListPost, LearnUnitGenList
 from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, LearnAidClone, LearnAidEditList, LearnAidEditListPost
-from How import HowIntro, HowTrans
+from How import HowIntro, HowTrans, HowTransTheory
 from Test1 import Test1Get, TextFileRender
 #from MyFileHandlers import FileDownloadHandler, FileUploadFormHandler, FileUploadHandler, FileInfoHandler
 
@@ -140,7 +140,9 @@ app = webapp2.WSGIApplication([
     ('/genfiles/try/utils/([\w]+)/(.+)', FileTryHandlerAltTry),
     ('/genfiles/try/([\w]+)/(.+)', FileTryHandlerAlt),
     ('/genfiles/try/khan-exercise.js', GenFileRedirect),
+    ('/genfiles/try/utils/math-format.js', GenFileRedirectMathFormats),
     ('/genfiles/try/utils/hints.js', GenFileRedirectHints),
+    ('/genfiles/try/utils/answer-types.js', GenFileRedirectAnswerTypes),
     ('/genfiles/try/utils/graphie-helpers-arithmetic.js', GenFileRedirectGraphieHelpersArithmetic),
     ('/genfiles/altdisplay', GenFileAltDisplay),
     ('/genfiles/delete/([\d]+)', GenFileDelete),
@@ -173,6 +175,7 @@ app = webapp2.WSGIApplication([
     ('/topgrps/clone', TopicGrpClone),
     ('/topgrps/delete/([\d]+)', TopicGrpDelete),
     ('/units', LearnUnitList), 
+    ('/unitsgen/([\w]+)', LearnUnitGenList), 
     ('/unitsedit', LearnUnitEditList), 
     ('/unitseditpost/([\d]+)', LearnUnitEditListPost), 
     ('/units/create', LearnUnitCreate), 
@@ -188,6 +191,7 @@ app = webapp2.WSGIApplication([
     ('/aids/delete/([\d]+)', LearnAidDelete),
     ('/how', HowIntro),
     ('/how/trans', HowTrans),
+    ('/how/transtheory', HowTransTheory),
     ('/test1', Test1Get),
     ('/textfilerender', TextFileRender)
 	],

@@ -1,0 +1,128 @@
+{% extends "page_template.html" %}
+{% block content %}
+<div class="PageContentBlock">
+    <h3 id="welcomeHeader">How to Translate Khan Academy Platform Content</h3>
+    <p>Please note that the screen shots for this documentation were captured at different stages of the development process and may therefore not always match what you might see on your screen in every detail.  Where the change is important to the point being discussed in that part of the documentation we have change the image, but some may have been missed.  Please submit feedback if you have any suggestions for improving this documentation.</p>
+    <p>If you have not yet done so, please read the paper Basic Architecture of the Khan Academy Exercise Platform under the Menu Item <a href="/papers/platform">Learning Platform / Discussion Papers</a>.</p>
+    <br /><br />
+    <h4>The Big Picture:</h4>
+
+    <p>The Translation Tools on this site are intended to support the relatively easy creation of the Khan Academy website (including the Exercise Platform) in many languages.  It is intended to enable non-technical users to translate the appropriate content in a hopefully easy-to-use interface.  It is also intended to enable a country or language manager to quickly see what is complete and what is still needing to be translated for their language.  (Not all of this is currently present, but quite a bit is.)  The process of translating the content consistes of the following steps:
+        <ol class="list1">
+            <li>Translate the supporting templates and utility functions (for the site and exercise backgrounds, etc.).</li>
+            <li>Translate the names and descriptions of the subjects, topics, videos, etc.</li>
+            <li>Translate the few text words of the individual exercises.</li>
+            <li>Generate the exercise in the applicable language (the link to enable the generation will be available as soon as the status of all tokens for that exercise are set to 'published'.</li>
+            <li>Try out the exercise in the local language.</li>
+            <li>There is also a download function to enable the finished, translated files to be downloaded to the local language site. (Eventually, it is hoped functionality such as what this site offers will be incorporated into Khan Academy so as soon as the translated is given a status of 'published' it will be visible in that language version of the Khan Academy site.  For this to happen, it requires not only that the majority of the advocates deem it a useful tool, but Khan Academy central also has to be willing to take it over.)</li>
+        </ol>
+    </p>
+    <br /><br />
+    <h4>What Needs to be Translated:</h4>
+
+    <p>Translating an exercise therefore generally consists of translating the following:
+        <ol class="list1">
+            <li>The visible text in the Site Template (file: khan-site.html) - done once for all exercises.</li>
+            <li>The visible text in the Exercise Template (file: khan-exercise.html) - done once for all exercises.</li>
+            <li>The visible text in the individual exercise files: done once for each applicable exercise (some exercises have no text, and some, e.g. word problem exercises have text that is too complicated for simple translation).</li>
+            <li>The visible text in some of the utility functions (in .js files) (In some cases, exercise files call utility functions and in some cases, those functions return text content.)</li>
+            <li>The visible text in the Report Templates (the container templates for the various coach and learner reports).</li>
+            <li>Etc.</li>
+        </ol>
+    </p>
+    <br /><br />
+    <h4>Overview of The Translation Process:</h4>
+    <p><div style="text-align: center;"><img src="/images/TranslationProcess.png" width="400px" /></div></p>
+
+    <br /><br />
+    <h4>Create Template Records:</h4>
+    <p>This is an admin function that is not available to most users.</p>
+    <p><div style="text-align: center;"><img src="/images/TemplateList.png" width="600px" /></div></p>
+
+    <br /><br />
+    <h4>Tokenize Files and Create Token Records in Database:</h4>
+    <p>This is an admin function that is not available to most users.</p>
+    <p>The process begins with the admin step of tokenizing the original html, js and other files which we generally just refer to as template files.  This is done as an admin step. (Tokens are a key concept to this translation process.  Tokens are placeholders in the template files that are replaced by the content in the applicable language from the database when the translated file is generated.  Tokenizing is the process replacing the original English content with the tokens - e.g., tkn001.)  In some cases, this is an automated step where the files are automatically parsed and the tokenization and the entry of the tokens into the database are automated.  It is envisioned that there would eventually be a component that would recognize any time a file in the English version was added or changed and these would be entered into a queue for adding to this system.  This is only until Khan Academy comes up with a better way to manage this process (hopefully).</p>
+    <p><div style="text-align: center;"><img src="/images/Tokenization.png" width="760px" /></div></p>
+    
+    <br /><br />
+    <h4>Starting the Translation Process:</h4>
+    <p>This is where the process starts for most users involved in the translation process.</p>
+    <p>The Gateway to the Translation process is via the Learning Platform menu item.</p>
+    <p><div style="text-align: center;"><img src="/images/TokenListMenu.png" width="600px" /></div></p>
+
+    <br /><br />
+    <h4>Status of the overall Translation Effort:</h4>
+    <p>The first screen after clicking on the Exercise menu item presents a summary of the number of tokens for each Template File (English view).  (There is also a link to adding a new token. This is an admin function that is not available to most users.)</p>
+    <p><div style="text-align: center;"><img src="/images/Token-Step1.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Viewing the Tokens for a Template:</h4>
+    <p>Click on the name of the Template to see the Tokens for that template.  (There is also a link on this page to add new tokens. If you are in the English Version, then this is an admin function that is not visible to most users - the English language version may only be administrated by users with special rights.)</p>
+    <p><div style="text-align: center;"><img src="/images/TokenList.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Status of Translation for a particular Language:</h4>
+    <p>On the Template List page, change the language to the desired language.</p>
+    <p><div style="text-align: center;"><img src="/images/TokenLanguage.png" width="600px" /></div></p>
+
+    <p>This will result in an overview of the status for all the templates for that language.  Including the number of tokens that have been cloned into that language (cloned just means there is a database record for that token - it does not indicate which tokens have been translated yet and which not).  You will see the status of the tokens for a template when you drill into the template.</p>
+    <p><div style="text-align: center;"><img src="/images/CloneScreen.png" width="760px" /></div></p>
+    <p>If the number of tokens in the selected language is less than the number of English language tokens, this means that some tokens may have been added to the English language version since the last time the tokens were cloned to that language for that template.  If this is the case, click on the "clone" link to clone the missing tokens for this template.  (Only tokens not yet in that language will be cloned - tokens that were previsously cloned are not affected.)  The clone function will only be visible if the number of tokens in the selected language is less than the number of English tokens for that template.</p>
+    <p><div style="text-align: center;"><img src="/images/CloneBefore.png" width="600px" /></div></p>
+    <p><div style="text-align: center;"><img src="/images/CloneAfter.png" width="600px" /></div></p>
+
+    <br /><br />
+    <h4>Status of Tokens for a Template for a specific Language:</h4>
+    <p>Click on the name of the Template to see the Tokens for that template as well as the status of each token.  Tokens may be "Pending Translation", Pending review" or "Published".  Click on the Edit link for a token to view or edit/translate the details for that template.  (Note that the Generate Translated Files link is no longer visible until all tokens are published and the View Translated Files is not visible unless there is a translated file for this template.</p>
+    <p><div style="text-align: center;"><img src="/images/TransTokenList.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Translating the Tokens for a Template:</h4>
+    <p>Click on the edit link to drill into an individual token to translate it.  You will see the original English content as well as the current content for the selected language.  Translate/edit the content as applicable.  Change the status as needed.  (Currently a user can change the status to any of the statuses.  We are thinking about making it that one can change the status only 1 level at a time - so the user doing the translation would only be able to change the status to Pending review but not to published.  This could be part or requiring the review be done by someone other than the person who did the translation.  We are not making this change now because many languages do not have the number of people needed to require different people do different functions.)</p>
+    <p><div style="text-align: center;"><img src="/images/TokenTransEdit.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Another Example</h4>
+    <p>Here is another example.  The first screen shows the originxal English tokens for the rounding_numbers exercise.</p>
+    <p><div style="text-align: center;"><img src="/images/TransRound_EN.png" width="700px" /></div></p>
+    <p>Here is the Token Translation/Edit screen.</p>
+    <p><div style="text-align: center;"><img src="/images/TransRoundTokenDE.png" width="700px" /></div></p>
+    <p>Here is the Token List for the translated Template entries.</p>
+    <p><div style="text-align: center;"><img src="/images/TranRound_de.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Generate Translated Template File:</h4>
+    <p>When all the tokens fro a template have a status = "Published" a "Generate Translated File" Link will appear.  Click on this link to generate the translated file. <span style="color: red;">(<span style="font-weight: bold;">Note:</span> If a translated file already exists, it will be overwritten by this process.)</span> (The translated file is actually a blob field in the database.  At some point it will be exported to generate the translated site.)</p>
+    <p><div style="text-align: center;"><img src="/images/FileGenScreen.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>View Translated Template File:</h4>
+    <p>If a Translated File exists for this template, you will see a View Translated File link.  Click this link to see what the file will look like after translation.</p>
+    <p><div style="text-align: center;"><img src="/images/GenFileView.png" width="700px" /></div></p>
+    <p>This is the example of the translated file.  <span style="color: red;">(<span style="font-weight: bold;">Note:</span> The files we are translated are code files.  Click the "Source" button at the top of the text screen to see the real view of the translated file.)</span></p>
+    <p><div style="text-align: center;"><img src="/images/TranslatedTemplateFile.png" width="700px" /></div></p>
+    <p>This is what the file looked like in its original English version.</p>
+    <p><div style="text-align: center;"><img src="/images/TranslatedTemplateFile_en.png" width="700px" /></div></p>
+    <p>Here is an example of the rounding_numbers exercise after translation generation.</p>
+    <p><div style="text-align: center;"><img src="/images/GenRoundFileDE.png" width="700px" /></div></p>
+    <p>Here is the example of the rounding_numbers exercise after translation generation.</p>
+    <p><div style="text-align: center;"><img src="/images/GenRoundFileEN.png" width="700px" /></div></p>
+
+    <br /><br />
+    <h4>Try Out Translated Exercises:</h4>
+    <p>We hope to be able to incorportate an online exercise framework that will allow users to actually try out the translated exercise before exporting it.  This means a user will be able to translate a single exercise and actually try it out before translating any other exercises.  <span style="color: red;">This functionality is not yet available but we hope it can be made available soon.</span></p>
+
+    <br /><br />
+    <h4>Export Translated Site:</h4>
+    <p><span style="color: red;">This functionality is not yet available.</span>  We wanted to get the main site out as quickly as possible so that we can ensure we are moving in the right direction before working on some of the final steps.</p>
+
+    <br /><br />
+    <h4>Please Provide Feedback:</h4>
+    <p>Please let us know what you think of this site in general, about the specific translation functionality and any suggestions you have for improving the site or the documentation.</p>
+    
+<br /><br />
+</div>
+
+<br/><br/>
+{% endblock content %}
