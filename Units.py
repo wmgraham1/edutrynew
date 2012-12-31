@@ -326,7 +326,9 @@ class LearnUnitGenList(BaseHandler):
         langDictDemo = {}
         langDictDemo['en'] = 'Math / Arithmetic and Pre-algebra / Decimals - Exercises in English'
         langDictDemo['hu'] = 'Math / Arithmetic and Pre-algebra / Decimals - Exercises in Hungarian'
+        langDictDemo['id'] = 'Math / Arithmetic and Pre-algebra / Decimals - Exercises in Indonesian'
         langDictDemo['no'] = 'Math / Aritmetikk og Pre-algebra / Desimaler - Exercises in Norwegian'
+        langDictDemo['fr'] = 'Mathématiques / Arithmétique et pre-algèbre / Décimales - Exercises in French'
         langDictDemo['da'] = 'Math / Aritmetik og Pre-algebra / Decimaler - Exercises in Danish'
         langDictDemo['es'] = 'Matemáticas / Aritmética y álgebra Pre- / Decimales - Exercises in Spanish'
         langDictDemo['vi'] = 'Toán / Số học và đại số cơ bản / Thập phân - Exercises in Vietnamese'

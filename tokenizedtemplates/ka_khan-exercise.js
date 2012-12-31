@@ -241,6 +241,8 @@ var Khan = (function() {
     // pending in the middle of a load.
     loadingExercises = {},
 
+	urlBaseOverride = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1),
+
     urlBase = typeof urlBaseOverride !== "undefined" ? urlBaseOverride :
         testMode ? "../" : "/khan-exercises/",
 
@@ -722,7 +724,7 @@ var Khan = (function() {
     randomSeed = testMode && parseFloat(Khan.query.seed) || userCRC32 || (new Date().getTime() & 0xffffffff);
 
     // Load in jQuery
-    var scripts = (typeof jQuery !== "undefined") ? [] : [{src: "../jquery.js"}];
+    var scripts = (typeof jQuery !== "undefined") ? [] : [{src: urlBase + "jquery.js"}];
 
     // Actually load the scripts. This is getting evaluated when the file is loaded.
     Khan.loadScripts(scripts, function() {
