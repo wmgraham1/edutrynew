@@ -1,25 +1,25 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        {% block titletag %}
-        <title>{% block title %}{{ title }}{% endblock title %} | KA Lite</title>
-        {% endblock %}
-        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/khan-site.css"></link>
-        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/khan-lite.css"></link>
-        {% block basecss %}{% endblock basecss %}
-        {% block headcss %}{% endblock headcss %}
-        <link rel="shortcut icon" href="{{ MEDIA_URL }}images/favicon.ico">
-        {% block jqueryjs %}
-        <script src="{{ MEDIA_URL }}js/jquery.js"></script>
-        {% endblock jqueryjs %}
-        <script src="{{ MEDIA_URL }}js/khan-lite.js"></script>
-        {% block headjs %}{% endblock headjs %}
-        {% block basejs %}{% endblock basejs %}
-        {% block extra_head %}{% endblock extra_head %}
-        {% block extrahead %}{% endblock extrahead %}
-        {% block analytics %}{% endblock analytics %}
+        {{ '{%' }} block titletag {{ '%}' }}
+        <title>{{ '{%' }} block title {{ '%}' }}{{ '{{' }} title {{ '}}' }}{{ '{%' }} endblock title {{ '%}' }} | KA Lite</title>
+        {{ '{%' }} endblock {{ '%}' }}
+        <link rel="stylesheet" type="text/css" href="{{ '{{' }} MEDIA_URL {{ '}}' }}css/khan-site.css"></link>
+        <link rel="stylesheet" type="text/css" href="{{ '{{' }} MEDIA_URL {{ '}}' }}css/khan-lite.css"></link>
+        {{ '{%' }} block basecss {{ '%}' }}{{ '{%' }} endblock basecss {{ '%}' }}
+        {{ '{%' }} block headcss {{ '%}' }}{{ '{%' }} endblock headcss {{ '%}' }}
+        <link rel="shortcut icon" href="{{ '{{' }} MEDIA_URL {{ '}}' }}images/favicon.ico">
+        {{ '{%' }} block jqueryjs {{ '%}' }}
+        <script src="{{ '{{' }} MEDIA_URL {{ '}}' }}js/jquery.js"></script>
+        {{ '{%' }} endblock jqueryjs {{ '%}' }}
+        <script src="{{ '{{' }} MEDIA_URL {{ '}}' }}js/khan-lite.js"></script>
+        {{ '{%' }} block headjs {{ '%}' }}{{ '{%' }} endblock headjs {{ '%}' }}
+        {{ '{%' }} block basejs {{ '%}' }}{{ '{%' }} endblock basejs {{ '%}' }}
+        {{ '{%' }} block extra_head {{ '%}' }}{{ '{%' }} endblock extra_head {{ '%}' }}
+        {{ '{%' }} block extrahead {{ '%}' }}{{ '{%' }} endblock extrahead {{ '%}' }}
+        {{ '{%' }} block analytics {{ '%}' }}{{ '{%' }} endblock analytics {{ '%}' }}
     </head>
-    <body class="light {% block bodyclass %}{% endblock %}">
+    <body class="light {{ '{%' }} block bodyclass {{ '%}' }}{{ '{%' }} endblock {{ '%}' }}">
         <div id="outer-wrapper">
             <div id="page-container">
                 <div id="page-container-inner">
@@ -33,8 +33,8 @@
                                     <div class="sitewide-navigation">
                                         <nav>
                                             <span class="links nav-subheader">
-                                                {% block sitewide_navigation %}
-                                                {% endblock sitewide_navigation %}
+                                                {{ '{%' }} block sitewide_navigation {{ '%}' }}
+                                                {{ '{%' }} endblock sitewide_navigation {{ '%}' }}
                                             </span>
                                         </nav>
                                     </div>
@@ -44,24 +44,24 @@
 
                             <div id="logo">
                                 <a id="logo-image-small" href="/" title="KA Lite Home" name="logo-image">
-                                    <img src="{{ MEDIA_URL }}images/ka-logo-small.png"/>
+                                    <img src="{{ '{{' }} MEDIA_URL {{ '}}' }}images/ka-logo-small.png"/>
                                 </a>
                             </div>
                             <div class="clear"></div>
                         </div>
                     </header>
-                        {% block outer_content %}
+                        {{ '{%' }} block outer_content {{ '%}' }}
                     <div id="container" class="visited-no-recolor" style="overflow: hidden;">
                         <article class="clearfix">
-                            {% block precontent %}
-                            {% for message in messages %}
-                            <div class="{{ message.tags }} message">{{ message|safe }}</div>
-                            {% endfor %}
-                            {% endblock precontent %}
-                            {% block content %}{% endblock content %}
+                            {{ '{%' }} block precontent {{ '%}' }}
+                            {{ '{%' }} for message in messages {{ '%}' }}
+                            <div class="{{ '{{' }} message.tags {{ '}}' }} message">{{ '{{' }} message|safe {{ '}}' }}</div>
+                            {{ '{%' }} endfor {{ '%}' }}
+                            {{ '{%' }} endblock precontent {{ '%}' }}
+                            {{ '{%' }} block content {{ '%}' }}{{ '{%' }} endblock content {{ '%}' }}
                         </article>
                     </div>
-                    {% endblock outer_content %}
+                    {{ '{%' }} endblock outer_content {{ '%}' }}
                     <div id="end-of-page-spacer" style="height: 38px;">&nbsp;</div>
                     <div id="badge-notification-container" class="badge-award-container" style="display:none;"></div>
                 </div>
@@ -74,12 +74,12 @@
                 <div class="inner">
                     <div id="copyright" class="tiny">
                         {{tokenvals.tkn001}} &copy; 2013 Khan Academy 
-                        <a rel="license" id="creative-commons-link" {% if is_central %} href="http://creativecommons.org/licenses/by-nc-sa/2.0/" target="_blank"{% endif %}></a>
+                        <a rel="license" id="creative-commons-link" {{ '{%' }} if is_central {{ '%}' }} href="http://creativecommons.org/licenses/by-nc-sa/2.0/" target="_blank"{{ '{%' }} endif {{ '%}' }}></a>
                     </div>
                 </div>
             </div>
         </footer>
-        {% block bodyjs %}{% endblock bodyjs %}
+        {{ '{%' }} block bodyjs {{ '%}' }}{{ '{%' }} endblock bodyjs {{ '%}' }}
     </body>
 </html>
 
