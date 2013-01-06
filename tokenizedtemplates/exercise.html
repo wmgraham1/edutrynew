@@ -1,9 +1,9 @@
-{% extends 'base_distributed.html' %}
+{{ '{%' }} extends 'base_distributed.html' {{ '%}' }}
 
-{% block practice_selected %}selected{% endblock practice_selected %}
+{{ '{%' }} block practice_selected {{ '%}' }}selected{{ '{%' }} endblock practice_selected {{ '%}' }}
 
-{% block headcss %}
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}khan-exercises/css/khan-exercise.css"></link>
+{{ '{%' }} block headcss {{ '%}' }}
+<link rel="stylesheet" type="text/css" href="{{ '{{' }} MEDIA_URL {{ '}}' }}khan-exercises/css/khan-exercise.css"></link>
 
 <style>
 .return-link {
@@ -14,11 +14,11 @@
 }
 </style>
 
-{% endblock headcss %}
+{{ '{%' }} endblock headcss {{ '%}' }}
 
-{% block headjs %}
+{{ '{%' }} block headjs {{ '%}' }}
 <script>
-    var urlBaseOverride = "{{ MEDIA_URL }}khan-exercises/";
+    var urlBaseOverride = "{{ '{{' }} MEDIA_URL {{ '}}' }}khan-exercises/";
     // some dummy features on the Exercises object to make khan-exercises.js happy
     Exercises = {
         completeStack: {
@@ -28,18 +28,18 @@
         incompleteStack: [0]
     };
 </script>
-<script src="{{ MEDIA_URL }}js/underscore.js"></script>
-<script src="{{ MEDIA_URL }}khan-exercises/khan-exercise.js"></script>
-<script src="{{ MEDIA_URL }}khan-exercises/jquery-ui.js"></script>
+<script src="{{ '{{' }} MEDIA_URL {{ '}}' }}js/underscore.js"></script>
+<script src="{{ '{{' }} MEDIA_URL {{ '}}' }}khan-exercises/khan-exercise.js"></script>
+<script src="{{ '{{' }} MEDIA_URL {{ '}}' }}khan-exercises/jquery-ui.js"></script>
 <script>
     var exerciseData = {
-        "description": "{{ exercise.description }}",
-        "title": "{{ exercise.display_name }}",
+        "description": "{{ '{{' }} exercise.description {{ '}}' }}",
+        "title": "{{ '{{' }} exercise.display_name {{ '}}' }}",
         "exerciseModel": {
-            "displayName": "{{ exercise.display_name }}",
-            "name": "{{ exercise.name }}",
-            "secondsPerFastProblem": {{ exercise.seconds_per_fast_problem }},
-            "authorName": "{{ exercise.author_name }}",
+            "displayName": "{{ '{{' }} exercise.display_name {{ '}}' }}",
+            "name": "{{ '{{' }} exercise.name {{ '}}' }}",
+            "secondsPerFastProblem": {{ '{{' }} exercise.seconds_per_fast_problem {{ '}}' }},
+            "authorName": "{{ '{{' }} exercise.author_name {{ '}}' }}",
             "relatedVideos": []
         },
         "readOnly": false,
@@ -47,7 +47,7 @@
         "points": 0
     };    
 </script>
-<script src="{{ MEDIA_URL }}js/exercises.js"></script>
+<script src="{{ '{{' }} MEDIA_URL {{ '}}' }}js/exercises.js"></script>
 
 <script>
     $(function(){
@@ -73,17 +73,17 @@
     });
 </script>
 
-{% endblock headjs %}
+{{ '{%' }} endblock headjs {{ '%}' }}
 
-{% block content %}
+{{ '{%' }} block content {{ '%}' }}
 
     <div class="exercises-header">
-        {% if request.META.HTTP_REFERER %}
-        <a class="return-link" href="{{ request.META.HTTP_REFERER }}">&#60; {{tokenvals.tkn000}}</a>
-        {% endif %}
+        {{ '{%' }} if request.META.HTTP_REFERER {{ '%}' }}
+        <a class="return-link" href="{{ '{{' }} request.META.HTTP_REFERER {{ '}}' }}">&#60; {{tokenvals.tkn000}}</a>
+        {{ '{%' }} endif {{ '%}' }}
         <h2>
-            <span class="practice-exercise-topic-context">{{tokenvals.tkn001}}</span> {{ title }}
-            {% if exercise.description %}<br/><span class="practice-exercise-description">{{ exercise.description }}</span>{% endif %}
+            <span class="practice-exercise-topic-context">{{tokenvals.tkn001}}</span> {{ '{{' }} title {{ '}}' }}
+            {{ '{%' }} if exercise.description {{ '%}' }}<br/><span class="practice-exercise-description">{{ '{{' }} exercise.description {{ '}}' }}</span>{{ '{%' }} endif {{ '%}' }}
         </h2>
     </div>
     <div class="exercises-body">
@@ -135,36 +135,36 @@
                                             <div id="related-video-list">
                                                 <span class="related-content-title">{{tokenvals.tkn009}}</span>
                                                 <ul class="related-video-list">
-                                                    {% if related_videos %}
-                                                    {% for video in related_videos %}
-                                                    {% if forloop.first %}
+                                                    {{ '{%' }} if related_videos {{ '%}' }}
+                                                    {{ '{%' }} for video in related_videos {{ '%}' }}
+                                                    {{ '{%' }} if forloop.first {{ '%}' }}
                                                     <li>
                                                         <div class="thumbnail">
-                                                            <a class="related-video" href="{{ video.path }}" title="{{ video.title }}" target="_blank">
-                                                                <div class="thumb" style="background-image: url({{ CONTENT_ROOT }}{{ video.youtube_id }}.jpg); ">
+                                                            <a class="related-video" href="{{ '{{' }} video.path {{ '}}' }}" title="{{ '{{' }} video.title {{ '}}' }}" target="_blank">
+                                                                <div class="thumb" style="background-image: url({{ '{{' }} CONTENT_ROOT {{ '}}' }}{{ '{{' }} video.youtube_id {{ '}}' }}.jpg); ">
                                                                     <div class="thumbnail_label" style="margin-top: 68px; ">
                                                                         <div class="thumbnail_desc">
-                                                                            <span class="progress-circle" data-youtube-id="{{ video.youtube_id }}"></span>
-                                                                            <span>{{ video.title }}</span>
+                                                                            <span class="progress-circle" data-youtube-id="{{ '{{' }} video.youtube_id {{ '}}' }}"></span>
+                                                                            <span>{{ '{{' }} video.title {{ '}}' }}</span>
                                                                         </div>
-                                                                        <div class="thumbnail_teaser" style="height: 0px; ">{{ video.description }}</div>
+                                                                        <div class="thumbnail_teaser" style="height: 0px; ">{{ '{{' }} video.description {{ '}}' }}</div>
                                                                     </div>
                                                                 </div>
                                                             </a>
                                                         </div>
                                                     </li>
-                                                    {% else %}
+                                                    {{ '{%' }} else {{ '%}' }}
                                                     <li>
-                                                        <a class="related-video related-video-inline" href="{{ video.path }}" title="{{ video.title }}" target="_blank">
+                                                        <a class="related-video related-video-inline" href="{{ '{{' }} video.path {{ '}}' }}" title="{{ '{{' }} video.title {{ '}}' }}" target="_blank">
                                                             <span class="video-title">
-                                                                <span class="progress-circle" data-youtube-id="{{ video.youtube_id }}"></span>
-                                                                {{ video.title }}
+                                                                <span class="progress-circle" data-youtube-id="{{ '{{' }} video.youtube_id {{ '}}' }}"></span>
+                                                                {{ '{{' }} video.title {{ '}}' }}
                                                             </span>
                                                         </a>
                                                     </li>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    {% endif %}
+                                                    {{ '{%' }} endif {{ '%}' }}
+                                                    {{ '{%' }} endfor {{ '%}' }}
+                                                    {{ '{%' }} endif {{ '%}' }}
                                                 </ul>
                                             </div>
                                             <div class="clear"></div>
@@ -187,4 +187,4 @@
         </div>
     </div>
     
-{% endblock content %}
+{{ '{%' }} endblock content {{ '%}' }}
