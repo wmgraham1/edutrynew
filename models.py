@@ -109,6 +109,7 @@ class SubjectAreas(ndb.Model):
   Status = ndb.StringProperty()
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  PoStatus = ndb.StringProperty(default="a")
 
 class Subjects(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
@@ -125,6 +126,7 @@ class Subjects(ndb.Model):
   Status = ndb.StringProperty()
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  PoStatus = ndb.StringProperty(default="a")
 
 class TopicAreas(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
@@ -141,6 +143,7 @@ class TopicAreas(ndb.Model):
   Status = ndb.StringProperty()
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  PoStatus = ndb.StringProperty(default="a")
 
 class TopicGrps(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
@@ -175,6 +178,7 @@ class LearningUnits(ndb.Model):
   Status = ndb.StringProperty()
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  PoStatus = ndb.StringProperty(default="a")
 
 class LearnAids(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
@@ -194,6 +198,15 @@ class LearnAids(ndb.Model):
   Status = ndb.StringProperty()
   StatusBy = ndb.UserProperty(auto_current_user_add=True)
   StatusDate = ndb.DateTimeProperty(auto_now_add=True)
+  PoStatus = ndb.StringProperty(default="a")
+
+class Topic_po(ndb.Model):
+  """Models an item from the Topic.po file."""
+  msgctxt = ndb.StringProperty()
+  msgctxt_level = ndb.StringProperty(default="unknown")
+  msgid = ndb.StringProperty()
+  PoStatus = ndb.StringProperty(default="a")
+  CreatedDate = ndb.DateTimeProperty(auto_now_add=True)
 
 class NewsItems(ndb.Model):
   """Models an individual pagecontent block with page name, content, createdby and createddate."""
