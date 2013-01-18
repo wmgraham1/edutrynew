@@ -1,0 +1,878 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-12 15:36-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: main/views.py:98
+msgid ""
+"Note: You're logged in as an admin (not as a student/teacher), so your video "
+"progress and points won't be saved."
+msgstr "{{tokenvals.tkn001}}"
+
+#: main/views.py:100
+msgid ""
+"Friendly reminder: You are not currently logged in, so your video progress "
+"and points won't be saved."
+msgstr "{{tokenvals.tkn002}}"
+
+#: main/views.py:114
+msgid ""
+"Note: You're logged in as an admin (not as a student/teacher), so your "
+"exercise progress and points won't be saved."
+msgstr "{{tokenvals.tkn003}}"
+
+#: main/views.py:116
+msgid ""
+"Friendly reminder: You are not currently logged in, so your exercise "
+"progress and points won't be saved."
+msgstr "{{tokenvals.tkn004}}"
+
+#: securesync/forms.py:44
+msgid ""
+"A user with this username at this facility already exists. Please choose a "
+"new username (or select a different facility) and try again."
+msgstr "{{tokenvals.tkn005}}"
+
+#: securesync/forms.py:92
+msgid ""
+"Username was not found for this facility. Did you type your username "
+"correctly, and choose the right facility?"
+msgstr "{{tokenvals.tkn006}}"
+
+#: securesync/forms.py:97
+msgid "The password did not match. Please try again."
+msgstr "{{tokenvals.tkn007}}"
+
+#: securesync/models.py:257 securesync/models.py:283
+msgid "Name"
+msgstr "{{tokenvals.tkn008}}"
+
+#: securesync/models.py:257
+msgid ""
+"(This is the name that students/teachers will see when choosing their "
+"facility; it can be in the local language.)"
+msgstr "{{tokenvals.tkn009}}"
+
+#: securesync/models.py:258
+msgid "Description"
+msgstr "{{tokenvals.tkn010}}"
+
+#: securesync/models.py:259
+msgid "Address"
+msgstr "{{tokenvals.tkn011}}"
+
+#: securesync/models.py:259
+msgid "(Please provide as detailed an address as possible.)"
+msgstr "{{tokenvals.tkn012}}"
+
+#: securesync/models.py:261
+msgid "Latitude"
+msgstr "{{tokenvals.tkn013}}"
+
+#: securesync/models.py:262
+msgid "Longitude"
+msgstr "{{tokenvals.tkn014}}"
+
+#: securesync/models.py:263
+msgid "Zoom"
+msgstr "{{tokenvals.tkn015}}"
+
+#: securesync/models.py:264
+msgid "Contact Name"
+msgstr "{{tokenvals.tkn016}}"
+
+#: securesync/models.py:264
+msgid "(Who should we contact with any questions about this facility?)"
+msgstr "{{tokenvals.tkn017}}"
+
+#: securesync/models.py:265
+msgid "Contact Phone"
+msgstr "{{tokenvals.tkn018}}"
+
+#: securesync/models.py:266
+msgid "Contact Email"
+msgstr "{{tokenvals.tkn019}}"
+
+#: securesync/models.py:267
+msgid "User Count"
+msgstr "{{tokenvals.tkn020}}"
+
+#: securesync/models.py:267
+msgid "(How many potential users do you estimate there are at this facility?)"
+msgstr "{{tokenvals.tkn021}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:282 securesync/models.py:291
+#: templates/securesync/facility_edit.html:5
+msgid "Facility"
+msgstr "{{tokenvals.tkn022}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:293
+msgid "(Group/class)"
+msgstr "{{tokenvals.tkn023}}"
+
+#: securesync/models.py:293
+msgid "(optional)"
+msgstr "{{tokenvals.tkn024}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:295
+msgid "Username"
+msgstr "{{tokenvals.tkn025}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:297
+msgid "First Name"
+msgstr "{{tokenvals.tkn026}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:299
+msgid "Last Name"
+msgstr "{{tokenvals.tkn027}}"
+
+#. Translators: This is a label in a form.
+#: securesync/models.py:301
+msgid "(whether this user should have teacher permissions)"
+msgstr "{{tokenvals.tkn028}}"
+
+#: securesync/views.py:39
+msgid "This path is only available on distributed servers."
+msgstr "{{tokenvals.tkn029}}"
+
+#: securesync/views.py:70
+msgid "To continue, you must first add a facility (e.g. for your school). "
+msgstr "{{tokenvals.tkn030}} "
+
+#: securesync/views.py:71
+msgid "Please use the form below to add a facility."
+msgstr "{{tokenvals.tkn031}}"
+
+#: securesync/views.py:74
+msgid ""
+"You must first have the administrator of this server log in below to add a "
+"facility."
+msgstr "{{tokenvals.tkn032}}"
+
+#: securesync/views.py:118
+msgid "Registration status: "
+msgstr "{{tokenvals.tkn033}} "
+
+#: securesync/views.py:128
+msgid ""
+"The device's public key has been successfully registered. You may now close "
+"this window."
+msgstr "{{tokenvals.tkn034}}"
+
+#. Translators: Do not change the text of '%(facility_name)s' because it is a variable, but you can change its position.
+#: securesync/views.py:159
+#, python-format
+msgid "The facility '%(facility_name)s' has been successfully saved!"
+msgstr "{{tokenvals.tkn035}} '%(facility_name)s' {{tokenvals.tkn036}}"
+
+#: securesync/views.py:205
+msgid "You must add a facility before creating a user"
+msgstr "{{tokenvals.tkn037}}"
+
+#: securesync/views.py:254
+msgid "This mission is too important for me to allow you to jeopardize it."
+msgstr "{{tokenvals.tkn038}}"
+
+#: securesync/views.py:296
+msgid "You've been logged in! We hope you enjoy your time with KA Lite "
+msgstr "{{tokenvals.tkn039}} "
+
+#: securesync/views.py:297
+msgid "-- be sure to log out when you finish."
+msgstr "{{tokenvals.tkn040}}"
+
+#: securesync/views.py:301
+msgid ""
+"There was an error logging you in. Please correct any errors listed below, "
+"and try again."
+msgstr "{{tokenvals.tkn041}}"
+
+#: templates/404_distributed.html:5 templates/404_distributed.html.py:8
+msgid "Page not found"
+msgstr "{{tokenvals.tkn042}}"
+
+#: templates/404_distributed.html:10
+msgid "Sorry, but the requested page could not be found."
+msgstr "{{tokenvals.tkn043}}"
+
+#: templates/500_distributed.html:5 templates/500_distributed.html.py:8
+msgid "Error"
+msgstr "{{tokenvals.tkn044}}"
+
+#: templates/500_distributed.html:10
+msgid "Sorry, but there was an error while trying to load the page."
+msgstr "{{tokenvals.tkn045}}"
+
+#: templates/base.html:77
+msgid "Videos and Exercises"
+msgstr "{{tokenvals.tkn046}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:38
+msgid "Watch"
+msgstr "{{tokenvals.tkn047}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:40
+msgid "Practice"
+msgstr "{{tokenvals.tkn048}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:42
+msgid "Add Student"
+msgstr "{{tokenvals.tkn049}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:44
+msgid "Add Teacher"
+msgstr "{{tokenvals.tkn050}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:46
+msgid "Admin"
+msgstr "{{tokenvals.tkn051}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:48
+msgid "Update"
+msgstr "{{tokenvals.tkn052}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:50
+msgid "Coach"
+msgstr "{{tokenvals.tkn053}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:52
+msgid "Sign Up"
+msgstr "{{tokenvals.tkn054}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:54 templates/securesync/login.html:7
+#: templates/securesync/login.html.py:14 templates/securesync/login.html:36
+msgid "Login"
+msgstr "{{tokenvals.tkn055}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:58
+msgid "Register device"
+msgstr "{{tokenvals.tkn056}}"
+
+#. Translators: this will appear in the navigation bar. Please try to keep it a short as possible.
+#: templates/base_distributed.html:62
+msgid "Logout"
+msgstr "{{tokenvals.tkn057}}"
+
+#. Translators: Return in this sense, means to go back.
+#: templates/exercise.html:85
+msgid "Return"
+msgstr "{{tokenvals.tkn058}}"
+
+#: templates/exercise.html:88
+msgid "Practicing"
+msgstr "{{tokenvals.tkn059}}"
+
+#: templates/exercise.html:108
+msgid "Your progress streak bar for this exercise"
+msgstr "{{tokenvals.tkn060}}"
+
+#: templates/exercise.html:116
+msgid "Answer"
+msgstr "{{tokenvals.tkn061}}"
+
+#: templates/exercise.html:122
+msgid "Correct! Next Question..."
+msgstr "{{tokenvals.tkn062}}"
+
+#: templates/exercise.html:129
+msgid "Need help?"
+msgstr "{{tokenvals.tkn063}}"
+
+#: templates/exercise.html:131
+msgid "I'd like a hint"
+msgstr "{{tokenvals.tkn064}}"
+
+#: templates/exercise.html:134
+msgid "Note: this will reset your streak and points for this exercise!"
+msgstr "{{tokenvals.tkn065}}"
+
+#: templates/exercise.html:139
+msgid "Stuck? Watch a video."
+msgstr "{{tokenvals.tkn066}}"
+
+#: templates/exercise.html:142
+msgid "Related videos:"
+msgstr "{{tokenvals.tkn067}}"
+
+#: templates/exercise.html:188
+msgid "Show scratchpad"
+msgstr "{{tokenvals.tkn068}}"
+
+#: templates/exercise.html:189
+msgid "Scratchpad not available"
+msgstr "{{tokenvals.tkn069}}"
+
+#: templates/homepage.html:96
+msgid "A free world-class education for anyone anywhere."
+msgstr "{{tokenvals.tkn070}}"
+
+#: templates/homepage.html:99
+msgid "Learn by watching videos!"
+msgstr "{{tokenvals.tkn071}}"
+
+#. Translators: This will appear in a list of video topics.
+#: templates/homepage.html:102
+msgid "Math"
+msgstr "{{tokenvals.tkn072}}"
+
+#. Translators: This will appear in a list of video topics.
+#: templates/homepage.html:104
+msgid "Science"
+msgstr "{{tokenvals.tkn073}}"
+
+#. Translators: This will appear in a list of video topics.
+#: templates/homepage.html:106
+msgid "Finance"
+msgstr "{{tokenvals.tkn074}}"
+
+#: templates/homepage.html:106
+msgid "Economics"
+msgstr "{{tokenvals.tkn075}}"
+
+#. Translators: This will appear in a list of video topics.
+#: templates/homepage.html:108
+msgid "Humanities"
+msgstr "{{tokenvals.tkn076}}"
+
+#. Translators: This will appear in a list of video topics.
+#: templates/homepage.html:110
+msgid "Test Prep"
+msgstr "{{tokenvals.tkn077}}"
+
+#: templates/homepage.html:116
+msgid "Learn by doing exercises!"
+msgstr "{{tokenvals.tkn078}}"
+
+#: templates/homepage.html:117
+msgid ""
+"Practice your math skills from addition to calculus and everything in "
+"between."
+msgstr "{{tokenvals.tkn079}}"
+
+#: templates/homepage.html:126
+msgid ""
+"KA Lite is a light-weight web server for viewing and interacting with core "
+"Khan Academy content (videos and exercises) without needing an Internet "
+"connection."
+msgstr "{{tokenvals.tkn080}}"
+
+#: templates/knowledgemap.html:20
+msgid "Your Knowledge Map"
+msgstr "{{tokenvals.tkn081}}"
+
+#: templates/knowledgemap.html:27
+msgid "Back to topics"
+msgstr "{{tokenvals.tkn082}}"
+
+#: templates/topic.html:15
+msgid "Subtopics"
+msgstr "{{tokenvals.tkn083}}"
+
+#: templates/topic.html:27
+msgid "Videos"
+msgstr "{{tokenvals.tkn084}}"
+
+#: templates/topic.html:41
+msgid "Exercises"
+msgstr "{{tokenvals.tkn085}}"
+
+#. Translators: Example usage=> Exercise: Name of Exercise
+#: templates/video.html:62
+msgid "Exercise"
+msgstr "{{tokenvals.tkn086}}"
+
+#: templates/video.html:63
+msgid "Practice this concept"
+msgstr "{{tokenvals.tkn087}}"
+
+#: templates/video.html:67
+msgid "Points"
+msgstr "{{tokenvals.tkn088}}"
+
+#: templates/video_download.html:7
+msgid "Video Download"
+msgstr "{{tokenvals.tkn089}}"
+
+#: templates/video_download.html:227
+msgid ""
+"You are about to download new subtitles for all downloaded videos. This may "
+"take a long time."
+msgstr "{{tokenvals.tkn090}}"
+
+#: templates/video_download.html:236
+msgid "Please select a language first"
+msgstr "{{tokenvals.tkn091}}"
+
+#: templates/video_download.html:452
+msgid "Please select videos to download (below)"
+msgstr "{{tokenvals.tkn092}}"
+
+#: templates/video_download.html:453
+msgid "Download "
+msgstr "{{tokenvals.tkn093}} "
+
+#: templates/video_download.html:453
+msgid " new selected videos"
+msgstr " {{tokenvals.tkn094}}"
+
+#: templates/video_download.html:454
+msgid "Delete "
+msgstr "{{tokenvals.tkn095}} "
+
+#: templates/video_download.html:454
+msgid " selected videos"
+msgstr " {{tokenvals.tkn096}}"
+
+#: templates/video_download.html:458
+msgid "Download/update subtitles for existing videos"
+msgstr "{{tokenvals.tkn097}}"
+
+#: templates/video_download.html:468
+msgid "Get/Update All Subtitles"
+msgstr "{{tokenvals.tkn098}}"
+
+#: templates/video_download.html:469
+msgid "Get Missing Subtitles Only"
+msgstr "{{tokenvals.tkn099}}"
+
+#: templates/video_download.html:476
+msgid "Downloads will start soon... Please wait!"
+msgstr "{{tokenvals.tkn100}}"
+
+#: templates/video_download.html:483
+msgid "Downloading video:"
+msgstr "{{tokenvals.tkn101}}"
+
+#: templates/video_download.html:490
+msgid "Overall video download progress:"
+msgstr "{{tokenvals.tkn102}}"
+
+#: templates/video_download.html:492 templates/video_download.html.py:507
+msgid "of"
+msgstr "{{tokenvals.tkn103}}"
+
+#: templates/video_download.html:498
+msgid "Video download error... click to retry"
+msgstr "{{tokenvals.tkn104}}"
+
+#: templates/video_download.html:505
+msgid "Subtitle download progress:"
+msgstr "{{tokenvals.tkn105}}"
+
+#: templates/video_download.html:517
+msgid "Cancel All Downloads"
+msgstr "{{tokenvals.tkn106}}"
+
+#: templates/video_download.html:519
+msgid " Loading topic tree... Please wait!"
+msgstr " {{tokenvals.tkn107}}"
+
+#: templates/admin/base.html:61
+msgid "Home"
+msgstr "{{tokenvals.tkn108}}"
+
+#: templates/admin/login.html:18
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "{{tokenvals.tkn109}}"
+msgstr[1] "{{tokenvals.tkn110}}"
+
+#: templates/admin/login.html:34
+msgid "Username:"
+msgstr "{{tokenvals.tkn111}}"
+
+#: templates/admin/login.html:38
+msgid "Password:"
+msgstr "{{tokenvals.tkn112}}"
+
+#: templates/admin/login.html:45
+msgid "Forgotten your password or username?"
+msgstr "{{tokenvals.tkn113}}"
+
+#: templates/admin/login.html:49
+#: templates/registration/password_reset_complete.html:14
+msgid "Log in"
+msgstr "{{tokenvals.tkn114}}"
+
+#: templates/registration/password_change_done.html:4
+#: templates/registration/password_change_done.html:8
+msgid "Password change successful"
+msgstr "{{tokenvals.tkn115}}"
+
+#: templates/registration/password_change_done.html:10
+msgid "Your password was changed."
+msgstr "{{tokenvals.tkn116}}"
+
+#: templates/registration/password_change_form.html:5
+#: templates/registration/password_change_form.html:9
+msgid "Password change"
+msgstr "{{tokenvals.tkn117}}"
+
+#: templates/registration/password_change_form.html:11
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr "{{tokenvals.tkn118}}"
+
+#: templates/registration/password_change_form.html:16
+msgid "Old password:"
+msgstr "{{tokenvals.tkn119}}"
+
+#: templates/registration/password_change_form.html:18
+#: templates/registration/password_reset_confirm.html:19
+msgid "New password:"
+msgstr "{{tokenvals.tkn120}}"
+
+#: templates/registration/password_change_form.html:20
+#: templates/registration/password_reset_confirm.html:21
+msgid "Confirm password:"
+msgstr "{{tokenvals.tkn121}}"
+
+#: templates/registration/password_change_form.html:22
+#: templates/registration/password_reset_confirm.html:22
+msgid "Change my password"
+msgstr "{{tokenvals.tkn122}}"
+
+#: templates/registration/password_reset_complete.html:6
+#: templates/registration/password_reset_complete.html:10
+msgid "Password reset complete"
+msgstr "{{tokenvals.tkn123}}"
+
+#: templates/registration/password_reset_complete.html:12
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "{{tokenvals.tkn124}}"
+
+#: templates/registration/password_reset_confirm.html:6
+#: templates/registration/password_reset_form.html:6
+#: templates/registration/password_reset_form.html:10
+msgid "Password reset"
+msgstr "{{tokenvals.tkn125}}"
+
+#: templates/registration/password_reset_confirm.html:12
+msgid "Enter new password"
+msgstr "{{tokenvals.tkn126}}"
+
+#: templates/registration/password_reset_confirm.html:14
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr "{{tokenvals.tkn127}}"
+
+#: templates/registration/password_reset_confirm.html:27
+msgid "Password reset unsuccessful"
+msgstr "{{tokenvals.tkn128}}"
+
+#: templates/registration/password_reset_confirm.html:29
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr "{{tokenvals.tkn129}}"
+
+#: templates/registration/password_reset_done.html:6
+#: templates/registration/password_reset_done.html:10
+msgid "Password reset successful"
+msgstr "{{tokenvals.tkn130}}"
+
+#: templates/registration/password_reset_done.html:12
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr "{{tokenvals.tkn131}}"
+
+#: templates/registration/password_reset_email.html:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr "{{tokenvals.tkn132}}"
+
+#: templates/registration/password_reset_email.html:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "{{tokenvals.tkn133}} %(site_name)s{{tokenvals.tkn134}}"
+
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "{{tokenvals.tkn135}}"
+
+#: templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "{{tokenvals.tkn136}}"
+
+#: templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "{{tokenvals.tkn137}}"
+
+#. Translators: Please do not change the variable text %(site_name)s.
+#: templates/registration/password_reset_email.html:14
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "{{tokenvals.tkn138}} %(site_name)s {{tokenvals.tkn139}}"
+
+#: templates/registration/password_reset_form.html:12
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr "{{tokenvals.tkn140}}"
+
+#: templates/registration/password_reset_form.html:17
+msgid "E-mail address:"
+msgstr "{{tokenvals.tkn141}}"
+
+#: templates/registration/password_reset_form.html:17
+msgid "Reset my password"
+msgstr "{{tokenvals.tkn142}}"
+
+#: templates/securesync/add_facility_user.html:8
+msgid "Add facility user"
+msgstr "{{tokenvals.tkn143}}"
+
+#. Translators: The sentence will be: Add a new student or teacher
+#: templates/securesync/add_facility_user.html:17
+msgid "Add a new"
+msgstr "{{tokenvals.tkn144}}"
+
+#: templates/securesync/add_facility_user.html:17
+msgid " teacher"
+msgstr " {{tokenvals.tkn145}}"
+
+#: templates/securesync/add_facility_user.html:17
+msgid " student"
+msgstr " {{tokenvals.tkn146}}"
+
+#: templates/securesync/add_facility_user.html:19
+msgid "Sign up for an account"
+msgstr "{{tokenvals.tkn147}}"
+
+#. Translators: This will be a label in a form.
+#: templates/securesync/add_facility_user.html:22
+#: templates/securesync/login.html:20
+msgid "Facility: "
+msgstr "{{tokenvals.tkn148}} "
+
+#: templates/securesync/add_facility_user.html:22
+#: templates/securesync/add_group.html:11
+msgid "(Select a different facility)"
+msgstr "{{tokenvals.tkn149}}"
+
+#: templates/securesync/add_facility_user.html:24
+msgid "Create user"
+msgstr "{{tokenvals.tkn150}}"
+
+#: templates/securesync/add_facility_user.html:30
+#: templates/securesync/add_group.html:8
+msgid "Add a new group"
+msgstr "{{tokenvals.tkn151}}"
+
+#: templates/securesync/add_group.html:5
+msgid "Add Group"
+msgstr "{{tokenvals.tkn152}}"
+
+#: templates/securesync/add_group.html:11
+msgid "Facility:"
+msgstr "{{tokenvals.tkn153}}"
+
+#: templates/securesync/add_group.html:15
+msgid "Create group"
+msgstr "{{tokenvals.tkn154}}"
+
+#: templates/securesync/facility_admin.html:5
+msgid "Select user facility"
+msgstr "{{tokenvals.tkn155}}"
+
+#: templates/securesync/facility_admin.html:36
+msgid "Facilities"
+msgstr "{{tokenvals.tkn156}}"
+
+#: templates/securesync/facility_admin.html:41
+msgid "Edit facility"
+msgstr "{{tokenvals.tkn157}}"
+
+#: templates/securesync/facility_admin.html:43
+msgid "Add student"
+msgstr "{{tokenvals.tkn158}}"
+
+#: templates/securesync/facility_admin.html:44
+msgid "Add teacher"
+msgstr "{{tokenvals.tkn159}}"
+
+#: templates/securesync/facility_admin.html:45
+msgid "Add group"
+msgstr "{{tokenvals.tkn160}}"
+
+#: templates/securesync/facility_admin.html:49
+#: templates/securesync/facility_edit.html:162
+msgid "Add a new Facility"
+msgstr "{{tokenvals.tkn161}}"
+
+#: templates/securesync/facility_admin.html:51
+msgid "You currently have no facilities. Would you like to"
+msgstr "{{tokenvals.tkn162}}"
+
+#: templates/securesync/facility_admin.html:51
+msgid "create a facility"
+msgstr "{{tokenvals.tkn163}}"
+
+#: templates/securesync/facility_edit.html:162
+msgid "Edit a facility"
+msgstr "{{tokenvals.tkn164}}"
+
+#: templates/securesync/facility_edit.html:163
+msgid ""
+"Please enter the following information about your facility. Please enter a "
+"detailed address, because knowing where you are in the world allows us to "
+"better plan for future deployments and partnerships."
+msgstr "{{tokenvals.tkn165}}"
+
+#: templates/securesync/facility_edit.html:165
+msgid ""
+"Please use this search box to locate your facility (and/or click on the map "
+"to select a spot), and then enter the additional information in the form "
+"below."
+msgstr "{{tokenvals.tkn166}}"
+
+#: templates/securesync/facility_edit.html:166
+msgid ""
+"(Knowing, as closely as possible, where you are in the world allows us to "
+"better plan for future deployments and partnerships)"
+msgstr "{{tokenvals.tkn167}}"
+
+#: templates/securesync/facility_edit.html:169
+msgid ""
+"Search for your facility's address or name to find its location on the map "
+"(enter to search)"
+msgstr "{{tokenvals.tkn168}}"
+
+#: templates/securesync/facility_edit.html:176
+msgid "Save facility"
+msgstr "{{tokenvals.tkn169}}"
+
+#: templates/securesync/facility_selection.html:5
+msgid "Select facility"
+msgstr "{{tokenvals.tkn170}}"
+
+#: templates/securesync/facility_selection.html:15
+msgid "(this is the default)"
+msgstr "{{tokenvals.tkn171}}"
+
+#: templates/securesync/facility_selection.html:15
+msgid "(set as the default facility)"
+msgstr "{{tokenvals.tkn172}}"
+
+#: templates/securesync/facility_selection.html:20
+msgid "You currently have no facilities. Would you like to create a facility?"
+msgstr "{{tokenvals.tkn173}}"
+
+#: templates/securesync/facility_selection.html:22
+msgid ""
+"There are currently no facilities available, please ask an administrator or "
+"teacher to set one up."
+msgstr "{{tokenvals.tkn174}}"
+
+#: templates/securesync/facility_selection.html:26
+msgid "Administer Facilities"
+msgstr "{{tokenvals.tkn175}}"
+
+#. Translators: This will be a label in a form.
+#: templates/securesync/login.html:27
+msgid "Username: "
+msgstr "{{tokenvals.tkn176}} "
+
+#. Translators: This will be a label in a form.
+#: templates/securesync/login.html:33
+msgid "Password: "
+msgstr "{{tokenvals.tkn177}} "
+
+#: templates/securesync/register_public_key_client.html:5
+msgid "Register a Device"
+msgstr "{{tokenvals.tkn178}}"
+
+#. Translators: Please do not edit the variable text: %(command)s
+#: templates/securesync/register_public_key_client.html:33
+#, python-format
+msgid ""
+"Sorry, there was an error during registration. Please make sure your device "
+"is fully up to date (run %(command)s and then stop/start the server). "
+msgstr "{{tokenvals.tkn179}} %(command)s {{tokenvals.tkn180}} "
+
+#: templates/securesync/register_public_key_client.html:34
+msgid "The error message was:"
+msgstr "{{tokenvals.tkn181}}"
+
+#: templates/securesync/register_public_key_client.html:38
+msgid "Congratulations, this device has now been registered."
+msgstr "{{tokenvals.tkn182}}"
+
+#: templates/securesync/register_public_key_client.html:42
+msgid "This device has already been registered."
+msgstr "{{tokenvals.tkn183}}"
+
+#: templates/securesync/register_public_key_client.html:46
+msgid ""
+"The device needs to have internet access when first being registered. Please "
+"ensure it is connected to the internet, and then"
+msgstr "{{tokenvals.tkn184}}"
+
+#: templates/securesync/register_public_key_client.html:46
+#: templates/securesync/register_public_key_client.html:52
+msgid "refresh this page"
+msgstr "{{tokenvals.tkn185}}"
+
+#: templates/securesync/register_public_key_client.html:50
+msgid "If you have not created an organization and zone yet, please"
+msgstr "{{tokenvals.tkn186}}"
+
+#: templates/securesync/register_public_key_client.html:50
+msgid "login to the central server and create them"
+msgstr "{{tokenvals.tkn187}}"
+
+#: templates/securesync/register_public_key_client.html:50
+msgid "(You will have to create an account there first)."
+msgstr "{{tokenvals.tkn188}}"
+
+#: templates/securesync/register_public_key_client.html:51
+msgid "If you already have an organization and a zone, please"
+msgstr "{{tokenvals.tkn189}}"
+
+#: templates/securesync/register_public_key_client.html:51
+msgid "login to the central server and register this device in a zone "
+msgstr "{{tokenvals.tkn190}} "
+
+#: templates/securesync/register_public_key_client.html:51
+msgid "(this will open a new window)."
+msgstr "{{tokenvals.tkn191}}"
+
+#: templates/securesync/register_public_key_client.html:52
+msgid "Return here and"
+msgstr "{{tokenvals.tkn192}}"
+
+#: templates/securesync/register_public_key_client.html:52
+msgid "to complete the registration process."
+msgstr "{{tokenvals.tkn193}}"
