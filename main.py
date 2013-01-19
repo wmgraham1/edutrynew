@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 #
-# Copyright 2007 Google Inc.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -52,6 +50,7 @@ from Aids import LearnAidList, LearnAidCreate, LearnAidEdit, LearnAidDelete, Lea
 from How import HowIntro, HowTrans, HowTransTheory
 from Test1 import Test1Get, TextFileRender
 #from MyFileHandlers import FileDownloadHandler, FileUploadFormHandler, FileUploadHandler, FileInfoHandler
+from committertask import CommitterTask
 
 
 # Below code is what the original exercise included
@@ -64,6 +63,7 @@ config['webapp2_extras.sessions'] = {
 }
 
 app = webapp2.WSGIApplication([
+	('/commit', CommitterTask),
 	('/', DisplayHome),
 	('/home', DisplayHome),
 	('/transintro', DisplayTransIntro),
