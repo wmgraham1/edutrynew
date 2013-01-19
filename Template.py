@@ -82,12 +82,13 @@ class TemplateCreate(TemplateBaseHandler):
         n = Templates(Name=self.request.get('Name')
                   , TemplateType=self.request.get('TemplateType')
                   , FolderName=self.request.get('FolderName')
+                  , FileGenPath=self.request.get('FileGenPath')
                   , FileName=self.request.get('FileName')
                   , Description=self.request.get('Description')
                   , Status=self.request.get('Status')
                   )
         n.put()
-        return webapp2.redirect('/templates?extyp=all')
+        return self.redirect('/templates?extyp=all')
 
     def get(self):
         logout = None
@@ -116,6 +117,7 @@ class TemplateEdit(TemplateBaseHandler):
         template.Name = self.request.get('Name')
         template.TemplateType = self.request.get('TemplateType')
         template.FolderName=self.request.get('FolderName')
+        template.FileGenPath=self.request.get('FileGenPath')
         template.FileName = self.request.get('FileName')
         template.Description = self.request.get('Description')
         StatusPrev = template.Status
@@ -124,7 +126,7 @@ class TemplateEdit(TemplateBaseHandler):
             template.StatusBy = currentuser
             template.StatusDate = datetime.now()    
         template.put()
-        return webapp2.redirect('/templates?extyp=all')
+        return self.redirect('/templates?extyp=all')
 
     def get(self, template_id):
         iden = int(template_id)
@@ -152,6 +154,6 @@ class TemplateDelete(TemplateBaseHandler):
 #            self.abort(403)
 #            return
         template.key.delete()
-        return webapp2.redirect('/templates')
+        return self.redirect('/templates?extyp=all')
 
 

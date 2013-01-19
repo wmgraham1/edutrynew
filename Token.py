@@ -660,6 +660,7 @@ class TokenEditListPost(BaseHandler):
 #        token.templateName = templateName
 #        token.langCode = langCode
 #        token.tknID = self.request.get('tknID')
+        token.tknID = self.request.get('tknID')
         logging.info('GGG: in TokenEditListPost/old TokenVal: %s' % token.tknValue)
         token.tknValue = self.request.get('tknValue')
         logging.info('GGG: in TokenEditListPost/new TokenVal: %s' % token.tknValue)

@@ -8,7 +8,7 @@
       <label for="id_Name">Name</label>:
     </div>
     <div class="field-field">
-        <input type="text" name="Name" id="id_Name" value="{{ template.Name }}" /
+        <input type="text" name="Name" id="id_Name" value="{{ template.Name }}" />
     </div>
   </div>
 
@@ -26,6 +26,15 @@
             >{{FolderName}}</option>
         {% endfor %}
         </select>
+    </div>
+  </div>
+
+  <div class="field-wrapper">
+    <div class="field-label">
+      <label for="id_FolderName">Gen Path</label>:
+    </div>
+    <div class="field-field">
+      <input type="text" name="FileGenPath" id="id_FileGenPath" size="240" value="{{ template.FileGenPath }}" />
     </div>
   </div>
 

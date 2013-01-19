@@ -235,6 +235,7 @@ class SessionSuppl(ndb.Model):
 class Templates(ndb.Model):
   Name = ndb.StringProperty(required=True)
   FolderName = ndb.StringProperty()
+  FileGenPath = ndb.StringProperty()
   TemplateType = ndb.StringProperty()
   SearchName = ndb.StringProperty()
   Description = ndb.StringProperty()
@@ -266,7 +267,9 @@ class TokenValues(ndb.Model):
 class GeneratedFiles(ndb.Model):
   TemplateName = ndb.StringProperty()
   SearchName = ndb.StringProperty()
+  FileName = ndb.StringProperty()
   FolderName = ndb.StringProperty()
+  FileGenPath = ndb.StringProperty()
   LangCode = ndb.StringProperty()
   blob = ndb.BlobKeyProperty()
   FileTxt2 = ndb.TextProperty()
