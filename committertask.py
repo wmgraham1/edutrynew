@@ -13,10 +13,11 @@ class CommitterTask(webapp2.RequestHandler):
 
     def post(self):
 
-        committer = Committer("SkGithubBot", secret_botpassword, "TestRepo", "master")
+        committer = Committer("SkGithubBot", secret_botpassword, "EduExport", "master")
         items = []
 
-        all = GeneratedFiles.query().fetch()
+        langcode = self.request.get('langcode')
+        all = GeneratedFiles.query(GeneratedFiles.LangCode == langcode).fetch()
         for generated in all:
             if not generated or not generated.blob:
                 logger.error("GeneratedFiles %s does not have a blob, or could not be found." % identifier)
@@ -25,8 +26,12 @@ class CommitterTask(webapp2.RequestHandler):
                 blobinfo = blobstore.BlobInfo.get(generated.blob) 
                 reader = blobinfo.open()
                 content = reader.read()
-                # TODO(wgraham1):  add GeneratedFiles.FilePath property
-                path = generated.LangCode + "/" + generated.SearchName
+                path = ""
+                try:
+                    path = generated.LangCode + "/"  + generated.FileGenPath + "/" + generated.SearchName
+                except TypeError:
+                    path = generated.LangCode + "/NOPATH/"  + generated.SearchName
+                path = path.replace("\\", "/")
                 items.append({
                     "path": path,
                     "mode": "100644",
@@ -36,4 +41,5 @@ class CommitterTask(webapp2.RequestHandler):
         committer.commit(items)
 
     def get(self):
-        taskqueue.add(url='/commit')
+        langcode = self.request.get('langcode')
+        taskqueue.add(url='/commit', params={'langcode': langcode})
