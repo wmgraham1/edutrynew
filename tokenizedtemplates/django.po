@@ -697,7 +697,7 @@ msgstr "{{tokenvals.tkn542}}"
 #, python-format
 msgid ""
 "Sorry, there was an error during registration. Please make sure your device "
-"is fully up to date (run %(command)s and then stop/start the server).\" "
+"is fully up to date (run %(command)s and then stop/start the server). "
 msgstr "{{tokenvals.tkn545}} (run %(command)s {{tokenvals.tkn548}} "
 
 #: templates/securesync/register_public_key_client.html:36

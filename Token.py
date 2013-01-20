@@ -878,6 +878,8 @@ class TokenFileGen(BaseHandler):
             logging.info('RRR: INSIDE FAILED IF - template.TemplateType: %s' % template.TemplateType)
             SearchName = template.FolderName + '/' + template.FileName
         logging.info('RRR: template.SearchName: %s' % SearchName)
+        fName = template.FileName
+        FileGenPath = template.FileGenPath
 
         q = TokenValues.query(TokenValues.langCode == langCode, TokenValues.templateName == templateName).order(TokenValues.langCode, TokenValues.templateName, TokenValues.tknID)
         tokenvals = q.fetch(999)
@@ -922,6 +924,8 @@ class TokenFileGen(BaseHandler):
             , FolderName = FolderName
             , SearchName = SearchName
             , LangCode = langCode
+            , FileName = fName
+            , FileGenPath = FileGenPath
             , FileTxt = bloboutput
             , FileTxt2 = bloboutput
             , Status = 'Published'
