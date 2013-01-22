@@ -12,6 +12,9 @@ from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
 from SecurityUtils import AccessOK
 
+from models import LearningUnits
+from models import TopicGrps
+from models import Languages
 from models import GeneratedFiles
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -279,3 +282,68 @@ class GenFileRedirectGraphieHelpersArithmetic(BaseHandler):
         redirect_target = ("/genfiles/try/utils/" + langCode + "/graphie-helpers-arithmetic.js")
         logging.info('QQQ: redirect_target-GraphieHelpersArithmetic: %s' % redirect_target)
         self.redirect(redirect_target)
+
+class GenFileExportList(BaseHandler):
+
+    def get(self):
+
+#        self.session['langCode'] = langCode
+#        langName=self.request.get('langName')
+        
+        languages = memcache.get("languages")
+        if languages is not None:
+            logging.info("get languages from memcache.")
+        else:
+            q = Languages.query().order(Languages.langName)
+            languages = q.fetch(99)
+            logging.info("Can not get languages from memcache.")
+            if not memcache.add("languages", languages, 99):
+                logging.info("Memcache set failed.")
+
+        if self.request.get('langCode'):
+            langCode=self.request.get('langCode')
+            self.session['langCode'] = langCode
+        else:
+            langCode = self.session.get('langCode')
+        if not langCode:
+            self.session['langCode'] = 'en' 
+            langCode = 'en'
+
+        langName = 'no language'
+        for language in languages:
+            if language.langCode == langCode:
+                langName = language.langName
+        
+        logging.info('LLL: q in GenFileExportList: %s' % 'Now in GenFileExportList')
+
+        q = LearningUnits.query(LearningUnits.LangCode == langCode, LearningUnits.Subject == 'Decimals').order(LearningUnits.Seq, LearningUnits.Name)
+        logging.info('LLL: q in LearnUnitList: %s' % q)
+        units = q.fetch(999)
+
+        unitcnt = 0
+        for uni in units:
+#            logging.info('QQQ: uni.LearningUnitID in LearnUnitList: %s' % uni.LearningUnitID)
+            unitcnt = unitcnt + 1
+        logging.info('QQQ: unitcnt in LearnUnitList: %d' % unitcnt)
+
+        dictTryReadyFiles = {}
+        logging.info('GGG: UnitList/dictTryReadyFiles.langCode: %s' % langCode)
+        gf = GeneratedFiles.query(GeneratedFiles.LangCode == langCode)
+        GenFiles = gf.fetch(999)
+        if GenFiles:
+            for GenFile in GenFiles:
+                if GenFile.TemplateName:
+#                    logging.info('GGG: UnitList/dictTryReadyFiles.TemplateName: %s' % GenFile.TemplateName)
+#                    logging.info('GGG: UnitList/dictTryReadyFiles.FolderName: %s' % GenFile.FolderName)
+#                    logging.info('GGG: UnitList/dictTryReadyFiles.SearchName: %s' % GenFile.SearchName)
+                    dictTryReadyFiles[GenFile.TemplateName] = GenFile.SearchName
+                    
+        logout = None
+        login = None
+        currentuser = users.get_current_user()
+        if currentuser:
+              logout = users.create_logout_url('/units' )
+        else:
+              login = users.create_login_url('/units')
+
+        self.render_template('GenFileExport.html', {'units': units, 'dictTryReadyFiles':dictTryReadyFiles, 'languages':languages, 'langCode':langCode, 'langName':langName, 'currentuser':currentuser, 'login':login, 'logout': logout})

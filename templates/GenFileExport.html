@@ -1,0 +1,52 @@
+{% extends "page_template.html" %}
+{% block content %}
+
+<div>
+<table width="100%" border="0" bordercolor="red" cellpadding="0" cellspacing="0">
+    <tr style="vertical-align:middle;"><td>
+            <a href ="/home"> Return to Home Page</a>
+    </td><td style="float: left;">
+        <table border="1" bordercolor="red" cellpadding="3" cellspacing="0">
+            <tr><td style="vertical-align:middle; text-align: right;">
+                Filter List:
+            </td><td>
+            <!--    <div style="float: left;"> -->
+                <form method="GET" style="margin-right: 10px;">
+                <select name="langCode">
+                    {% for language in languages %}
+                            <option value="{{language.langCode}}" 
+                            {% if language.langCode == langCode %}
+                            selected="selected"
+                            {% endif %}
+                            >{{language.langName}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Language">
+                </form>
+            </td></tr>
+        </table>
+    </td></tr>
+</table>
+</div>
+
+<div>
+<h2 style="text-align: center;">Generated Templates and Exercises for Language: {{langName}}</h2>
+<p><a href="/commit?langcode={{langCode}}">Export files for {{langName}} now.</a></p>
+<table border=2 cellspacing=0 cellpadding=2>
+  <thead>
+    <tr>
+      <th>Exercise Topic</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for unit in units: %}
+      {% if dictTryReadyFiles[unit.TemplateName]: %}
+        <tr>
+            <td><a href ="/genfiles/try/{{langCode}}/{{ dictTryReadyFiles[unit.TemplateName] }}"> {{ unit.Name }} </a> ( {{ unit.LearningUnitID }} )</td>
+        </tr>
+      {% endif %}
+    {% endfor %}	
+  </tbody>
+</table>
+</div>
+{% endblock content %}

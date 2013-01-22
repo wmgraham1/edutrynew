@@ -133,6 +133,7 @@ app = webapp2.WSGIApplication([
     ('/templates/edit/([\d]+)', TemplateEdit),
     ('/templates/delete/([\d]+)', TemplateDelete),
     ('/genfiles', GenFileList), 
+    ('/export', GenFileExportList), 
     ('/genfilesinfolist', GenFileInfoList), 
     ('/genfiles/display/([\d]+)', GenFileDisplay),
     ('/genfiles/genfiledownload/([\d]+)', FileDownloadHandler),
