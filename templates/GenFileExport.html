@@ -42,7 +42,8 @@
     {% for unit in units: %}
       {% if dictTryReadyFiles[unit.TemplateName]: %}
         <tr>
-            <td><a href ="/genfiles/try/{{langCode}}/{{ dictTryReadyFiles[unit.TemplateName] }}"> {{ unit.Name }} </a> ( {{ unit.LearningUnitID }} )</td>
+<!--            <td><a href ="/genfiles/try/{{langCode}}/{{ dictTryReadyFiles[unit.TemplateName] }}"> {{ unit.Name }} </a> ( {{ unit.LearningUnitID }} )</td> -->
+            <td>{{ unit.Name }} - ( {{ unit.LearningUnitID }} )</td>
         </tr>
       {% endif %}
     {% endfor %}	

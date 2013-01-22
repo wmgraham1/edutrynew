@@ -102,7 +102,9 @@ jQuery(function(){
 						<li><a href="/subjareas?Typ=ex">Exercise Tools</a></li>
 						<li><a href="/subjareas?Typ=vid">Video Tools</a></li>
 						<li><a href="/tokens-step1?extyp=other">Templates/Etc.</a></li>
-						<li><a href="/export">Deploy Generated Files</a></li>
+                        {% if currentuser|AccessOK(1) %} 
+						    <li><a href="/export">Export Files</a></li>
+                        {% endif %}
 					</ul>
                 </li>
 				{% endif %}

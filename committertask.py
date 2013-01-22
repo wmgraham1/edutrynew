@@ -28,7 +28,7 @@ class CommitterTask(webapp2.RequestHandler):
                 content = reader.read()
                 path = ""
                 try:
-                    path = generated.LangCode + "/"  + generated.FileGenPath + "/" + generated.SearchName
+                    path = generated.LangCode + "/"  + generated.FileGenPath + "/" + generated.FileName
                 except TypeError:
                     path = generated.LangCode + "/NOPATH/"  + generated.SearchName
                 path = path.replace("\\", "/")
@@ -39,6 +39,7 @@ class CommitterTask(webapp2.RequestHandler):
                 })
 
         committer.commit(items)
+        self.redirect("/export")
 
     def get(self):
         langcode = self.request.get('langcode')
