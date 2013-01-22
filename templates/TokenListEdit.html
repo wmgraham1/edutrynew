@@ -103,14 +103,14 @@ There are {{count_en}} Topics in English and {{count_other_language}} Topics in 
     {% for token in tokens: %} 
 	<tr class="{{ loop.cycle('odd1', 'even1') }}">
     <form name="edit" action="/tokenslisteditpost/{{ token.key.id() }}" method="POST" id="myForm">
-<!--      <td>{{ token.tknID }}</td> -->
-	  <td>
+      <td>{{ token.tknID }}</td> 
+<!--	  <td>
           <div class="field-wrapper">
             <div class="field-field">
               <input type="text" name="tknID" id="id_tknID{{ token.key.id() }}" value="{{ token.tknID }}" size="12" />
             </div>
           </div>
-      </td>
+      </td>-->
       <td>
         <div class="field-wrapper" style="max-width:520px;">
           <table border=0 cellspacing=0 cellpadding=0><tr><td style="max-width:520px; word-wrap:break-word;">
