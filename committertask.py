@@ -39,8 +39,8 @@ class CommitterTask(webapp2.RequestHandler):
                 })
 
         committer.commit(items)
-        self.redirect("/export")
 
     def get(self):
         langcode = self.request.get('langcode')
         taskqueue.add(url='/commit', params={'langcode': langcode})
+        self.redirect("/export")
